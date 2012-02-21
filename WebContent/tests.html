@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>DWR Test</title>
+	<script type='text/javascript' src='/Web-Probe/dwr/engine.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/Demo.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/ArrayTest.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/util.js'></script>
+	
+	<script type="text/javascript"> 
+			//<!--
+			
+			function test()
+			{
+				document.getElementById("demoReply").innerHTML = "Calling Server Via AJAX...";
+			}
+			
+			function update() 
+			{
+				document.getElementById("demoReply").innerHTML = "Starting ...";
+				
+				var name = dwr.util.getValue("demoName");
+				
+				document.getElementById("demoReply").innerHTML = "Calling Server ...";
+				
+			  	Demo.sayHello(name, function(data) {
+			    	dwr.util.setValue("demoReply", data);
+			    	//document.getElementById("demoReply").innerHTML = data;
+			  	});
+			}
+			
+			function getURIList()
+			{
+				document.getElementById("uriReply").innerHTML = "Starting ...";
+				
+				var uri = dwr.util.getValue("uriName");
+				
+				document.getElementById("uriReply").innerHTML = "Calling Server with: "+uri;
+				
+				
+				//ArrayTest.getStringArray(objectEval($("p10").value), reply1);
+			  	ArrayTest.getStringArray(uri, function(data)
+			  	{
+			  		document.getElementById("uriReply").innerHTML = "In Callback Function ";
+			  		document.getElementById("uriReply").innerHTML = "Array Length: "+ data.length;
+			  		
+			  		var uriList = "<ul>"; 
+			  		
+			  		for(var i=0; i<data.length; i++)
+			  			{
+			  				uriList = uriList+" <li>"+data[i]+"</li>";
+			  			}
+			  		uriList= uriList+" </ul>";
+			  		
+			    	//dwr.util.setValue("uriReply", uriList);
+			    	document.getElementById("uriReply").innerHTML = uriList;
+			  	});
+			}
+			
+			//-->
+		</script>
+</head>
+
+<body>
+	<p>
+		Name: <input type="text" id="demoName" /> <input value="Send"
+			type="button" onclick="update()" /> <br /> Reply: <span
+			id="demoReply"></span>
+	</p>
+
+	<!--  <input value="Modify Person" type="button" onclick="person()"/>
+		Reply: <span id="personReply"></span>-->
+
+	<h2>NS URIs:</h2>
+	<input type="text" value='http://inference-web.org/proofs/tonys/tonys.owl#tonys' id="uriName" />
+	<input value="Send" type="button" onclick="getURIList()" />
+	<br /> Reply:
+	<div id="uriReply"></div>
+
+</body>
+</html>

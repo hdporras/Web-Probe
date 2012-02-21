@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Web-Probe</title>
+	
+	<!-- JQuery, D3.js, jsddm Javascript Includes -->
+	<script type="text/javascript" src="js/jquery.js"> </script>
+	<script type="text/javascript" src="js/jquery-ui.js"> </script>
+	<script type="text/javascript" src="d3js/d3.js"></script>
+	<script type="text/javascript" src="d3js/d3.layout.js"> </script>
+	<script type="text/javascript" src="d3js/d3.geom.js"> </script>
+	<script type="text/javascript" src="js/jsddm.js"> </script>
+	
+	<!-- DWR JavaScript Includes -->
+	<script type='text/javascript' src='/Web-Probe/dwr/engine.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/util.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/Demo.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLTests.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLQueryResults.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/VisCacheAccess.js'></script>
+	
+	<!-- Probe-it Javascript Includes -->
+	<script type="text/javascript" src="js/query/answers.js"> </script>
+	<script type="text/javascript" src="js/bookmark.js"> </script>
+	<script type="text/javascript" src="js/navigation.js"> </script>
+	<script type="text/javascript" src="js/product.js"> </script>
+	<script type="text/javascript" src="js/visko/visko.js"> </script>
+	
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/query.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css" />
+	<link rel="stylesheet" type="text/css" href="css/jsddm.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="d3js/examples/force/force.css" />
+	
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+</head>
+
+
+<!-- BODY -->
+<body>
+	<script>
+	$(function() {
+		$("button").button();
+	});
+	</script>
+
+<!-- HEADER -->
+	<div id="header">
+
+	<!-- TOP NAVIGATION -->
+		<div id="navigation">
+			<ul id="jsddm">
+				<li><a title="File" class="nav">File</a></li>
+				<li><a title="Bookmark" class="nav">Bookmark</a>
+					<ul>
+						<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
+								Tony's Specialty</a></li>
+						<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
+								Agatha (PUZ)</a></li>
+						<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
+								Hole's Code Full</a></li>
+						<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
+								Hole's Code Prov.</a></li>
+						<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
+								Scientific Publication</a></li>		
+					</ul>
+				</li>
+				<li><a title="Preferences" class="nav">Preferences</a></li>
+				<li><a title="Configuration" class="nav">Configuration</a></li>
+				<li><a title="Viewers" class="nav">Viewers</a></li>
+				<li><a title="Help" class="nav">Help</a></li>
+			</ul>
+			<div id="signin">
+				<form action="#">
+					<input type="text" class="textbox" name="signin" size="20" />
+					<button id="button" onclick="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="padding: 0px 2px;font-size:12px;">
+						<span class="ui-button-text">Sign-In</span>
+					</button>
+				</form>
+			</div>
+		</div>
+
+	<!-- URI Bar -->
+		<div id="uriBar">
+
+				<span id="uriContent"><input type="text" id="uriName" name="uri" class="textbox" size="98" value='http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer' /></span>
+				<button id="button" onclick="getQuery()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+					<span class="ui-button-text">Lookup</span>
+				</button>
+				<button id="button" onclick="getViskoVis()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+					<span class="ui-button-text">Lookup Answer</span>
+				</button>
+				<button id="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="float: right;">
+					<span class="ui-button-text">Hide</span>
+				</button>
+				<!-- <p><a href="#" id="dialog_link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-newwin"></span>Open Dialog</a></p> -->
+				<!-- <input type="button" class="button" value="Lookup Answer" /> -->
+
+		</div>
+	</div>
+
+<!-- TABS -- Main Content -->
+	<div id="maincontent">	
+		<script>
+			$(function() {
+				$( "#tabs" ).tabs();
+			});
+		</script>
+		<div id="tabs" style="background-color:#E2E2E2">
+
+			<ul>
+				<li><a href="#resultV">Q&A View</a></li>
+				<li><a href="#productV">Product View</a></li>
+				<li><a href="#localV">Local Justification View</a></li>
+				<li><a href="#globalV">Global Justification View</a></li><!--<li><a href="d3js/examples/force/force.html" rel="#globalV">Global Justification View</a></li> -->
+			</ul>
+			<div id="resultV" style="padding:6px;">
+				<div id="question" title="Question" style="background-color:#FFFFFF">
+					<h2 class="ui-widget-header ui-corner-all">Question:</h2>
+					<p>Welcome to Probe-It!</p>
+					<p>
+						Name: <input type="text" id="demoName" /> <input value="Send"
+							type="button" onclick="update()" /> <br /> Reply: <span
+							id="demoReply"></span>
+					</p>	
+				</div>
+				<div id="answerResults" title="Answers" style="background-color:#FFFFFF">
+					<h3 class="ui-widget-header ui-corner-all">Answers:</h3>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'><pre>Test Metadata<br>TestMetadata</pre>testmetadata</div><div class='answerAttributes'></div></div>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
+				</div>
+			</div>
+			<div id="productV">
+				<script>
+					$(function() {
+						$("#tabsBottom").tabs();
+						$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
+								.addClass("ui-corner-bottom");
+					});
+				</script>
+				<div id="tabsBottom" class="tabs-bottom">
+					<ul>
+						<li><a href="#ImageJ">ImageJ</a></li>
+						<li><a href="#Text">Text</a></li>
+						<li><a href="#PDF">PDF</a></li>
+					</ul>
+					<div id="ImageJ">
+						<img src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/331.png" />
+					</div>
+					<div id="Text">
+						<script>
+							var text = getTextFromFile("http://iw.cs.utep.edu:80/VisCacheAccess/cached/4.tex");
+							
+							$("#Text").html("<pre> "+text+" </pre>");
+						</script>
+						
+						
+						
+						<!-- <iframe id="textFrame" style="width:800px; height:600px;" frameborder="1">test stuff</iframe> 
+						<frame src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/4.tex"></frame> -->
+					</div>
+					<div id="PDF">
+					
+						<iframe src="http://docs.google.com/gview?url=http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf&embedded=true" style="width:800px; height:600px;" frameborder="1">
+							<object data="http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf" type="application/pdf" width="100%" height="100%">
+ 
+							  <p>It appears you don't have a PDF plugin for this browser.
+								you can <a href="http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf">click here to
+							  download the PDF file.</a></p>
+							  
+							</object>
+						</iframe>
+						
+					</div>
+				</div>
+			</div>
+			<div id="localV" style="min-height:400px;">
+				
+				<script>
+				$(function() {
+					$( "#accordion" ).accordion();
+				});
+				</script>
+				
+				<div id="accordion">
+						<h3><a href="#">Conclusion</a></h3>
+						<div >
+							<p>
+							Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+							ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+							amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+							odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+							</p>
+						</div>
+						<h3><a href="#">Justified By</a></h3>
+						<div>
+							<p>
+							Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+							purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+							velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+							suscipit faucibus urna.
+							</p>
+						</div>
+						<h3><a href="#">Used To Infer</a></h3>
+						<div>
+							<p>
+							Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+							Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+							ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+							lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+							</p>
+							<ul>
+								<li>List item one</li>
+								<li>List item two</li>
+								<li>List item three</li>
+							</ul>
+						</div>
+						<h3><a href="#">Used To Finally Conclude</a></h3>
+						<div>
+							<p>
+							Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+							et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+							faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+							mauris vel est.
+							</p>
+							<p>
+							Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+							Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+							inceptos himenaeos.
+							</p>
+						</div>
+				</div>
+				
+			</div>
+			
+			<div id="globalV">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+			
+		</div>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+@charset "UTF-8";
+/* =CALL LIBRARY */
+@import url("reset-min.css"); /* ------- Reset all CSS Styles */
+
+/* =GENERAL - the general styles */
+body {
+	background: #fff;
+	min-width: 950px;
+	margin:0;
+	padding:0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a.nav {
+	background-color: transparent;
+	display: inline-block;
+	color: #777777;
+	font-family: arial;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 4px 16px;
+	text-decoration: none;
+	text-shadow: 0px 0px 0px #999999;
+}
+a.nav:active {
+	position: relative;
+	top: 1px;
+	background-color: #D37631;
+}
+a.nav:hover {
+	color: #ffffff;
+	background-color: #D37631;
+	box-shadow: inset 0px 1px 8px 0px #333333;
+}
+
+/* =LAYOUT - the main layout styles */
+
+/* main area layout */
+#maincontent {
+	position: relative;
+	top: 10px;
+	display: block;
+	background-color: #f1f0ef;
+	min-height: 400px;
+	min-width: 900px;
+	font-size: 0.7em;
+	font-weight: normal;
+}
+
+/* =HEADER - the header styles */
+
+/* top navigation */
+#header {
+	height: 75px;
+	width:100%;
+	background-color: #251A11;
+	position: relative;
+}
+
+#navigation {
+	display: block;
+	min-height: 25px;
+	padding: 3px;
+	background-color: #f58400;
+	border: 2px solid #FFFFFF;
+	box-shadow: inset 1px 3px 5px 0px #dddddd;
+}
+
+#uriBar {
+	display: block;
+	height: 30px;
+	background-color: #6E6D6C;
+	padding: 8px;
+	border-bottom: 1px solid #000000;
+	box-shadow: inset 4px 2px 20px 2px #aaaaaa;
+	font-size:12px
+}
+
+#uriContent {
+	margin: auto;
+}
+
+#signin {
+	float: right;
+	padding: 0px;
+}
+
+#navigation li {
+	float: left;
+	padding-right: 0px;
+	text-transform: uppercase;
+	font-size: 1.3em;
+	font-weight: normal;
+}
+
+#navigation li a {
+	color: #fff;
+}
+
+#navigation li a:hover,#navigation li.active a {
+	color: #2c2c2c;
+}
+
+/*  */
+.textbox {
+	float: left;
+	height: 16px;
+	padding: 2px 5px;
+	border: 2px solid #59b4d4;
+	font-size: 13px;
+	margin: 3px 3px;
+}
+/*
+.button {
+	display: block;
+	float: left;
+	width: auto;
+	-moz-box-shadow: inset 0px 4px 6px -41px #cfaccf;
+	-webkit-box-shadow: inset 0px 4px 6px -41px #cfaccf;
+	box-shadow: inset 0px 4px 6px -41px #cfaccf;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0
+		), color-stop(1, #b5b5b5) );
+	background: -moz-linear-gradient(center top, #f0f0f0 5%, #b5b5b5 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0',
+		endColorstr='#b5b5b5' );
+	background-color: #f0f0f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #a3a3a3;
+	display: inline-block;
+	color: #777777;
+	font-family: arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 1px 18px;
+	text-decoration: none;
+	text-shadow: 1px 1px 0px #ffffff;
+	cursor: pointer;
+	margin: 3px;
+}
+
+.button:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b5b5b5
+		), color-stop(1, #f0f0f0) );
+	background: -moz-linear-gradient(center top, #b5b5b5 5%, #f0f0f0 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b5b5',
+		endColorstr='#f0f0f0' );
+	background-color: #b5b5b5;
+}
+
+.button:active {
+	position: relative;
+	top: 1px;
+}*/

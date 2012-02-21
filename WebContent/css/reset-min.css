@@ -1,0 +1,11 @@
+/*
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.2.2
+*/
+body,div,dl,dt,dd,ul,ol,li,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+
+h1,h2,h3,h4,h5,h6{margin:2px;margin-bottom:5px;padding:2px;}
+
+pre{max-width:100%; padding:2px;}
