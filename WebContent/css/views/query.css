@@ -1,0 +1,73 @@
+@CHARSET "ISO-8859-1";
+
+/* Q&A / Product  View */
+
+
+#resultV{
+	padding:6px;
+}
+
+#question{
+	border:1px solid #000000;
+	box-shadow: 1px 1px 4px #000000;
+	border-radius:0.5em;
+	padding: 10px;
+	margin-bottom:8px;
+}
+
+.questionText{
+	padding: 5px;
+}
+
+#answerResults{
+	
+	border:1px solid #000000;
+	box-shadow: 1px 1px 4px #000000;
+	border-radius:0.5em;
+	overflow: auto;
+	padding: 10px;
+	
+}
+
+.answerBox{
+	display:block;
+	float:left;
+	width:260px;
+	height:260px;
+	background-color:#95B1C6;
+	border:1px solid #000000;
+	padding: 6px;
+	margin: 4px;
+	box-shadow: 1px 1px 6px #000000;
+	border-radius:1em;
+}
+
+.answerBox:hover{
+	background-color:#CFDEED;
+}
+
+.answerConclusion{
+	color:#000000;
+	width:240px;
+	height:150px;
+	
+	padding: 5px;
+	margin: 2px;
+	border:1px solid #000000;
+	box-shadow: 1px 1px 6px #000000;
+	border-radius:1em;
+	
+	cursor: pointer;
+}
+
+.answerConclusion:hover{
+	
+	border:2px solid #111111;
+	box-shadow: 1px 1px 12px #000000;
+}
+
+.answerAttributes{
+	display:block;
+	padding: 4px;
+	margin: 2px;
+}

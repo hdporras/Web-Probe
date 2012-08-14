@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+/* Product View */
+
+
+
+#productV{
+	padding: 10px;
+}
+
+#tabsBottom{
+	//min-height:460px;
+	
+	//background-color:white;
+	box-shadow: 0px 0px 8px #000000;
+	position: absolute;
+	left: 10px; right: 10px;
+	top: 50px; bottom: 20px;
+}
+
+.tabsBottomFill{
+	overflow:auto;
+	overflow-y: auto;
+	
+	position: absolute;
+	left: 10px; right: 0px;
+	top: 5px; bottom: 35px;
+}

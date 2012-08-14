@@ -5,7 +5,10 @@ var ddmenuitem      = 0;
 function jsddm_open()
 {	jsddm_canceltimer();
 	jsddm_close();
-	ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible');}
+	//$(this).find('ul').slideDown();
+	ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible');
+	
+}
 
 function jsddm_close()
 {	if(ddmenuitem) ddmenuitem.css('visibility', 'hidden');}

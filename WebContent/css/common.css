@@ -3,11 +3,28 @@
 @import url("reset-min.css"); /* ------- Reset all CSS Styles */
 
 /* =GENERAL - the general styles */
+html{
+	height: 100%;
+	width:100%;
+}
+
 body {
+	//overflow:auto;
 	background: #fff;
-	min-width: 950px;
+	min-width: 750px;
+	
+	height: 100%;
+	
 	margin:0;
 	padding:0;
+	
+	font-size: 1.014em;
+}
+
+pre{
+	font-family: arial;
+	font-size: 14px;
+	font-style:italic;
 }
 
 a {
@@ -40,24 +57,48 @@ a.nav:hover {
 
 /* main area layout */
 #maincontent {
-	position: relative;
-	top: 10px;
-	display: block;
-	background-color: #f1f0ef;
-	min-height: 400px;
-	min-width: 900px;
+	z-index:1;
+	//overflow: auto;
+	//overflow: hidden;
+	position: absolute;
+	
+	min-width: 750px;
 	font-size: 0.7em;
 	font-weight: normal;
+	left: 0; right: 0;
+	top: 81px; bottom: 0;
+	
+	background-color: #666666;
+}
+
+#tabs{
+	position: absolute;
+	left: 0; right: 0;
+	top: 0; bottom: 0; 
+}
+
+.tabsFill{
+	overflow-y: auto;
+	position: absolute;
+	left: 0; right: 0;
+	top: 38px; bottom: 0;
+}
+
+.fill{
+	position: absolute;
+	left: 0; right: 0;
+	top: 0; bottom: 0;
 }
 
 /* =HEADER - the header styles */
 
 /* top navigation */
 #header {
-	height: 75px;
-	width:100%;
+	z-index:3;
+	height: 82px;
 	background-color: #251A11;
-	position: relative;
+	
+	
 }
 
 #navigation {
@@ -72,16 +113,13 @@ a.nav:hover {
 #uriBar {
 	display: block;
 	height: 30px;
-	background-color: #6E6D6C;
+	background-color: #333333;
 	padding: 8px;
 	border-bottom: 1px solid #000000;
-	box-shadow: inset 4px 2px 20px 2px #aaaaaa;
+	box-shadow: inset 4px 2px 8px 3px #666666;
 	font-size:12px
 }
 
-#uriContent {
-	margin: auto;
-}
 
 #signin {
 	float: right;
@@ -105,54 +143,40 @@ a.nav:hover {
 }
 
 /*  */
+#uriContent{
+	width:100%;
+}
+
 .textbox {
 	float: left;
 	height: 16px;
+	width:auto;
+	width:65%;
 	padding: 2px 5px;
 	border: 2px solid #59b4d4;
 	font-size: 13px;
 	margin: 3px 3px;
 }
-/*
-.button {
-	display: block;
-	float: left;
-	width: auto;
-	-moz-box-shadow: inset 0px 4px 6px -41px #cfaccf;
-	-webkit-box-shadow: inset 0px 4px 6px -41px #cfaccf;
-	box-shadow: inset 0px 4px 6px -41px #cfaccf;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0
-		), color-stop(1, #b5b5b5) );
-	background: -moz-linear-gradient(center top, #f0f0f0 5%, #b5b5b5 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0',
-		endColorstr='#b5b5b5' );
-	background-color: #f0f0f0;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	border: 1px solid #a3a3a3;
-	display: inline-block;
-	color: #777777;
-	font-family: arial;
-	font-size: 15px;
-	font-weight: bold;
-	padding: 1px 18px;
-	text-decoration: none;
-	text-shadow: 1px 1px 0px #ffffff;
+
+
+#hideTop{
+	z-index:2;
+	background-color:#ffaf0f;
+	height:12px;
+	padding:0px;
+	margin:0px;
+	
+	border-bottom:1px solid #000000;
+	border-bottom-right-radius: 1em;
+	border-bottom-left-radius: 1em;
+	box-shadow: inset 1px 1px 2px 1px #f58400;
+	//box-shadow: 1px 1px 3px #000000;
+	
 	cursor: pointer;
-	margin: 3px;
 }
-
-.button:hover {
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b5b5b5
-		), color-stop(1, #f0f0f0) );
-	background: -moz-linear-gradient(center top, #b5b5b5 5%, #f0f0f0 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b5b5',
-		endColorstr='#f0f0f0' );
-	background-color: #b5b5b5;
+#hideTop:hover{
+	height:15px;
+	background-color:#59b4d4;
+	box-shadow: inset 4px 2px 4px 3px #0083b3; 
+	border-bottom:1px solid #59b4d4;
 }
-
-.button:active {
-	position: relative;
-	top: 1px;
-}*/

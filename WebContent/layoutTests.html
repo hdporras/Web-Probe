@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Layout Tests</title>
+	
+	<!-- JQuery, JSON, D3.js, jsddm Javascript Includes -->
+	<script type="text/javascript" src="js/json_sans_eval.js"> </script>
+	<script type="text/javascript" src="js/jquery.js"> </script>
+	<script type="text/javascript" src="js/jquery-ui.js"> </script>
+	<!-- <script type="text/javascript" src="d3js/d3.js"></script>
+	<script type="text/javascript" src="d3js/d3.layout.js"> </script>
+	<script type="text/javascript" src="d3js/d3.geom.js"> </script> -->
+	<script type="text/javascript" src="js/jsddm.js"> </script>
+	
+	<!-- DWR JavaScript Includes -->
+	<script type='text/javascript' src='/Web-Probe/dwr/engine.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/util.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/Demo.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLTests.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLQueryResults.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/VisCacheAccess.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/LocalViewExtractor.js'></script>
+	
+	<!-- Probe-it Javascript Includes -->
+	<script type="text/javascript" src="js/localView/localView.js"> </script>
+	<script type="text/javascript" src="js/query/answers.js"> </script>
+	<script type="text/javascript" src="js/bookmark.js"> </script>
+	<script type="text/javascript" src="js/navigation.js"> </script>
+	<script type="text/javascript" src="js/product.js"> </script>
+	<script type="text/javascript" src="js/visko/visko.js"> </script>
+	
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/local.css" />
+	<link rel="stylesheet" type="text/css" href="css/query.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css" />
+	<link rel="stylesheet" type="text/css" href="css/jsddm.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="d3js/examples/force/force.css" />
+	
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+	
+	 <style type="text/css">
+	 
+	 	/* Generic pane rules */
+		body { margin: 0 }
+		.row, .col { overflow: hidden; position: absolute; }
+		.row { left: 0; right: 0; }
+		.col { top: 0; bottom: 0; }
+		.scroll-x { overflow-x: auto; }
+		.scroll-y { overflow-y: auto; }
+	 	
+	 	.header.row { height: 75px; top: 0; background-color: #230285;}
+		.body.row { top: 75px; bottom: 50px; background-color: #D37631;}
+		.footer.row { height: 50px; bottom: 0; background-color: #E35635;}
+	 </style>
+</head>
+
+<body>
+    <div class="header row">
+        <h2>My header</h2>
+    </div>
+ 
+    <div class="body row scroll-y">
+        The body
+    </div>
+ 
+    <div class="footer row">
+        My footer
+    </div>
+</body>
+</html>

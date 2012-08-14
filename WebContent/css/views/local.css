@@ -1,0 +1,163 @@
+@charset "UTF-8";
+
+/* Local View */
+
+.localViewFill{
+	overflow: auto;
+	position: absolute;
+	width: 90%;
+	left: 10px; right: 10px;
+	top: 10px; bottom: 10px;
+}
+
+.localViewImage{
+	border:1px solid #000000;
+	box-shadow: 1px 1px 4px #000000;
+	border-radius:0.5em;
+	overflow: auto;
+	padding: 8px;
+}
+
+
+a img:hover{
+	background-color:#F7DF2A;
+	border:2px solid #000000;
+	box-shadow: 1px 1px 12px #000000;
+}
+
+.localViewTextLink{
+	
+}
+
+.localViewTextLink:hover{
+	color: #89771C;
+}
+
+/*
+.clickableImage{
+	
+}
+
+.clickableImage:hover{
+	background-color:#F7DF2A;
+	border:2px solid #000000;
+	box-shadow: 1px 1px 12px #000000;
+}
+*/
+
+
+
+
+/* Conclusion Section */
+
+.conclusionSection{
+	padding: 10px;
+}
+
+
+
+
+/* Justified By Section */
+
+.inferenceStep{
+	padding: 5px;
+	padding-top: 10px;
+}
+
+.justTitle{
+	font-size: 1.2em;
+	border:1px solid #000000;
+	box-shadow: 2px 2px 8px #000000;
+	//border-radius:0.5em;
+	padding: 10px;
+	//margin-bottom:8px;
+}
+
+.engineRule{
+	background-color:#F7DF2A;
+	border:1px solid #111111;
+	box-shadow: 1px 1px 6px #666666;
+	margin: 6px;
+}
+
+.justifiedByAntecedents{
+	//border:1px solid #000000;
+	//box-shadow: 4px 4px 6px #000000;
+	//border-radius: 0 0 0.5em 0em;
+	//top-border-radius:0em;
+	padding: 10px;
+}
+
+.justAntecedent{
+	padding: 15px;
+}
+
+
+
+
+/* Used To Infer */
+
+.usedToInferSection{
+	padding: 10px;
+}
+
+.inferredNodeSet{
+	padding: 10px;
+}
+
+.inferredTitle{
+	font-size: 1.2em;
+	border:1px solid #000000;
+	box-shadow: 2px 2px 8px #000000;
+	padding: 5px;
+}
+
+.inferenceSiblings{
+	padding: 5px;
+}
+
+.inferredBySibling{
+	padding: 10px;
+}
+
+
+
+
+/* Final Conclusion */
+
+.finalConclusion{
+	padding: 10px;
+}
+
+.rootNSTitle{
+	font-weight:bold;
+	padding: 2px;
+}
+
+.rootNS{
+	padding: 15px;
+}
+
+.finalQueryTitle{
+	font-weight:bold;
+	padding: 5px;
+}
+
+.finalQueryString{
+	padding: 5px;
+}
+
+.finalQuestions{
+	padding: 10px;
+}
+
+.finalQuestionLeadIn{
+	font-weight:bold;
+	padding: 5px;
+}
+
+.finalQuestionText{
+	padding: 5px;
+}
+
+

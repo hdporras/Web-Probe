@@ -110,6 +110,10 @@ function getTestAnswers(uri)
 
 function getQuery()
 {
+	//resetLocalView()
+	resetTabs();
+	$("#tabs").tabs("option", "enable", [0]);
+	
 	$("#tabs").tabs("select",0);
 	$("#question").html("<h3 class=\"ui-widget-header ui-corner-all\">Question:</h3> ");
 	$("#answerResults").html("Starting ...");

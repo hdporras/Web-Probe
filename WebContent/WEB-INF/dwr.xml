@@ -17,5 +17,8 @@
     <create creator="new" javascript="VisCacheAccess">
       	<param name="class" value="cache.visAccess.VisualizationCacheAccess"/>
     </create>
+    <create creator="new" javascript="LocalViewExtractor">
+      	<param name="class" value="pml.interfaces.localView.LocalViewExtractor"/>
+    </create>
   </allow>
 </dwr>

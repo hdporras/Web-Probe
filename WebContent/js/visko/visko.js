@@ -1,24 +1,17 @@
 
 function getViskoVis()
 {
+	$("#tabs").tabs('enable', 1);
 	$("#tabs").tabs("select",1);
-	//$("#productV").html("<h3>Getting Visualizations</h3>");
+	resetTabs();
+	
+	
 	var uri = $("#uriName").val();// get Value from URI Text Bar.
-	//$("#answerResults").html("<h3 class=\"ui-widget-header ui-corner-all\">Answers:</h3>Calling Server with: "+uri);
+	currentProductURI = uri;
 	
 	clearProductTabs();
 
-/*	
-	//test
-	$("#tabsBottom").tabs("add", "#test", "Test");
-	$("#test").html("TEST");
-	//$("#tabsBottom").addClass("tabs-bottom");
-	//test*/
-	
-	//ArrayTest.getStringArray(objectEval($("p10").value), reply1);
-
-	createViskoViewers(uri);
-	
+	createViskoViewers(uri);	
 }
 
 
@@ -45,6 +38,7 @@ function createViskoViewers(uri)
 						{
 							visType = "Image";
 							$("#tabsBottom").tabs("add", "#tabs-"+i, "Image",1);
+							$("#tabs-"+i).attr("class", "tabsBottomFill");
 							$("#tabs-"+i).html("<img src="+visualizations[i]+" />");
 						}
 						//PDF
@@ -52,8 +46,9 @@ function createViskoViewers(uri)
 						{
 							visType = "PDF";
 							$("#tabsBottom").tabs("add", "#tabs-"+i, "PDF",0);
-							$("#tabs-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:800px; height:600px;\" frameborder=\"1\">" +
-									"<object data=\""+visualizations[i]+"\" type=\"application/pdf\" width='100%'height='100%'><p>It appears you don't have a PDF plugin for this browser. you can <a href=\""+visualizations[i]+"\">click here to download the PDF file.</a></p>" +
+							$("#tabs-"+i).attr("class", "tabsBottomFill");
+							$("#tabs-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:99%; height:98%;\" frameborder=\"2\">" +
+									"<object data=\""+visualizations[i]+"\" type=\"application/pdf\" width=\"100%\" height=\"100%\"><p>It appears you don't have a PDF plugin for this browser. you can <a href=\""+visualizations[i]+"\">click here to download the PDF file.</a></p>" +
 									"</object></iframe>");
 						}
 						//Text
@@ -64,7 +59,8 @@ function createViskoViewers(uri)
 							
 							visType = "Text";
 							$("#tabsBottom").tabs("add", "#tabs-"+i, "Text",3);
-							$("#tabs-"+i).html("<pre> "+text+" </pre>");
+							$("#tabs-"+i).attr("class", "tabsBottomFill");
+							$("#tabs-"+i).html("<div class=\"fill\"> <pre>"+text+"</pre> </div>"); //<pre> </pre>
 						}
 					}
 				}

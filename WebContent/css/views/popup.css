@@ -1,0 +1,19 @@
+
+.popup {
+	border: 1px solid #000000;
+	box-shadow: 1px 1px 4px #000000;
+	border-radius: 0.5em;
+	
+	height: 300px;
+	width: 400px;
+	
+	position: absolute;
+	display: none;
+	z-index: 50;
+	border-collapse: collapse;
+	font-size: .8em;
+	
+	visibility:hidden;
+}
+
+

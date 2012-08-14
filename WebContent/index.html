@@ -1,17 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Web-Probe</title>
 	
-	<!-- JQuery, D3.js, jsddm Javascript Includes -->
+	<!-- JQuery, JSON, D3.js, jsddm Javascript Includes -->
+	<script type="text/javascript" src="js/json_sans_eval.js"> </script>
 	<script type="text/javascript" src="js/jquery.js"> </script>
 	<script type="text/javascript" src="js/jquery-ui.js"> </script>
-	<script type="text/javascript" src="d3js/d3.js"></script>
+	<!-- <script type="text/javascript" src="d3js/d3.js"></script>
 	<script type="text/javascript" src="d3js/d3.layout.js"> </script>
-	<script type="text/javascript" src="d3js/d3.geom.js"> </script>
+	<script type="text/javascript" src="d3js/d3.geom.js"> </script> -->
 	<script type="text/javascript" src="js/jsddm.js"> </script>
 	
 	<!-- DWR JavaScript Includes -->
@@ -21,106 +22,165 @@
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLTests.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLQueryResults.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/VisCacheAccess.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/LocalViewExtractor.js'></script>
 	
 	<!-- Probe-it Javascript Includes -->
+	<script type="text/javascript" src="js/localView/localView.js"> </script>
 	<script type="text/javascript" src="js/query/answers.js"> </script>
 	<script type="text/javascript" src="js/bookmark.js"> </script>
 	<script type="text/javascript" src="js/navigation.js"> </script>
 	<script type="text/javascript" src="js/product.js"> </script>
 	<script type="text/javascript" src="js/visko/visko.js"> </script>
+	<script type="text/javascript" src="js/localView/popup.js"> </script>
 	
 	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="css/query.css" />
+	<link rel="stylesheet" type="text/css" href="css/views/product.css" />
+	<link rel="stylesheet" type="text/css" href="css/views/local.css" />
+	<link rel="stylesheet" type="text/css" href="css/views/query.css" />
+	<link rel="stylesheet" type="text/css" href="css/views/popup.css" />
+	
 	<link rel="stylesheet" type="text/css" href="css/common.css" />
 	<link rel="stylesheet" type="text/css" href="css/jsddm.css" />
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="d3js/examples/force/force.css" />
 	
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
-
+	
 
 </head>
 
 
 <!-- BODY -->
 <body>
-	<script>
+	<script type="text/javascript">
+	//Setup buttons
 	$(function() {
 		$("button").button();
 	});
+	
+	//Hide Bar
+	$(document).ready(function() {
+		$("#hideTop").hide();
+		$("#hideTop").click( function() {unhideNav();} );
+	});
+
+	//Menus
+	/*jQuery(document).ready(function(){
+	    jQuery(".megamenu").megamenu();
+	});*/
+	
+	
 	</script>
 
-<!-- HEADER -->
+	<div id="hideTop">
+		
+	</div>
+
+
+
+	<!-- HEADER -->
 	<div id="header">
 
-	<!-- TOP NAVIGATION -->
-		<div id="navigation">
+		<!-- TOP NAVIGATION -->
+		<div  id="navigation">
 			<ul id="jsddm">
 				<li><a title="File" class="nav">File</a></li>
 				<li><a title="Bookmark" class="nav">Bookmark</a>
-					<ul>
-						<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
-								Tony's Specialty</a></li>
-						<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
-								Agatha (PUZ)</a></li>
-						<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
-								Hole's Code Full</a></li>
-						<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
-								Hole's Code Prov.</a></li>
-						<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
-								Scientific Publication</a></li>		
-					</ul>
+						<ul>
+							<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
+									Tony's Specialty</a></li>
+							<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
+									Agatha (PUZ)</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer">
+									Gravity Map</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
+									Hole's Code Full</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
+									Hole's Code Prov.</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
+									Scientific Publication</a></li>		
+						</ul>
 				</li>
 				<li><a title="Preferences" class="nav">Preferences</a></li>
 				<li><a title="Configuration" class="nav">Configuration</a></li>
 				<li><a title="Viewers" class="nav">Viewers</a></li>
 				<li><a title="Help" class="nav">Help</a></li>
 			</ul>
+			<!--  
 			<div id="signin">
 				<form action="#">
 					<input type="text" class="textbox" name="signin" size="20" />
-					<button id="button" onclick="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="padding: 0px 2px;font-size:12px;">
+					<button type="button" id="button" onclick="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="padding: 0px 2px;font-size:12px;">
 						<span class="ui-button-text">Sign-In</span>
 					</button>
 				</form>
 			</div>
+			-->
 		</div>
 
-	<!-- URI Bar -->
+		<!-- URI Bar -->
 		<div id="uriBar">
-
-				<span id="uriContent"><input type="text" id="uriName" name="uri" class="textbox" size="98" value='http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer' /></span>
-				<button id="button" onclick="getQuery()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+				<!-- <button type="button" style="float: left;" title="Bookmarks" onclick="showBookmarks()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+					<span class="ui-icon ui-icon-bookmark"></span>
+				</button>
+				<div id="bookmarks" title="Bookmark" >
+						<ul>
+							<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
+									Tony's Specialty</a></li>
+							<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
+									Agatha (PUZ)</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer">
+									Gravity Map</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
+									Hole's Code Full</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
+									Hole's Code Prov.</a></li>
+							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
+									Scientific Publication</a></li>		
+						</ul>
+				</div>-->
+				
+				<input type="text" id="uriName" name="uri" class="textbox" />
+				
+				<button type="button" style="float: left;" onclick="lookupURI()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 					<span class="ui-button-text">Lookup</span>
 				</button>
-				<button id="button" onclick="getViskoVis()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+				<button type="button" style="float: left;" onclick="getViskoVis()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 					<span class="ui-button-text">Lookup Answer</span>
 				</button>
-				<button id="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="float: right;">
+				<!--  <button type="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="float: right;">
 					<span class="ui-button-text">Hide</span>
+				</button>-->
+				<button type="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
+					<span class="ui-icon ui-icon-arrowthickstop-1-n"></span>
 				</button>
+				<!-- <button id="button" onclick="resetTabs()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="float: right;">
+					<span class="ui-button-text">Reset Tabs</span>
+				</button>
+				 -->
 				<!-- <p><a href="#" id="dialog_link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-newwin"></span>Open Dialog</a></p> -->
 				<!-- <input type="button" class="button" value="Lookup Answer" /> -->
 
 		</div>
 	</div>
 
-<!-- TABS -- Main Content -->
+
+
+	<!-- Main Content - TABS -->
 	<div id="maincontent">	
 		<script>
 			$(function() {
 				$( "#tabs" ).tabs();
 			});
 		</script>
-		<div id="tabs" style="background-color:#E2E2E2">
+		<div id="tabs" >
 
 			<ul>
-				<li><a href="#resultV">Q&A View</a></li>
+				<li><a href="#resultV">Q&amp;A View</a></li>
 				<li><a href="#productV">Product View</a></li>
 				<li><a href="#localV">Local Justification View</a></li>
 				<li><a href="#globalV">Global Justification View</a></li><!--<li><a href="d3js/examples/force/force.html" rel="#globalV">Global Justification View</a></li> -->
 			</ul>
-			<div id="resultV" style="padding:6px;">
+			<div id="resultV" class="tabsFill" style="background-color:white">
 				<div id="question" title="Question" style="background-color:#FFFFFF">
 					<h2 class="ui-widget-header ui-corner-all">Question:</h2>
 					<p>Welcome to Probe-It!</p>
@@ -131,8 +191,8 @@
 					</p>	
 				</div>
 				<div id="answerResults" title="Answers" style="background-color:#FFFFFF">
-					<h3 class="ui-widget-header ui-corner-all">Answers:</h3>
-					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'><pre>Test Metadata<br>TestMetadata</pre>testmetadata</div><div class='answerAttributes'></div></div>
+					<h2 class="ui-widget-header ui-corner-all">Answers:</h2>
+					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'><pre>Test Metadata<br/>Test Metadata</pre>testmetadata</div><div class='answerAttributes'></div></div>
 					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
 					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
 					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
@@ -140,38 +200,64 @@
 					<div class='answerBox'><div class='answerConclusion'>Test Data</div><div class='answerAttributes'></div></div>
 				</div>
 			</div>
-			<div id="productV">
+			
+			
+<!--  *****  -->
+			<div id="productV" class="tabsFill" style="background-color:white">
 				<script>
 					$(function() {
 						$("#tabsBottom").tabs();
 						$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
 								.addClass("ui-corner-bottom");
+						
+						URLGETparams();
 					});
 				</script>
+				<div id="productTop" >
+					<button type="button" onclick="currentLocalURI=currentProductURI; setupLocalView();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+						<span class="ui-button-text">View Provenance</span>
+					</button>
+				</div>
 				<div id="tabsBottom" class="tabs-bottom">
 					<ul>
 						<li><a href="#ImageJ">ImageJ</a></li>
 						<li><a href="#Text">Text</a></li>
 						<li><a href="#PDF">PDF</a></li>
 					</ul>
-					<div id="ImageJ">
-						<img src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/331.png" />
+					<div id="ImageJ" class="tabsBottomFill" > <!-- **Image over flowing correctly -->
+						<img src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/331.png"  />
 					</div>
-					<div id="Text">
-						<script>
-							var text = getTextFromFile("http://iw.cs.utep.edu:80/VisCacheAccess/cached/4.tex");
-							
-							$("#Text").html("<pre> "+text+" </pre>");
-						</script>
-						
-						
-						
-						<!-- <iframe id="textFrame" style="width:800px; height:600px;" frameborder="1">test stuff</iframe> 
-						<frame src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/4.tex"></frame> -->
-					</div>
-					<div id="PDF">
 					
-						<iframe src="http://docs.google.com/gview?url=http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf&embedded=true" style="width:800px; height:600px;" frameborder="1">
+					<div id="Text" class="tabsBottomFill">
+						
+							<script type="text/javascript">
+								var text = getTextFromFile("http://iw.cs.utep.edu:80/VisCacheAccess/cached/4.tex");
+								
+								$("#textArea").html(" <pre> "+text+" </pre>");
+							</script>
+						
+						
+						<div id="textArea"  >
+							Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+							<p>
+								Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+								Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+								ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+								lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+							</p>
+								<ul>
+									<li>List item one</li>
+									<li>List item two</li>
+									<li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li>
+									<li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li>
+									<li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li>
+								</ul>
+						
+						</div> 
+					</div>
+					<div id="PDF" class="tabsBottomFill">
+					
+						<iframe src="http://docs.google.com/gview?url=http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf&embedded=true" style="width: 99%; height:98%;" frameborder="2">
 							<object data="http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf" type="application/pdf" width="100%" height="100%">
  
 							  <p>It appears you don't have a PDF plugin for this browser.
@@ -184,66 +270,141 @@
 					</div>
 				</div>
 			</div>
-			<div id="localV" style="min-height:400px;">
+			<div id="localV" class="tabsFill" style="background-color:white">
+				
+				
 				
 				<script>
-				$(function() {
-					$( "#accordion" ).accordion();
-				});
+					
+					jQuery(document).ready(function(){
+						$('#accordion h3').click(function() {
+							
+							$(this).next().toggle();
+							
+							//$( "#accordion" ).accordion( "resize" );
+							return false;
+						})//.next().hide();
+					});
+					
+					/*
+					jQuery(document).ready(function(){
+						$('#accordion h3').click(function(e)
+						{
+							e.preventDefault();
+							//$(this).css()
+							
+							$(this).next().not(':animated').slideToggle();
+						}).next().hide();
+					});*/
+					
+					
+					$(function() {
+						$( "#accordion" ).accordion({
+							collapsible: true,
+							fillSpace: false,
+							autoHeight: false, //*need to find a way to get autoHeight working correctly
+							//navigation: true,
+							clearStyle: false
+						});
+					});
+					
+
+					//$( "#accordion" ).accordion( "resize" );
+					
+					/*
+					$(function() {
+						$( "#accordionResizer" ).resizable({
+							minHeight: 200,
+							resize: function() {
+								$( "#accordion" ).accordion( "resize" );
+							}
+						});
+					});*/
+				
 				</script>
-				
-				<div id="accordion">
-						<h3><a href="#">Conclusion</a></h3>
-						<div >
-							<p>
-							Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-							ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-							amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-							odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
-							</p>
-						</div>
-						<h3><a href="#">Justified By</a></h3>
-						<div>
-							<p>
-							Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-							purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-							velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-							suscipit faucibus urna.
-							</p>
-						</div>
-						<h3><a href="#">Used To Infer</a></h3>
-						<div>
-							<p>
-							Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-							Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-							ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-							lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
-							</p>
-							<ul>
-								<li>List item one</li>
-								<li>List item two</li>
-								<li>List item three</li>
-							</ul>
-						</div>
-						<h3><a href="#">Used To Finally Conclude</a></h3>
-						<div>
-							<p>
-							Cras dictum. Pellentesque habitant morbi tristique senectus et netus
-							et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
-							faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
-							mauris vel est.
-							</p>
-							<p>
-							Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
-							Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-							inceptos himenaeos.
-							</p>
-						</div>
+				<!--  <div id="accordionResizer" style="padding:6px; width:98%; min-height:550px" class="ui-widget-content">-->
+					<div id="accordion" style="height:99%;width:100%">
+							<h3 id="conclusionHeader"><a href="#">Conclusion</a></h3>
+								<div id="LocalViewConclusion" >
+									<div class="conclusionSection">
+										<img class="localViewImage" src="http://iw.cs.utep.edu/VisCacheAccess/cached/275_thumb.jpg" />
+										<p>
+										Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+										ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+										amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+										odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+										</p>
+									</div>
+								</div>
+							<!-- <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top" role="tab" aria-expanded="true" aria-selected="true" tabindex="0"><span class="ui-icon ui-icon-triangle-1-s"></span><a href="#">Section 1</a></h3> -->
+							<h3>
+								<a href="#"> Justified By</a>
+							</h3>
+								<div id="LocalViewJustifiedBy" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+									<div class="inferenceStep">
+										<div class="justTitle"> Inferred by inference engine <a class="engineRule"  >Inference Engine </a> <div class="popup"> Popup Text </div> with declarative rule  <a class="engineRule" href="" target="new"> Declarative Rule </a>  from the parents: </div>
+										<div class="justifiedByAntecedents">
+											<ol>
+												<li>
+													<div class="justAntecedent">  
+														<a href=" "  > 
+															<img class="localViewImage" src="http://iw.cs.utep.edu/VisCacheAccess/cached/275_thumb.jpg" /> 
+														</a> 
+													</div>
+												</li>
+												<li>
+													<div class="justAntecedent">  
+														<a href=" "  > 
+															<img class="localViewImage" src="http://iw.cs.utep.edu/VisCacheAccess/cached/275_thumb.jpg" /> 
+														</a> 
+													</div>
+												</li>
+											</ol>
+										</div>
+									</div>
+								</div>
+							<h3><a href="#">Used To Infer</a></h3>
+							<div id="LocalViewInferred" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+								<p>
+								Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+								Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+								ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+								lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+								</p>
+								<ul>
+									<li>List item one</li>
+									<li>List item two</li>
+									<li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li>
+									<li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li>
+									<li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li><li>List item three</li>
+								</ul>
+							</div>
+							<h3><a href="#">Used To Finally Conclude</a></h3>
+							<div id="LocalViewFinalConclusion" class="class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+								<div class="finalConclusion"> 
+									<div class="rootNSTitle"> 
+										Final Conclusion:
+									</div>
+									
+									<div class="rootNS"> <a class="localViewTextLink" href=""> (or (|http://www.w3.org/2000/01/rdf-schema#|::|subClassOf| |http://iw.stanford.edu/enginesdoc/jtp/script-data/tonys.daml#|::|CRAB| ?x) (not (|http://www.w3.org/2000/01/rdf-schema#|::|subClassOf| |http://iw.stanford.edu/enginesdoc/jtp/script-data/tonys.daml#|::|SHELLFISH| ?x))) </a> </div>
+									
+									<div class="finalQueryTitle"> That Answers the Query: </div>
+									<div class="finalQueryString"> 
+										<pre> (|http://www.w3.org/1999/02/22-rdf-syntax-ns#|::type |http://iw.stanford.edu/enginesdoc/jtp/script-data/tonys.daml#|::|TonysSpecialty| ?x) </pre>  
+									</div>
+									
+									<div class="finalQuestions">
+										<div class="finalQuestionLeadIn">That is a formal representation of: </div> 
+										<ol><li>  
+											<div class="finalQuestionText"> <pre> What type of food is Tony's specialty? </pre> </div> 
+										</li> </ol>
+									</div>
+								</div>
+							</div>
+					</div>
 				</div>
-				
-			</div>
 			
-			<div id="globalV">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+			<div id="globalV" class="ui-widget-content tabsFill" style="background-color:white">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
 			
 		</div>
 
