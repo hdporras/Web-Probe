@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" name="Web-Probe">
+
+	<property name="warfile" value="Web-Probe.war" />
+	<property name="build" value="build"/>
+	<property name="lib" value="WebContent/WEB-INF/lib"/>
+	<property name="src" value="src"/>
+	<property name="config-file" value="WebContent/WEB-INF/web.xml"/>
+	<property name="web-content" value="WebContent"/>
+
+	<target name="build" depends="compile" description="Creates the Web-Probe WAR file">
+
+		<war destfile="${warfile}" webxml="${config-file}">
+			<lib dir="${lib}"/>
+			<fileset dir="${web-content}"/>
+
+			<classes dir="${build}/"/>
+		</war>
+	</target>
+
+	<target name="compile" depends="clean" description="Compile Web-probe in build Directory">	
+		
+		<mkdir dir="${build}"/>
+		<javac destdir="${build}/" srcdir="${src}" target="1.6"> 
+	    	<include name="**/*.java"/>
+			<classpath>	
+				<fileset dir="${lib}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>			
+		</javac> 
+	</target>
+
+	<target name="clean" description="Delete the Build Directory and the WAR File">
+		<delete dir="${build}" />
+		<delete file="${warfile}" />
+	</target>
+</project>
