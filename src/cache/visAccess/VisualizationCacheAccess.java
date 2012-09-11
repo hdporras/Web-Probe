@@ -1,9 +1,7 @@
 package cache.visAccess;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
-import cacher.fromViskoServlet.Cache;
+import cache.visAccess.CacheXMLAccess;
 
 public class VisualizationCacheAccess 
 {
@@ -112,16 +110,29 @@ public class VisualizationCacheAccess
 	 * @return URL of thumbnail, the next index contains the viewer type. Null if nodesetURI not found. */
 	public static String getCachedThumbnail(String nodesetURI)
 	{
-		String loc = CacheXMLAccess.getThumbLoc(nodesetURI);
+		try
+		{
+			String loc = CacheXMLAccess.getThumbLoc(nodesetURI);
+			return loc;
+			
+		}catch(Exception e)
+		{e.printStackTrace();}
 		
-		return loc;
+		return null;
 	}
 
 	/** return a set of url's to cached conclusion visualizations of the nodeset pointed to by "nodesetURI" 
 	 * @return URLs of visualizations. Null if nodesetURI not found. */
 	public static String[] getCachedVisualizations(String nodesetURI)//Maybe change to getVisualizations? return String[]?
 	{
-		return CacheXMLAccess.getVisLoc(nodesetURI);
+		try
+		{
+			return CacheXMLAccess.getVisLoc(nodesetURI);
+			
+		}catch(Exception e)
+		{e.printStackTrace();}
+		
+		return null;
 	}
 	
 
@@ -129,6 +140,13 @@ public class VisualizationCacheAccess
 	 * @return viewers. Null if nodesetURI not found. */
 	public static String[] getViewer(String nodesetURI)//or get Viewers? return String[]?
 	{
-		return CacheXMLAccess.getViewerLoc(nodesetURI);
+		try
+		{
+			return CacheXMLAccess.getViewerLoc(nodesetURI);
+		
+		}catch(Exception e)
+		{e.printStackTrace();}
+		
+		return null;
 	}
 }

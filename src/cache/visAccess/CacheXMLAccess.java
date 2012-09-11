@@ -137,7 +137,6 @@ public class CacheXMLAccess
 				{
 					NodeList visNodeList = vis.getChildNodes();
 					int numChildren = visNodeList.getLength();
-					LinkedList<String> visualizations = new LinkedList<String>();
 
 					//for every node in Visualization set...
 					for(int childN=0; childN < numChildren; childN++)

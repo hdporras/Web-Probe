@@ -54,8 +54,10 @@ function setupLocalView()
 			//check for image in cache, otherwise print conclusion text
 			if(conclusion.thumbURL != null)
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> <img class=\"localViewImage\" src=\""+conclusion.thumbURL+"\" /> </div>");
-			else
+			else if(conclusion.conclusionText != null)
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> "+conclusion.conclusionText+" </div>");
+			else
+				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> "+currentLocalURI+" </div>");
 			
 			//Add View Product Detail Button
 			$("#LocalViewConclusion").append("	<div id=\"ConclusionBottom\" >" +

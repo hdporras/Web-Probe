@@ -1,5 +1,4 @@
-/*
- Copyright (c) 2005, The Board of Trustees of the Leland Stanford Junior University
+/* Copyright (c) 2005, The Board of Trustees of the Leland Stanford Junior University
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without

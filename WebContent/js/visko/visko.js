@@ -7,51 +7,58 @@ function createViskoViewers(uri)
 	VisCacheAccess.getCachedVisualizations(uri, function(data)
 	{
 		visualizations = data;
-	
-		VisCacheAccess.getViewer(uri, function(data)
+		
+		if(visualizations != null)
 		{
-				var viewers = data;// eval("(" + data + ")");
-				
-				if(data!=null)
-				{
-					for(var i=0; i<viewers.length; i++)
+			VisCacheAccess.getViewer(uri, function(viewerData)
+			{
+					var viewers = viewerData;// eval("(" + data + ")");
+					
+					if(viewerData!=null)
 					{
-						//Image
-						if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/imageJ-viewer.owl#imageJ-viewer")
+						for(var i=0; i<viewers.length; i++)
 						{
-							visType = "Image";
-							$("#tabsBottom").tabs("add", "#tabs-"+i, "Image",1);
-							$("#tabs-"+i).attr("class", "tabsBottomFill");
-							$("#tabs-"+i).html("<img src="+visualizations[i]+" />");
-						}
-						//PDF
-						else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/pdf-viewer.owl#pdf-viewer")
-						{
-							visType = "PDF";
-							$("#tabsBottom").tabs("add", "#tabs-"+i, "PDF",0);
-							$("#tabs-"+i).attr("class", "tabsBottomFill");
-							$("#tabs-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:99%; height:98%;\" frameborder=\"2\">" +
-									"<object data=\""+visualizations[i]+"\" type=\"application/pdf\" width=\"100%\" height=\"100%\"><p>It appears you don't have a PDF plugin for this browser. you can <a href=\""+visualizations[i]+"\">click here to download the PDF file.</a></p>" +
-									"</object></iframe>");
-						}
-						//Text
-						else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/plain-text-viewer.owl#plain-text-viewer")
-						{
-							//if .tex, .txt, ...
-							var text = getTextFromFile(visualizations[i]);
-							
-							visType = "Text";
-							$("#tabsBottom").tabs("add", "#tabs-"+i, "Text",3);
-							$("#tabs-"+i).attr("class", "tabsBottomFill");
-							$("#tabs-"+i).html("<div class=\"fill\"> <pre>"+text+"</pre> </div>"); //<pre> </pre>
+							//Image
+							if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/imageJ-viewer.owl#imageJ-viewer")
+							{
+								visType = "Image";
+								$("#tabsBottom").tabs("add", "#tabs-"+i, "Image",1);
+								$("#tabs-"+i).attr("class", "tabsBottomFill");
+								$("#tabs-"+i).html("<img src="+visualizations[i]+" />");
+							}
+							//PDF
+							else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/pdf-viewer.owl#pdf-viewer")
+							{
+								visType = "PDF";
+								$("#tabsBottom").tabs("add", "#tabs-"+i, "PDF",0);
+								$("#tabs-"+i).attr("class", "tabsBottomFill");
+								$("#tabs-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:99%; height:98%;\" frameborder=\"2\">" +
+										"<object data=\""+visualizations[i]+"\" type=\"application/pdf\" width=\"100%\" height=\"100%\"><p>It appears you don't have a PDF plugin for this browser. you can <a href=\""+visualizations[i]+"\">click here to download the PDF file.</a></p>" +
+										"</object></iframe>");
+							}
+							//Text
+							else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/plain-text-viewer.owl#plain-text-viewer")
+							{
+								//if .tex, .txt, ...
+								var text = getTextFromFile(visualizations[i]);
+								
+								visType = "Text";
+								$("#tabsBottom").tabs("add", "#tabs-"+i, "Text",3);
+								$("#tabs-"+i).attr("class", "tabsBottomFill");
+								$("#tabs-"+i).html("<div class=\"fill\"> <pre>"+text+"</pre> </div>"); //<pre> </pre>
+							}
 						}
 					}
-				}
-				
-				$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
-				.addClass("ui-corner-bottom");
-				$("#tabsBottom").tabs("select",0);
-		});
+					
+					$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
+					.addClass("ui-corner-bottom");
+					$("#tabsBottom").tabs("select",0);
+			});
+		}
+		else //visualizations returned null
+		{
+			alert("Visualization(s) could not be accessed.");
+		}
 	});
 }
 
@@ -81,7 +88,7 @@ function getTextFromFile(url)
 /** Returns location of cached thumbnail from nodesetURI */
 function getViskoThumbnail(uri)
 {
-	var thumbnailURI;
+	var thumbnailURI = null;
 	
 	VisCacheAccess.getCachedThumbnail(uri, {async: false, callback: function(data)
 		{
