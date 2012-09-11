@@ -1,21 +1,4 @@
 
-function getViskoVis()
-{
-	$("#tabs").tabs('enable', 1);
-	$("#tabs").tabs("select",1);
-	resetTabs();
-	
-	
-	var uri = $("#uriName").val();// get Value from URI Text Bar.
-	currentProductURI = uri;
-	
-	clearProductTabs();
-
-	createViskoViewers(uri);	
-}
-
-
-
 
 function createViskoViewers(uri)
 {

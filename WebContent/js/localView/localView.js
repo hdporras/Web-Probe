@@ -1,5 +1,18 @@
 var currentLocalURI;
 
+function setCurrentLocalURI(uri)
+{
+	currentLocalURI = uri;
+}
+
+function initLocalView()
+{
+	showMainTabs();
+	$("#tabs").tabs('enable', 2);
+	$("#tabs").tabs("select",2);
+	resetTabs();
+	
+}
 
 function setupLocalView()
 {
@@ -44,7 +57,11 @@ function setupLocalView()
 			else
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> "+conclusion.conclusionText+" </div>");
 			
-			
+			//Add View Product Detail Button
+			$("#LocalViewConclusion").append("	<div id=\"ConclusionBottom\" >" +
+					"<button type=\"button\" onclick=\"currentProductURI=currentLocalURI; getViskoVis(currentProductURI);\" class=\"ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only\">" +
+					"<span class=\"ui-button-text\">View Product Details</span> </button> </div>");
+
 			
 		//Justified By Section
 			

@@ -23,6 +23,7 @@
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLQueryResults.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/VisCacheAccess.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/LocalViewExtractor.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLServices.js'></script>
 	
 	<!-- Probe-it Javascript Includes -->
 	<script type="text/javascript" src="js/localView/localView.js"> </script>
@@ -80,86 +81,80 @@
 	<!-- HEADER -->
 	<div id="header">
 
-		<!-- TOP NAVIGATION -->
-		<div  id="navigation">
-			<ul id="jsddm">
-				<li><a title="File" class="nav">File</a></li>
-				<li><a title="Bookmark" class="nav">Bookmark</a>
-						<ul>
-							<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
-									Tony's Specialty</a></li>
-							<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
-									Agatha (PUZ)</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer">
-									Gravity Map</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
-									Hole's Code Full</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
-									Hole's Code Prov.</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
-									Scientific Publication</a></li>		
-						</ul>
-				</li>
-				<li><a title="Preferences" class="nav">Preferences</a></li>
-				<li><a title="Configuration" class="nav">Configuration</a></li>
-				<li><a title="Viewers" class="nav">Viewers</a></li>
-				<li><a title="Help" class="nav">Help</a></li>
-			</ul>
-			<!--  
-			<div id="signin">
-				<form action="#">
-					<input type="text" class="textbox" name="signin" size="20" />
-					<button type="button" id="button" onclick="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="padding: 0px 2px;font-size:12px;">
-						<span class="ui-button-text">Sign-In</span>
-					</button>
-				</form>
-			</div>
-			-->
-		</div>
-
 		<!-- URI Bar -->
 		<div id="uriBar">
-				<!-- <button type="button" style="float: left;" title="Bookmarks" onclick="showBookmarks()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+				<button type="button" style="float: left;" title="Bookmarks" onclick="toggleBookmarks()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 					<span class="ui-icon ui-icon-bookmark"></span>
 				</button>
-				<div id="bookmarks" title="Bookmark" >
-						<ul>
-							<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
-									Tony's Specialty</a></li>
-							<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
-									Agatha (PUZ)</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer">
-									Gravity Map</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
-									Hole's Code Full</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
-									Hole's Code Prov.</a></li>
-							<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
-									Scientific Publication</a></li>		
-						</ul>
-				</div>-->
 				
-				<input type="text" id="uriName" name="uri" class="textbox" />
+				<input type="text" id="uriName" name="uri" class="textbox" value="-- Enter URI Here --" onfocus="uriOnFocus();" onblur="uriOnBlur();" />
 				
-				<button type="button" style="float: left;" onclick="lookupURI()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+				<button type="button" id="lookupButton" style="float: left;" onclick="lookupURI()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 					<span class="ui-button-text">Lookup</span>
 				</button>
-				<button type="button" style="float: left;" onclick="getViskoVis()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-					<span class="ui-button-text">Lookup Answer</span>
-				</button>
-				<!--  <button type="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="float: right;">
-					<span class="ui-button-text">Hide</span>
-				</button>-->
+				
+				
+				<script>
+				/** Handles enabling of Lookup Button */
+					$(function() {
+						
+						$("#lookupButton").button("disable");
+						//alert("alert!");
+						
+						
+						//partial Code Credi: http://stackoverflow.com/questions/1948332/detect-all-changes-to-a-input-type-text-immediately-using-jquery
+						// Save current value of element
+						$("#uriName").data('oldVal', $("#uriName").val());
+
+						// Look for changes in the value
+						$("#uriName").bind("propertychange keyup input paste", function(event)
+						{
+							// If value has changed...
+							if ($("#uriName").data('oldVal') != $("#uriName").val())
+							{
+								
+								updateLookupButton();
+								
+								// Updated stored value
+							       $("#uriName").data('oldVal', $("#uriName").val());
+							}
+						});
+
+					});
+				</script>
+				
 				<button type="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
 					<span class="ui-icon ui-icon-arrowthickstop-1-n"></span>
 				</button>
-				<!-- <button id="button" onclick="resetTabs()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="float: right;">
-					<span class="ui-button-text">Reset Tabs</span>
+				<button type="button" onclick="toggleSettings()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
+					<span class="ui-icon ui-icon-gear"></span>
 				</button>
-				 -->
-				<!-- <p><a href="#" id="dialog_link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-newwin"></span>Open Dialog</a></p> -->
-				<!-- <input type="button" class="button" value="Lookup Answer" /> -->
-
+		</div>
+		
+		<div id="bookmarks" class="dropDown" title="Bookmark" style="visibility: hidden;" >
+			<ul>
+				<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
+						Tony's Specialty</a></li>
+				<li><a class="bookmark" href="http://inference-web.org/proofs/tptp/Problems/PUZ/PUZ001+1/query.owl#query">
+						Agatha (PUZ)</a></li>
+				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer">
+						Gravity Map</a></li>
+				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
+						Hole's Code Full</a></li>
+				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
+						Hole's Code Prov.</a></li>
+				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
+						Scientific Publication</a></li>		
+			</ul>
+		</div>
+		
+		<div id="settings" class="dropDown" title="Settings" style="visibility: hidden;" >
+			<ul>
+				<li><a href="http://trust.utep.edu/probeit/">
+						About</a></li>
+				<li><a href="http://trust.utep.edu/probeit/">
+						Help</a></li>		
+			</ul>
 		</div>
 	</div>
 
@@ -172,6 +167,31 @@
 				$( "#tabs" ).tabs();
 			});
 		</script>
+		<div id="splash">
+			<div class="sectionBox">
+				<h1 class="ui-widget-header ui-corner-all">Welcome to Web-Probe!</h1>
+				<p>
+					Web-Probe is a web application developed for browsing Proof Markup Language (PML) based provenance.
+				</p>
+				<p>To get started:</p>
+				<ul>
+					<li>Provide a URI (to a PML file) in the search box above and select "Lookup". </li>
+					<li>Or view examples from the bookmarks. Accessed through the bookmark button:  
+						<button type="button" style="position:relative;top:8px;" title="Bookmarks" onclick="toggleBookmarks()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<span class="ui-icon ui-icon-bookmark"></span>
+						</button> 
+					</li>
+				</ul>
+				
+				<p>
+					For additional options click on the settings button:
+					<button type="button" style="position:relative;top:8px;" onclick="toggleSettings()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
+						<span class="ui-icon ui-icon-gear"></span>
+					</button> 
+				</p>
+				
+			</div>
+		</div>
 		<div id="tabs" >
 
 			<ul>
@@ -213,11 +233,11 @@
 						URLGETparams();
 					});
 				</script>
-				<div id="productTop" >
+				<!--  <div id="productTop" >
 					<button type="button" onclick="currentLocalURI=currentProductURI; setupLocalView();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 						<span class="ui-button-text">View Provenance</span>
 					</button>
-				</div>
+				</div>-->
 				<div id="tabsBottom" class="tabs-bottom">
 					<ul>
 						<li><a href="#ImageJ">ImageJ</a></li>
@@ -342,11 +362,12 @@
 							</h3>
 								<div id="LocalViewJustifiedBy" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
 									<div class="inferenceStep">
-										<div class="justTitle"> Inferred by inference engine <a class="engineRule"  >Inference Engine </a> <div class="popup"> Popup Text </div> with declarative rule  <a class="engineRule" href="" target="new"> Declarative Rule </a>  from the parents: </div>
+										<div class="justTitle"> Inferred by inference engine <a class="engineRule"  >Inference Engine </a> with declarative rule  <a class="engineRule" href="" target="new"> Declarative Rule </a>  from the parents: </div>
+										<div class="popup"> Popup Text </div>
 										<div class="justifiedByAntecedents">
 											<ol>
 												<li>
-													<div class="justAntecedent">  
+													<div class="justAntecedent">
 														<a href=" "  > 
 															<img class="localViewImage" src="http://iw.cs.utep.edu/VisCacheAccess/cached/275_thumb.jpg" /> 
 														</a> 

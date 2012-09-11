@@ -12,6 +12,7 @@ function URLGETparams()//call after tabs are setup.
 	{
 		$("#uriName").val(URIparam);
 		lookupURI();
+		updateLookupButton();
 	}
 }
 
@@ -35,17 +36,32 @@ function lookupURI()
 {
 	var uri = $("#uriName").val();
 	
-	if( uri.indexOf("#answer") != -1 ) 
-	{ 
-		getViskoVis();
-	} 
-	else 
-	{ 
-		getQuery();
-	}
-		
+	PMLServices.isQuery(uri, function(isquery)
+	{
+		//alert(isquery);
+		//if( uri.indexOf("#answer") != -1 )
+		if( isquery )
+		{
+			getQuery();
+		}
+		else 
+		{
+			setCurrentLocalURI(uri);
+			initLocalView();
+			setupLocalView();
+		}
+	});
 }
 
+
+
+/** Unhides the initially hidden Main Tabs (Q&A, Product, Justification..)
+ *  And hides the initial splash screen. */
+function showMainTabs()
+{
+	$("#splash").css('visibility', 'hidden');
+	$("#tabs").css('visibility', 'visible');
+}
 
 
 /** Functionality for hiding/unhiding top navigation bar */ 
@@ -61,10 +77,8 @@ function unhideNav()
 {
 	$("#hideTop").slideUp();
 	$("#header").slideDown();
-	$("#maincontent").css("top", "81px");
+	$("#maincontent").css("top", "46px");
 }
-
-
 
 
 /** Disables View tabs. This is best used for a new context. (must re-enable tab that will be starting point for new context) */
@@ -93,7 +107,62 @@ function resetLocalView()
 	$('#accordion #conclusionHeader').click();
 }
 
-/*
-function showBookmarks(){
-	$("#bookmarks").slideDown();
-}*/
+/** Settings Logic */
+function toggleSettings()
+{
+	var vis = $("#settings").css("visibility");
+	//alert(vis);
+	
+	if(vis == "hidden")
+		$("#settings").css("visibility", "visible");
+		//$("#bookmarks").slideDown();
+	else
+		$("#settings").css("visibility", "hidden");
+}
+
+/** Bookmark Logic */
+function toggleBookmarks()
+{
+	var vis = $("#bookmarks").css("visibility");
+	//alert(vis);
+	
+	if(vis == "hidden")
+		$("#bookmarks").css("visibility", "visible");
+		//$("#bookmarks").slideDown();
+	else
+		$("#bookmarks").css("visibility", "hidden");
+}
+
+$(document).ready(function()
+{
+	
+	$("#bookmarks").click(function(){
+		$("#bookmarks").css("visibility", "hidden");
+	});
+});
+
+
+/** URI Text Updates */
+function updateLookupButton()
+{
+	var uriVal = $("#uriName").val().length;
+	
+	//alert("change " + uriVal);
+	if( uriVal == 0)
+		$("#lookupButton").button("disable");
+	else	
+		$("#lookupButton").button("enable");
+}
+
+
+function uriOnFocus()
+{
+	if($("#uriName").val() == "-- Enter URI Here --")
+		$("#uriName").val("");
+}
+
+function uriOnBlur()
+{
+	if($("#uriName").val() == "")
+		$("#uriName").val("-- Enter URI Here --");
+}

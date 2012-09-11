@@ -1,6 +1,21 @@
 
-/** Holds Query results. */
+/** Holds current Query results. */
 var queryResult;
+
+
+/** Action listener for Answer Box click action */
+function answerSelectActivate()
+{
+	$(".answerConclusion").click( function()
+			{
+				var index = $(this).attr("value");//$(this).val();//this.attr("value");
+				
+				currentLocalURI = queryResult[index].uri;
+				
+				setupLocalView();
+				//setupProductView(index);
+			});
+}
 
 
 function getTestAnswers(uri)
@@ -42,13 +57,16 @@ function getTestAnswers(uri)
 			
 		});*/
 		
-		productSelectActivate();
+		answerSelectActivate();
+		//productSelectActivate();
 	});
 	
 }
 
 function getQuery()
 {
+	showMainTabs();
+	
 	//resetTabs(); Only bookmarks ressetting at the moment. Must reset when using the Lookup and LookAnswer buttons.
 	//resetLocalView();
 	$("#tabs").tabs('enable', 0);

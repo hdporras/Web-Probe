@@ -20,5 +20,8 @@
     <create creator="new" javascript="LocalViewExtractor">
       	<param name="class" value="pml.interfaces.localView.LocalViewExtractor"/>
     </create>
+    <create creator="new" javascript="PMLServices">
+      	<param name="class" value="pml.interfaces.PMLServices"/>
+    </create>
   </allow>
 </dwr>

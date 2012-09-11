@@ -18,7 +18,8 @@ body {
 	margin:0;
 	padding:0;
 	
-	font-size: 1.014em;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	//font-size: 1.1em;
 }
 
 pre{
@@ -66,12 +67,28 @@ a.nav:hover {
 	font-size: 0.7em;
 	font-weight: normal;
 	left: 0; right: 0;
-	top: 81px; bottom: 0;
+	top: 46px; bottom: 0;
 	
 	background-color: #666666;
 }
 
+#splash{
+	background-color: #EEEEEE;
+	border:1px solid #000000;
+	border-radius:0.7em;
+	
+	position: absolute;
+	left: 0px; right: 0px;
+	top: 0; bottom: 0;
+	
+	padding: 8px; 
+	
+	font-size: 1.3em;
+}
+
 #tabs{
+	visibility: hidden;
+	
 	position: absolute;
 	left: 0; right: 0;
 	top: 0; bottom: 0; 
@@ -97,9 +114,65 @@ a.nav:hover {
 	z-index:3;
 	height: 82px;
 	background-color: #251A11;
-	
-	
 }
+
+
+#bookmarks
+{
+	z-index:10;
+	position: absolute;
+	left:10px;
+	top: 35px;
+}
+
+#settings
+{
+	z-index:10;
+	position: absolute;
+	right:42px;
+	top: 35px;
+}
+
+.dropDown{
+	margin: 0;
+	padding: 4px;
+	background-color:#6E6D6C;
+	border-top: 2px solid #333333;
+	border-bottom: 2px solid white;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	
+	box-shadow: 1px 1px 6px #000000;
+	border-radius:  0em 0em 0.5em 0.5em;
+}
+.dropDown ul {
+	margin: 0;
+	padding: 0;
+}
+.dropDown li {
+	font: 13px Helvetica, Arial;
+	text-style:bold;
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 3px;
+}
+.dropDown ul li {
+	float: none;
+	display: block;
+}
+.dropDown ul li a {
+	width: auto;
+	background-color:#6E6D6C;
+	color:white;
+	padding: 2px;
+}
+.dropDown ul li a:hover {
+	background-color:#6E6D6C;
+	color: #24313C
+}
+
+
 
 #navigation {
 	display: block;

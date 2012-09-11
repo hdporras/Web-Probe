@@ -7,6 +7,14 @@
 	padding:6px;
 }
 
+.sectionBox{
+	background-color:#FFFFFF;
+	border:1px solid #000000;
+	box-shadow: 1px 1px 4px #000000;
+	border-radius:0.5em;
+	padding: 10px;
+}
+
 #question{
 	border:1px solid #000000;
 	box-shadow: 1px 1px 4px #000000;

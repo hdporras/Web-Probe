@@ -6,7 +6,7 @@ $(document).ready( function()
 	$('.engineRule').click( function(eventObject)
 		{
 			alert("Clicked!");
-			$(eventObject.target).children('.popup').fadeIn("slow");
+			//$(eventObject.target).children('.popup').fadeIn("slow");
 			$(".popup").css({"visibility": "visible"});
 			//var $popup = $(e.target).children('.popup').fadeIn("slow");;
 			//loadPopupBox($popup);

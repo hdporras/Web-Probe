@@ -1,5 +1,6 @@
 
 .popup {
+	background-color:white;
 	border: 1px solid #000000;
 	box-shadow: 1px 1px 4px #000000;
 	border-radius: 0.5em;
@@ -8,6 +9,8 @@
 	width: 400px;
 	
 	position: absolute;
+	top: 50px;
+	left: 50px;
 	display: none;
 	z-index: 50;
 	border-collapse: collapse;

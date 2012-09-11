@@ -6,6 +6,7 @@ $(document).ready(function(){
 	
 	//Query bookmarks
 	$("a.bookmark").click(function(event){
+		event.preventDefault();
 		
 		var uri = $(this).attr("href");
 		$("#uriName").val(uri);
@@ -14,21 +15,27 @@ $(document).ready(function(){
 		
 		getQuery();	
 		//alert(uri);
-		event.preventDefault();
+		
+		updateLookupButton();
    });
 	
 	//Answer Bookmarks
 	$("a.answerBookmark").click(function(event){
+		event.preventDefault();
 		
 		var uri = $(this).attr("href");
 		$("#uriName").val(uri);
 
 		resetTabs();
 		
-		getViskoVis();
-		//getQuery();	
-		//alert(uri);
-		event.preventDefault();
+		//getViskoVis();
+		setCurrentLocalURI(uri);
+		initLocalView();
+		setupLocalView();
+		//lookupURI();
+		
+		
+		updateLookupButton();
    });
 	
  });

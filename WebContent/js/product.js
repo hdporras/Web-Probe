@@ -1,31 +1,5 @@
 var currentProductURI;
 
-function productSelectActivate()
-{
-	$(".answerConclusion").click( function()
-			{
-				var index = $(this).attr("value");//$(this).val();//this.attr("value");
-				//alert("Index Val: "+index);
-				
-				currentProductURI = queryResult[index].uri;
-				//alert("URI: "+uri+"\n Conclusion: "+queryResult[index].conclusion);
-				//$("#uriName").val(uri);
-				//getViskoVis();
-				
-				setupProductView(index);
-			});
-	/*
-	$(".answerConclusion").hover(
-			  function () {
-				  $(this).css("cursor", "pointer");
-			  },
-			  function () {
-			    //$(this).removeClass("hover");
-			  }
-		);
-	*/
-}
-
 function setupProductView(index)
 {
 	resetTabs();
@@ -51,4 +25,28 @@ function clearProductTabs()
 	$("#tabsBottom").tabs("remove", 0);
 	$("#tabsBottom").tabs("remove", 0);
 	$("#tabsBottom").tabs("remove", 0);
+}
+
+
+function getViskoVis()
+{
+	var uri = $("#uriName").val();// get Value from URI Text Bar.
+	getViskoVis(uri);
+}
+
+
+function getViskoVis(uri)
+{
+	showMainTabs();
+	
+	$("#tabs").tabs('enable', 1);
+	$("#tabs").tabs("select",1);
+	//resetTabs();
+	
+	
+	currentProductURI = uri;
+	
+	clearProductTabs();
+
+	createViskoViewers(uri);
 }
