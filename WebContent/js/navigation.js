@@ -34,6 +34,9 @@ function getUrlVars() {
 /** Lookup URI Action */
 function lookupURI()
 {
+	//starts the loading screen;
+	startLoadingScreen(); 
+	
 	var uri = $("#uriName").val();
 	
 	PMLServices.isQuery(uri, function(isquery)
@@ -50,6 +53,8 @@ function lookupURI()
 			initLocalView();
 			setupLocalView();
 		}
+		
+		//endLoadingScreen();///move inside getQuery or setup local View.
 	});
 }
 
@@ -81,6 +86,7 @@ function unhideNav()
 }
 
 
+
 /** Disables View tabs. This is best used for a new context. (must re-enable tab that will be starting point for new context) */
 function resetTabs()
 {
@@ -107,6 +113,7 @@ function resetLocalView()
 	$('#accordion #conclusionHeader').click();
 }
 
+
 /** Settings Logic */
 function toggleSettings()
 {
@@ -119,6 +126,7 @@ function toggleSettings()
 	else
 		$("#settings").css("visibility", "hidden");
 }
+
 
 /** Bookmark Logic */
 function toggleBookmarks()
@@ -140,6 +148,7 @@ $(document).ready(function()
 		$("#bookmarks").css("visibility", "hidden");
 	});
 });
+
 
 
 /** URI Text Updates */
@@ -165,4 +174,25 @@ function uriOnBlur()
 {
 	if($("#uriName").val() == "")
 		$("#uriName").val("-- Enter URI Here --");
+}
+
+
+
+/** Loading Screens */
+function startLoadingScreen()
+{
+	 $.blockUI({ css: { 
+         border: 'none', 
+         padding: '15px', 
+         backgroundColor: '#000', 
+         '-webkit-border-radius': '10px', 
+         '-moz-border-radius': '10px', 
+         opacity: .5, 
+         color: '#fff' 
+     } }); 
+}
+
+function endLoadingScreen()
+{
+	$.unblockUI();
 }

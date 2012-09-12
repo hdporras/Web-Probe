@@ -16,6 +16,8 @@ function initLocalView()
 
 function setupLocalView()
 {
+	startLoadingScreen();
+	
 	
 	LocalViewExtractor.getLocalViewDetails(currentLocalURI, function(jsonResult)
 		{
@@ -117,11 +119,11 @@ function setupLocalView()
 					
 					var inferredNodeSetTitle = "";
 					if(inferredNodeSet.inferredNSCachedThumbURL != null && inferredNodeSet.inferredNSCachedThumbURL != "null")//Cached Thumbnail
-						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+inferredNodeSet.inferredNSCachedThumbURL+"\" /> </a> <br\> <b> with the help of:</b> </div>";
+						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+inferredNodeSet.inferredNSCachedThumbURL+"\" /> </a> </div> <br\> <b> with the help of:</b>";
 					else if(inferredNodeSet.inferredNSRawString != "hasURL?")//Embedded Raw String
-						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > "+inferredNodeSet.inferredNSRawString+" </a> <br\> <b> with the help of:</b> </div>";
+						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > "+inferredNodeSet.inferredNSRawString+" </a> </div> <br\> <b> with the help of:</b>";
 					else//External URL
-						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > "+inferredNodeSet.inferredNSConclusionURL+" </a> <br\> <b> with the help of:</b> </div>";
+						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > "+inferredNodeSet.inferredNSConclusionURL+" </a> </div> <br\> <b> with the help of:</b>";
 					
 					var siblingsHtml = "<div class=\"inferenceSiblings\"> <ol>";
 					
@@ -225,6 +227,8 @@ function setupLocalView()
 				$( "#accordion" ).accordion( "option", "active", 0 );
 			}
 			
+			
+			endLoadingScreen();
 			
 		});
 }

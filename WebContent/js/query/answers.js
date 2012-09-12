@@ -7,14 +7,15 @@ var queryResult;
 function answerSelectActivate()
 {
 	$(".answerConclusion").click( function()
-			{
-				var index = $(this).attr("value");//$(this).val();//this.attr("value");
-				
-				currentLocalURI = queryResult[index].uri;
-				
-				setupLocalView();
-				//setupProductView(index);
-			});
+	{
+		startLoadingScreen();
+		
+		var index = $(this).attr("value");//$(this).val();//this.attr("value");
+		currentLocalURI = queryResult[index].uri;
+		
+		setupLocalView();
+		//setupProductView(index);
+	});
 }
 
 
@@ -59,6 +60,8 @@ function getTestAnswers(uri)
 		
 		answerSelectActivate();
 		//productSelectActivate();
+		
+		endLoadingScreen();
 	});
 	
 }
