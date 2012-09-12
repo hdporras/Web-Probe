@@ -18,4 +18,16 @@ public class PMLServices
 			return false;
 		
 	}
+	
+	public static boolean isNode(String uri)
+	{
+		Loader loader = new Loader(false);
+		
+		if ( loader.isNode(uri) )
+		{
+			return true;
+		}
+		else
+			return false;
+	}
 }

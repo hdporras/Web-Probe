@@ -3,8 +3,8 @@
  */
 
 /** Mouse Click Listeners for anchors of type "bookmark"(Query) or "answerBookmark" */
-$(document).ready(function(){
-	
+$(document).ready(function()
+{
 	
 	//Query bookmarks
 	$("a.bookmark").click(function(event)

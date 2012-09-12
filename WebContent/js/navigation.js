@@ -39,22 +39,49 @@ function lookupURI()
 	
 	var uri = $("#uriName").val();
 	
-	PMLServices.isQuery(uri, function(isquery)
+	PMLServices.isQuery(uri, 
 	{
-		//alert(isquery);
-		//if( uri.indexOf("#answer") != -1 )
-		if( isquery )
+		callback: function(isquery)
 		{
-			getQuery();
-		}
-		else 
-		{
-			setCurrentLocalURI(uri);
-			initLocalView();
-			setupLocalView();
-		}
+			//check if PML Query
+			if( isquery )
+			{
+				getQuery();
+			}
+			else 
+			{
+				PMLServices.isNode(uri, 
+				{
+					callback: function(isnode)
+					{
+						//check if PML Node
+						if( isnode )
+						{
+							setCurrentLocalURI(uri);
+							initLocalView();
+							setupLocalView();
+						}
+						else
+						{//URI not correct.
+							alert("URI does not point to PML Node/Query. \n Ensure URI is formatted correctly and try again. ");
+							endLoadingScreen();
+						}
+					},
+
+					errorHandler: function(errorString, exception)
+					{
+						alert("Error Determining if URI is Node: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+						endLoadingScreen();
+					}
+				});
+			}
+		},
 		
-		//endLoadingScreen();///move inside getQuery or setup local View.
+		errorHandler: function(errorString, exception)
+		{
+			alert("Error Determining if URI is Query: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+		    endLoadingScreen();
+		}
 	});
 }
 
@@ -90,10 +117,6 @@ function unhideNav()
 /** Disables View tabs. This is best used for a new context. (must re-enable tab that will be starting point for new context) */
 function resetTabs()
 {
-	/*$("#tabs div").each(function(){
-		$(this).html("");
-	});*/
-	
 	
 	$("#tabs").tabs("option", "disabled", [0,1,2,3]);
 }
@@ -181,18 +204,34 @@ function uriOnBlur()
 /** Loading Screens */
 function startLoadingScreen()
 {
-	 $.blockUI({ css: { 
-         border: 'none', 
-         padding: '15px', 
-         backgroundColor: '#000', 
-         '-webkit-border-radius': '10px', 
-         '-moz-border-radius': '10px', 
-         opacity: .5, 
-         color: '#fff' 
-     } }); 
+	$.blockUI({ css: { 
+		message: 'Loading...', 
+		border: 'none', 
+		padding: '15px', 
+		backgroundColor: '#000', 
+		'-webkit-border-radius': '10px', 
+		'-moz-border-radius': '10px', 
+		opacity: .5, 
+		color: '#fff' 
+	} }); 
 }
 
 function endLoadingScreen()
 {
 	$.unblockUI();
+}
+
+
+/* Cancelling Load ?*/
+var cancelLoad = false;
+function cancelLoading()
+{
+	cancelLoad = true;
+	endLoadingScreen();
+}
+
+/** resets variables for handling the Loading Screen. */
+function resetForLoading()
+{
+	cancelLoad = false;
 }

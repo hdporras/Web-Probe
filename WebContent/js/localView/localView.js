@@ -12,6 +12,9 @@ function initLocalView()
 	$("#tabs").tabs("select",2);
 	resetTabs();
 	
+	//enable local view as well
+	$("#tabs").tabs('enable', 1);
+	
 }
 
 function setupLocalView()
@@ -19,7 +22,9 @@ function setupLocalView()
 	startLoadingScreen();
 	
 	
-	LocalViewExtractor.getLocalViewDetails(currentLocalURI, function(jsonResult)
+	LocalViewExtractor.getLocalViewDetails(currentLocalURI,
+	{
+		callback: function(jsonResult)
 		{
 		
 			//This javascript replaces all 3 types of line breaks with an html break
@@ -49,7 +54,8 @@ function setupLocalView()
 			else
 				isFinalConc = true;*/
 			
-			
+	//Build Product View
+			createViskoViewers(uri, conclusion.conclusionText)
 			
 		//Conclusion Section
 			
@@ -229,6 +235,13 @@ function setupLocalView()
 			
 			
 			endLoadingScreen();
-			
-		});
+		},
+		
+		
+		errorHandler: function(errorString, exception)
+		{
+			alert("Error getting Local View content: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+		    endLoadingScreen();
+		}
+	});
 }

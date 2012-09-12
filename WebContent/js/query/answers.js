@@ -22,46 +22,55 @@ function answerSelectActivate()
 function getTestAnswers(uri)
 {
 	//ArrayTest.getStringArray(objectEval($("p10").value), reply1);
-	PMLTests.getQueryAnswers(uri, function(data)
+	PMLTests.getQueryAnswers(uri, 
 	{
-		queryResult = eval("(" + data + ")");
-		//document.getElementById("answerResults").innerHTML = "In Callback Function ";
-		//document.getElementById("answerResults").innerHTML = "Array Length: "+ queryResult.length;
-
-		var answers = "<h2 class=\"ui-widget-header ui-corner-all\">Answers:</h2>"; 
-
-		for(var i=0; i<queryResult.length; i++)
+		callback: function(data)
 		{
-			var cachedThumbURI = getViskoThumbnail(queryResult[i].uri);
-			if(cachedThumbURI != null)
-			{
-				answers = answers+" <div class='answerBox'>" +
-						"<div class='answerConclusion' value='"+ i +"'><img src="+cachedThumbURI+" width=\"230px\" /></div>" +
-						"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
-						"</div>";
-			}
-			else
-			{
-				answers = answers+" <div class='answerBox'>" +
-						"<div class='answerConclusion' value='"+ i +"'>"+queryResult[i].conclusion+"</div>" +
-						"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
-						"</div>";
-			}
-		}
-		answers= answers+" ";
+			queryResult = eval("(" + data + ")");
+			//document.getElementById("answerResults").innerHTML = "In Callback Function ";
+			//document.getElementById("answerResults").innerHTML = "Array Length: "+ queryResult.length;
 		
-		document.getElementById("answerResults").innerHTML = answers;
-		//$(".answerBox").hide();
-		//document.getElementById("testing").innerHTML = answers;
-		/*
-		$(".answerBox").show( "clip", {}, 3000, function(){
+			var answers = "<h2 class=\"ui-widget-header ui-corner-all\">Answers:</h2>"; 
+		
+			for(var i=0; i<queryResult.length; i++)
+			{
+				var cachedThumbURI = getViskoThumbnail(queryResult[i].uri);
+				if(cachedThumbURI != null)
+				{
+					answers = answers+" <div class='answerBox'>" +
+							"<div class='answerConclusion' value='"+ i +"'><img src="+cachedThumbURI+" width=\"230px\" /></div>" +
+							"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
+							"</div>";
+				}
+				else
+				{
+					answers = answers+" <div class='answerBox'>" +
+							"<div class='answerConclusion' value='"+ i +"'>"+queryResult[i].conclusion+"</div>" +
+							"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
+							"</div>";
+				}
+			}
+			answers= answers+" ";
 			
-		});*/
+			document.getElementById("answerResults").innerHTML = answers;
+			//$(".answerBox").hide();
+			//document.getElementById("testing").innerHTML = answers;
+			/*
+			$(".answerBox").show( "clip", {}, 3000, function(){
+				
+			});*/
+			
+			answerSelectActivate();
+			//productSelectActivate();
+			
+			endLoadingScreen();
+		},
 		
-		answerSelectActivate();
-		//productSelectActivate();
-		
-		endLoadingScreen();
+		errorHandler: function(errorString, exception)
+		{
+			alert("Error getting Query Answers: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+		    endLoadingScreen();
+		}
 	});
 	
 }
@@ -93,10 +102,19 @@ function getQuery()
 
 function getQueryQuestion(uri)
 {
-	PMLQueryResults.getQueryContent(uri, function(data)
+	PMLQueryResults.getQueryContent(uri, 
 	{
-		var question = dwr.util.toDescriptiveString(data, 1);
-		$("#question").html("<h2 class=\"ui-widget-header ui-corner-all\">Question:</h2> <div class=\"questionText\"><pre>"+ question+"</pre>");
-		//document.getElementById("question").innerHTML = ;
+		callback: function(data)
+		{
+			var question = dwr.util.toDescriptiveString(data, 1);
+			$("#question").html("<h2 class=\"ui-widget-header ui-corner-all\">Question:</h2> <div class=\"questionText\"><pre>"+ question+"</pre>");
+			//document.getElementById("question").innerHTML = ;
+		},
+		
+		errorHandler: function(errorString, exception)
+		{
+			alert("Error getting Query Question: " + errorString + "\n Exception: " + exception);
+		    endLoadingScreen();
+		}
 	});
 }
