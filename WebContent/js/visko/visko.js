@@ -1,8 +1,12 @@
 
 
-function createViskoViewers(uri, conclusionText)
+function createProductViewers(uri, conclusionText)
 {
 	startLoadingProductScreen();
+	
+	//enable and reset Product view
+	$("#tabs").tabs('enable', 1);
+	clearProductTabs();
 	
 	var visualizations;
 	
@@ -73,8 +77,8 @@ function createViskoViewers(uri, conclusionText)
 				if(conclusionText != null)
 				{
 					$("#tabsBottom").tabs("add", "#tabs-1", "Text",1);
-					$("#tabs-"+i).attr("class", "tabsBottomFill");
-					$("#tabs-"+i).html("<div class=\"fill\"> <pre>"+conclusionText+"</pre> </div>"); //<pre> </pre>
+					$("#tabs-1").attr("class", "tabsBottomFill");
+					$("#tabs-1").html("<div class=\"fill\"> <pre>"+conclusionText+"</pre> </div>"); //<pre> </pre>
 				}
 				else
 				{

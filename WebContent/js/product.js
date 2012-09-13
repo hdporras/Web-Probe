@@ -25,6 +25,8 @@ function clearProductTabs()
 	$("#tabsBottom").tabs("remove", 0);
 	$("#tabsBottom").tabs("remove", 0);
 	$("#tabsBottom").tabs("remove", 0);
+	$("#tabsBottom").tabs("remove", 0);
+	$("#tabsBottom").tabs("remove", 0);
 }
 
 

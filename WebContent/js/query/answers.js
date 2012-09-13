@@ -13,6 +13,11 @@ function answerSelectActivate()
 		var index = $(this).attr("value");//$(this).val();//this.attr("value");
 		currentLocalURI = queryResult[index].uri;
 		
+		
+		//enable product view as well
+		$("#tabs").tabs('enable', 1);
+		clearProductTabs();
+		//then setup local view
 		setupLocalView();
 		//setupProductView(index);
 	});

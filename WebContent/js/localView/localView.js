@@ -10,11 +10,7 @@ function initLocalView()
 	showMainTabs();
 	$("#tabs").tabs('enable', 2);
 	$("#tabs").tabs("select",2);
-	resetTabs();
-	
-	//enable local view as well
-	$("#tabs").tabs('enable', 1);
-	
+	resetTabs();	
 }
 
 function setupLocalView()
@@ -54,8 +50,8 @@ function setupLocalView()
 			else
 				isFinalConc = true;*/
 			
-	//Build Product View
-			createViskoViewers(uri, conclusion.conclusionText)
+	//**Build Product View
+			createProductViewers(currentLocalURI, conclusion.conclusionText)
 			
 		//Conclusion Section
 			
