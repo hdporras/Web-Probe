@@ -1,4 +1,5 @@
 
+
 //Engine/Rule popup
 $(document).ready( function()
 {
@@ -26,3 +27,18 @@ $(document).ready( function()
 	}
 	
 });
+
+
+
+function createTooltip(event){          
+    $('<div class="tooltip">test</div>').appendTo('body');
+    positionTooltip(event);        
+};
+
+
+
+function positionTooltip(event){
+    var tPosX = event.pageX - 10;
+    var tPosY = event.pageY - 100;
+    $('div.tooltip').css({'position': 'absolute', 'top': tPosY, 'left': tPosX});
+};

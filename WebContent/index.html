@@ -29,8 +29,9 @@
 	<!-- Probe-it Javascript Includes -->
 	<script type="text/javascript" src="js/localView/localView.js"> </script>
 	<script type="text/javascript" src="js/query/answers.js"> </script>
-	<script type="text/javascript" src="js/bookmark.js"> </script>
-	<script type="text/javascript" src="js/navigation.js"> </script>
+	<script type="text/javascript" src="js/navigation/bookmark.js"> </script>
+	<script type="text/javascript" src="js/navigation/navigation.js"> </script>
+	<script type="text/javascript" src="js/navigation/menus.js"> </script>
 	<script type="text/javascript" src="js/product.js"> </script>
 	<script type="text/javascript" src="js/visko/visko.js"> </script>
 	<script type="text/javascript" src="js/localView/popup.js"> </script>
@@ -84,7 +85,7 @@
 
 		<!-- URI Bar -->
 		<div id="uriBar">
-				<button type="button" style="float: left;" title="Bookmarks" onclick="toggleBookmarks()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+				<button id="BookmarkButton" type="button" style="float: left;" title="Bookmarks" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 					<span class="ui-icon ui-icon-bookmark"></span>
 				</button>
 				
@@ -127,7 +128,7 @@
 				<button type="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
 					<span class="ui-icon ui-icon-arrowthickstop-1-n"></span>
 				</button>
-				<button type="button" onclick="toggleSettings()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
+				<button id="SettingsButton" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
 					<span class="ui-icon ui-icon-gear"></span>
 				</button>
 		</div>
