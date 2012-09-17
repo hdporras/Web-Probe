@@ -17,16 +17,13 @@ function setupProductView(index)
 
 function clearProductTabs()
 {
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
-	$("#tabsBottom").tabs("remove", 0);
+	var tab_count = $('#tabsBottom').tabs('length');
+	
+	var i;
+	for (i=0; i < tab_count; i++)
+	{
+	    $('#tabsBottom').tabs( "remove" , 0 );
+	}
 }
 
 

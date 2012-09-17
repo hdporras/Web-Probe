@@ -29,7 +29,7 @@ function createProductViewers(uri, conclusionText)
 							for(var i=0; i<viewers.length; i++)
 							{
 								//Image
-								if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/imageJ-viewer.owl#imageJ-viewer")
+								if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/imageJ-viewer.owl#imageJ-viewer" || viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/visko/imageJ-viewer1.owl#imageJ-viewer1")
 								{
 									visType = "Image";
 									$("#tabsBottom").tabs("add", "#tabs-"+i, "Image",1);
@@ -37,7 +37,7 @@ function createProductViewers(uri, conclusionText)
 									$("#tabs-"+i).html("<img src="+visualizations[i]+" />");
 								}
 								//PDF
-								else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/pdf-viewer.owl#pdf-viewer")
+								else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/pdf-viewer.owl#pdf-viewer" || viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/visko/pdf-viewer1.owl#pdf-viewer1")
 								{
 									visType = "PDF";
 									$("#tabsBottom").tabs("add", "#tabs-"+i, "PDF",0);
