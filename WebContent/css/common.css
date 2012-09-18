@@ -11,7 +11,7 @@ html{
 body {
 	//overflow:auto;
 	background: #fff;
-	min-width: 750px;
+	min-width: 650px;
 	
 	height: 100%;
 	
@@ -63,7 +63,7 @@ a.nav:hover {
 	//overflow: hidden;
 	position: absolute;
 	
-	min-width: 750px;
+	min-width: 650px;
 	font-size: 0.7em;
 	font-weight: normal;
 	left: 0; right: 0;
