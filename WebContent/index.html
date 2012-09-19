@@ -28,14 +28,17 @@
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLServices.js'></script>
 	
 	<!-- Probe-it Javascript Includes -->
-	<script type="text/javascript" src="js/localView/localView.js"> </script>
 	<script type="text/javascript" src="js/query/answers.js"> </script>
-	<script type="text/javascript" src="js/navigation/bookmark.js"> </script>
-	<script type="text/javascript" src="js/navigation/navigation.js"> </script>
-	<script type="text/javascript" src="js/navigation/menus.js"> </script>
 	<script type="text/javascript" src="js/product.js"> </script>
 	<script type="text/javascript" src="js/visko/visko.js"> </script>
+	<script type="text/javascript" src="js/localView/localView.js"> </script>
 	<script type="text/javascript" src="js/localView/popup.js"> </script>
+	<script type="text/javascript" src="js/navigation/navigation.js"> </script>
+	<script type="text/javascript" src="js/navigation/menus.js"> </script>
+	<script type="text/javascript" src="js/navigation/bookmark.js"> </script>
+	<script type="text/javascript" src="js/navigation/tips.js"> </script>
+	
+	
 	
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="css/views/product.css" />
@@ -175,11 +178,11 @@
 			<div class="sectionBox">
 				<h1 class="ui-widget-header ui-corner-all">Welcome to Web-Probe!</h1>
 				<p>
-					Web-Probe is a web application developed for browsing Proof Markup Language (PML) based provenance.
+					Web-Probe is a web application developed for browsing Provenance using Proof Markup Language (PML).
 				</p>
-				<p>To get started:</p>
+				<h2> Getting Started: </h2>
 				<ul>
-					<li>Provide a URI (to a PML file) in the search box above and select "Lookup". </li>
+					<li>Provide a URI to a PML Artifact in the search box above and select "Lookup". </li>
 					<li>Or view examples from the bookmarks. Accessed through the bookmark button:  
 						<button type="button" style="position:relative;top:8px;" title="Bookmarks" onclick="toggleBookmarks()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 							<span class="ui-icon ui-icon-bookmark"></span>
@@ -188,10 +191,21 @@
 				</ul>
 				
 				<p>
-					For additional options click on the settings button:
+					For additional information and options click on the options button:
 					<button type="button" style="position:relative;top:8px;" onclick="toggleSettings()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
 						<span class="ui-icon ui-icon-gear"></span>
 					</button> 
+				</p>
+				
+				<h2> Tooltips </h2>
+				
+				<p>
+					For first time users, we recommend enabling the tutorial tooltips:
+					
+					<button id="tooltipToggle" type="button" style="position:relative;top:8px;" onclick="toggleTooltips();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
+						<span class="ui-icon ui-icon-comment"></span>
+					</button>
+					
 				</p>
 				
 			</div>
@@ -200,7 +214,7 @@
 
 			<ul>
 				<li><a href="#resultV">Q&amp;A View</a></li>
-				<li><a href="#productV">Product View</a></li>
+				<li><a href="#productV" id="ProductTabButton">Product View</a></li>
 				<li><a href="#localV">Local Justification View</a></li>
 				<li><a href="#globalV">Global Justification View</a></li><!--<li><a href="d3js/examples/force/force.html" rel="#globalV">Global Justification View</a></li> -->
 			</ul>

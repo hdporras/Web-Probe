@@ -1,3 +1,151 @@
+var tooltipsEnabled = false;
+
+
+function toggleTooltips()
+{
+	var ttText = "";
+	var ttTitle = "";
+	
+	if(!tooltipsEnabled)
+	{
+		tooltipsEnabled = true;
+		
+		ttText = 'Tooltips Enabled! You can now Follow instructions above to navigate provenance. '
+			+'The Tooltips will help point out features as you go along.';
+		ttTitle = 'Tips Enabled';
+	}
+	else
+	{
+		tooltipsEnabled = false;
+		
+		ttText = 'Tooltips have beend Disabled.';
+		ttTitle	= 'Tips Disabled';
+	}
+	
+	$("#tooltipToggle")
+		.removeData('qtip')
+		.qtip({
+			content: {
+				text: ttText,
+				title: {
+					text: ttTitle,
+					button: true
+				}
+			},
+			position: {
+				my: 'left center', // Use the corner...
+				at: 'right center' // ...and opposite corner
+			},
+			show: {
+				event: false, // Don't specify a show event...
+				ready: true // ... but show the tooltip when ready
+			},
+			hide: false,
+			style: {
+				classes: 'ui-tooltip-shadow ui-tooltip-' + 'tipped'
+			}
+	});
+}
+
+
+function createQAtips()
+{
+	if(tooltipsEnabled)
+	{
+		$(".answerConclusion").first()
+			.qtip({
+				content: {
+					text: 'Click the Conclusion Box of your choice to browse its provenance information',
+					title: {
+						text: 'Tip',
+						button: true
+					}
+				},
+				position: {
+					my: 'bottom left', // Use the corner...
+					at: 'top center' // ...and opposite corner
+				},
+				show: {
+					event: false, // Don't specify a show event...
+					ready: true // ... but show the tooltip when ready
+				},
+				hide: {
+					target: $("div"),
+					event: 'click'
+				},
+				style: {
+					classes: 'ui-tooltip-shadow ui-tooltip-' + 'tipped'
+				}
+		});
+	}
+}
+
+
+
+
+function createProductTips()
+{
+	if(tooltipsEnabled)
+	{
+		$(".answerConclusion")
+			.qtip({
+				content: {
+					text: 'Click the Conclusion Box of your choice to browse its provenance information',
+					title: {
+						text: 'Tip',
+						button: true
+					}
+				},
+				position: {
+					my: 'bottom center', // Use the corner...
+					at: 'top center' // ...and opposite corner
+				},
+				show: {
+					event: false, // Don't specify a show event...
+					ready: true // ... but show the tooltip when ready
+				},
+				hide: false, // Don't specify a hide event either!
+				style: {
+					classes: 'ui-tooltip-shadow ui-tooltip-' + 'jtools'
+				}
+		});
+	}
+}
+
+
+function createLocalViewTips()
+{
+	if(tooltipsEnabled)
+	{
+		$("#ProductTabButton")
+			.qtip({
+				content: {
+					text: 'The Product View will be updated with the current conclusion. Go to the Product View to view more detailed Visualizations of the Conclusion.',
+					title: {
+						text: 'Tip',
+						button: true
+					}
+				},
+				position: {
+					my: 'top left', // Use the corner...
+					at: 'bottom center' // ...and opposite corner
+				},
+				show: {
+					event: false, // Don't specify a show event...
+					ready: true // ... but show the tooltip when ready
+				},
+				hide: {
+					target: $("div"),//target: $("#ProductTabButton"),
+					event: 'click'
+				},
+				style: {
+					classes: 'ui-tooltip-shadow ui-tooltip-' + 'tipped'
+				}
+		});
+	}
+}
+
+/*
 var at = [
 		'bottom left', 'bottom right', 'bottom center',
 		'top left', 'top right', 'top center',
@@ -21,7 +169,7 @@ $('.structure')
 			 * 
 			 * Check here for more details on this: http://craigsworks.com/projects/qtip2/tutorials/advanced/#multi
 			 */
-			.removeData('qtip') 
+/*			.removeData('qtip') 
 			.qtip({
 				content: {
 					text: 'At its ' + at[i], 
@@ -42,4 +190,4 @@ $('.structure')
 				style: {
 					classes: 'ui-tooltip-shadow ui-tooltip-' + styles[i]
 				}
-			});
+			});*/

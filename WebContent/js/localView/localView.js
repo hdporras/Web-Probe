@@ -231,6 +231,7 @@ function setupLocalView()
 			
 			
 			endLoadingScreen();
+			createLocalViewTips();
 		},
 		
 		

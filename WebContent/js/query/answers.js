@@ -69,6 +69,7 @@ function getTestAnswers(uri)
 			//productSelectActivate();
 			
 			endLoadingScreen();
+			createQAtips();
 		},
 		
 		errorHandler: function(errorString, exception)
