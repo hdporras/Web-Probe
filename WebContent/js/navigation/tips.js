@@ -135,7 +135,7 @@ function createLocalViewTips()
 					ready: true // ... but show the tooltip when ready
 				},
 				hide: {
-					target: $("div"),//target: $("#ProductTabButton"),
+					target: $("div, #ProductTabButton"),//target: $("#ProductTabButton"),
 					event: 'click'
 				},
 				style: {
