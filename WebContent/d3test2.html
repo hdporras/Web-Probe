@@ -1,0 +1,53 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+</head>
+<body>
+	<button type="button" onclick="random()">Randomize</button>
+    
+    <div id="viz">
+    	
+    </div>
+    
+    
+    
+    <circle cx="180" cy="45" r="12"></circle>
+    
+    <script type="text/javascript">
+
+    var sampleSVG = d3.select("#viz")
+        .append("svg")
+        .attr("width", 1000)
+        .attr("height", 1000);    
+
+    sampleSVG.append("circle")
+        .style("stroke", "gray")
+        .style("fill", "white")
+        .attr("r", 40)
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+        .on("mouseout", function(){d3.select(this).style("fill", "white");});
+    
+    
+    sampleSVG.append("circle")
+    .style("stroke", "gray")
+    .style("fill", "white")
+    .attr("r", 40)
+    .attr("cx", 500)
+    .attr("cy", 500)
+    .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+    .on("mouseout", function(){d3.select(this).style("fill", "white");});
+    
+    
+    function random()
+    {
+    	var circle = d3.selectAll("circle");
+    	circle.attr("cx", function() {
+    		  return Math.random() * w;
+    		});
+    }
+    
+    </script>
+</body>
+</html>
