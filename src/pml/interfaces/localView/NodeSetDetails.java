@@ -129,5 +129,9 @@ public class NodeSetDetails
 		
 	}
 	
+	public IWNodeSetOccur getIWNS()
+	{
+		return ns;
+	}
 	
 }

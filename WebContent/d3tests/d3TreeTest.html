@@ -68,7 +68,7 @@
 		<script type="text/javascript">
 			
 
-			var m = [ 20, 60, 20, 60 ], 
+			var m = [ 20, 100, 20, 100 ], 
 				w = 1280 - m[1] - m[3], 
 				h = 800 - m[0] - m[2], 
 				i = 0, 
@@ -116,7 +116,7 @@
 
 				// Normalize for fixed-depth.
 				nodes.forEach(function(d) {
-					d.y = d.depth * 120;
+					d.y = d.depth * 300;
 				});
 
 				// Update the nodes…
@@ -136,18 +136,20 @@
 					update(d);
 				});
 
-				nodeEnter.append("svg:circle").attr("r", 1e-3).style("fill",
-						function(d) {
+				nodeEnter.append("svg:circle").attr("r", 1e-1)
+					.style("fill", function(d) {
 							return d._children ? "lightsteelblue" : "#fff";
 						});
 
 				nodeEnter.append("svg:text").attr("x", function(d) {
 					return d.children || d._children ? -10 : 10;
-				}).attr("dy", ".35em").attr("text-anchor", function(d) {
+				})
+					.attr("dy", ".35em")
+					.attr("text-anchor", function(d) {
 					return d.children || d._children ? "end" : "start";
 				}).text(function(d) {
 					return d.name;
-				}).style("fill-opacity", 1e-6);
+				}).style("fill-opacity", 1e-3);
 
 				// Transition nodes to their new position.
 				var nodeUpdate = node.transition().duration(duration).attr(
@@ -155,7 +157,7 @@
 							return "translate(" + d.y + "," + d.x + ")";
 						});
 
-				nodeUpdate.select("circle").attr("r", 4.5).style("fill",
+				nodeUpdate.select("circle").attr("r", 40).style("fill",
 						function(d) {
 							return d._children ? "lightsteelblue" : "#fff";
 						});
