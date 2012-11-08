@@ -1,7 +1,21 @@
 <html>
 <head>
     <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    <script type="text/javascript" src="js/jquery.js"> </script>
+
+    <script type="text/javascript"> 
+	    function random()
+	    {
+	    	var width = $('#viz').width();
+	    	var circle = d3.selectAll("circle");
+	    	circle.attr("cx", function() {
+	    		  return Math.random() * width;
+	    		});
+	    }
+    </script>
+    
 </head>
+
 <body>
 	<button type="button" onclick="random()">Randomize</button>
     
@@ -40,13 +54,7 @@
     .on("mouseout", function(){d3.select(this).style("fill", "white");});
     
     
-    function random()
-    {
-    	var circle = d3.selectAll("circle");
-    	circle.attr("cx", function() {
-    		  return Math.random() * w;
-    		});
-    }
+    
     
     </script>
 </body>
