@@ -32,14 +32,14 @@ public class WebProbeInferenceStep
 	String declarativeRule;
 	String decRuleURI;
 	String[] antecedentRawStrings;
-	String[] antecedentURIs;
+	public String[] antecedentURIs;
 	String[] antecedentCachedThumbURL;
 	String[] antecedentConclusionURL;
 	String metadata;
 	String[] assertions;
 	String[] assertionSources;
 
-
+	
 	/** Converts the object into a JSON String representation of the object. */
 	public String convertToJSON()
 	{

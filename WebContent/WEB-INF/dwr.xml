@@ -23,5 +23,8 @@
     <create creator="new" javascript="PMLServices">
       	<param name="class" value="pml.interfaces.PMLServices"/>
     </create>
+    <create creator="new" javascript="JustificationTreeBuilder">
+      	<param name="class" value="pml.interfaces.global.JustificationTreeBuilder"/>
+    </create>
   </allow>
 </dwr>
