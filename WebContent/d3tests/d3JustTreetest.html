@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>d3 Tree</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/d3tests.css" />
+		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"> </script>
+		<script type="text/javascript" src="../js/globalView/globalView.js"> </script>
+		<script type='text/javascript' src='/Web-Probe/dwr/engine.js'></script>
+  		<script type='text/javascript' src='/Web-Probe/dwr/interface/JustificationTreeBuilder.js'></script>
+		
+		<style type="text/css">
+			
+			.node circle {
+			  cursor: pointer;
+			  fill: #fff;
+			  stroke: steelblue;
+			  stroke-width: 1.5px;
+			}
+			
+			.node text {
+				font-size: 11px;
+			}
+			
+			path.link {
+			  fill: none;
+			  stroke: #ccc;
+			  stroke-width: 1.5px;
+			}
+			
+    	</style>
+		
+	</head>
+	
+	
+	<body>
+		
+		<input class='ibutton' type='button' onclick='getTree("http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer\")' value='Execute' />
+		
+		
+		<div id="container">
+		
+		</div>
+				
+
+	</body>
+</html>
