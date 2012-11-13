@@ -13,7 +13,7 @@ function getTree(URI)
 				
 				errorHandler: function(errorString, exception)
 				{
-					alert("Error getting Tree content: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+					alert("Error getting Tree content: " + errorString); //+ "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
 				    
 				}
 			});

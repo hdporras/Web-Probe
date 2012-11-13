@@ -3,6 +3,7 @@ package pml.interfaces.global;
 import java.util.ArrayList;
 
 import pml.interfaces.WPJustificationPMLNode;
+import util.JSONUtils;
 
 public class WPGlobalJustificationTreeNode
 {
@@ -24,25 +25,33 @@ public class WPGlobalJustificationTreeNode
 		children = new ArrayList<WPGlobalJustificationTreeNode>();
 	}
 	
-	
+
 	/** Converts the object into a JSON String representation of the object. */
 	public String convertToJSON()
 	{
-		String json = " \"PMLnode\" : " + PMLnode.convertToJSON() + ", "; 
-		
-		//Inference Steps
-		String jsonArray = "[ ";
+		String json = " \"PMLnode\" : " + PMLnode.convertToJSON(); 
 
-		int i;
-		for(i=0; i < children.size() -1 ; i++)
+		if(children != null && children.size() > 0)
 		{
-			jsonArray += children.get(i).convertToJSON() +", ";
+
+			//Inference Steps
+			String jsonArray = "[ ";
+
+			int i;
+			for(i=0; i < children.size() -1 ; i++)
+			{
+				jsonArray += children.get(i).convertToJSON() +", ";
+			}
+			//insert last element and close the array.
+			jsonArray += children.get(i).convertToJSON() +" ]";
+
+
+			json += ", \"children\" : "+ jsonArray;
+
 		}
-		//insert last element and close the array.
-		jsonArray += children.get(i).convertToJSON() +" ]";
-		
-		
-		json += " \"children\" : "+ jsonArray;
+		else 
+			json += ", \"children\" : null";//+", ";
+
 
 		return "{ "+ json +" }";
 	}

@@ -4,6 +4,7 @@ import org.inference_web.iw.pml.pmlj.IWNodeSetOccur;
 import org.inference_web.iw.pml.util.IWPMLObjectManager;
 
 import pml.interfaces.WPJustificationPMLNode;
+import pml.interfaces.global.WPGlobalJustificationTreeNode;
 import pml.interfaces.localView.NodeSetDetails;
 
 public class WPJustificationTree
@@ -24,7 +25,7 @@ public class WPJustificationTree
 		PMLNode node = factory.loadJustification(URI, null);*/
 		
 		WPJustificationPMLNode justRootNode = createJustificationPMLNode(URI);
-		buildTree(justRootNode);
+		root = buildTree(justRootNode);
 	}
 	
 	/** Returns the created WPJustificationPMLNode from the given URI. It does this by building an IWNodeSetOccur from the URI and */
