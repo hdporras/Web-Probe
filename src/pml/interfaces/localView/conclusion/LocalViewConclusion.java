@@ -8,6 +8,7 @@ import util.JSONUtils;
 
 public class LocalViewConclusion
 {
+	String concURI;
 	String concText;
 	String thumbURL;
 	
@@ -18,6 +19,7 @@ public class LocalViewConclusion
 		
 		try
 		{
+			concURI = URI;
 			thumbURL = VisualizationCacheAccess.getCachedThumbnail(URI);
 			if (thumbURL != null)//if cached thumbnail..
 			{
@@ -42,8 +44,8 @@ public class LocalViewConclusion
 		String conclusionText = JSONUtils.toValidJSONString(concText);
 		
 		if(thumbURL !=null)
-			return "{ \"conclusionText\" : \""+ conclusionText +"\" , \"thumbURL\" : \""+ thumbURL +"\" }";
+			return "{ \"conclusionText\" : \""+ conclusionText +"\" , \"thumbURL\" : \""+ thumbURL +"\"  , \"concURI\" : \""+ concURI +"\" }";
 		else
-			return "{ \"conclusionText\" : \""+ conclusionText +"\" , \"thumbURL\" : null }";
+			return "{ \"conclusionText\" : \""+ conclusionText +"\" , \"thumbURL\" : null , \"concURI\" : \""+ concURI +"\" }";
 	}
 }

@@ -5,23 +5,34 @@ function getTree(URI)
 	
 	JustificationTreeBuilder.getJustificationTree(URI,
 			{
-				callback: function(jsonResult)
+				callback: function(jsonTree)
 				{
-					alert("JSON TREE: \n"+jsonResult);
+					alert("JSON TREE: \n"+jsonTree);
+					/*
+					var infSteps = jsonTree.PMLnode.inferenceSteps;
+					
+					if(infSteps !=null && infSteps.length > 0)
+					{
+						infSteps[0]...
+					}
+					*/
+					
+					drawTree(jsonTree);
 				},
 				
 				
 				errorHandler: function(errorString, exception)
 				{
-					alert("Error getting Tree content: " + errorString); //+ "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+					alert("Error getting Tree content: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
 				    
 				}
 			});
+	
 }
 
 
 
-function drawTree()
+function drawTree(jsonTree)
 {
 	var m = [ 20, 100, 20, 100 ], 
 	w = 1280 - m[1] - m[3], 
@@ -44,7 +55,7 @@ function drawTree()
 	.append("svg:g")
 	.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-	root = treeData;
+	root = jsonTree;
 	root.x0 = h / 2;
 	root.y0 = 0;
 
@@ -57,8 +68,8 @@ function drawTree()
 	}
 
 	// Initialize the display to show a few nodes.
-	root.children.forEach(toggleAll);
-	toggle(root.children[0]);
+	//root.children.forEach(toggleAll);
+	//toggle(root.children[0]);
 
 	update(root);
 
@@ -67,7 +78,7 @@ function drawTree()
 		var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
 		// Compute the new tree layout.
-		var nodes = tree.nodes(root).reverse();
+		var nodes = tree.nodes(root);//.reverse();
 
 		// Normalize for fixed-depth.
 		nodes.forEach(function(d) {
@@ -103,7 +114,7 @@ function drawTree()
 		.attr("text-anchor", function(d) {
 			return d.children || d._children ? "end" : "start";
 		}).text(function(d) {
-			return d.name;
+			return d.PMLnode.conclusion.conclusionText;
 		}).style("fill-opacity", 1e-3);
 
 		// Transition nodes to their new position.

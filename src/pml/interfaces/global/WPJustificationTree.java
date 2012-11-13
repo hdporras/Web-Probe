@@ -3,9 +3,8 @@ package pml.interfaces.global;
 import org.inference_web.iw.pml.pmlj.IWNodeSetOccur;
 import org.inference_web.iw.pml.util.IWPMLObjectManager;
 
-import pml.interfaces.WPJustificationPMLNode;
+import pml.interfaces.WPGlobalJustificationPMLNode;
 import pml.interfaces.global.WPGlobalJustificationTreeNode;
-import pml.interfaces.localView.NodeSetDetails;
 
 public class WPJustificationTree
 {
@@ -24,24 +23,24 @@ public class WPJustificationTree
 		/*Loader factory = new Loader(false);
 		PMLNode node = factory.loadJustification(URI, null);*/
 		
-		WPJustificationPMLNode justRootNode = createJustificationPMLNode(URI);
+		WPGlobalJustificationPMLNode justRootNode = createJustificationPMLNode(URI);
 		root = buildTree(justRootNode);
 	}
 	
 	/** Returns the created WPJustificationPMLNode from the given URI. It does this by building an IWNodeSetOccur from the URI and */
-	public WPJustificationPMLNode createJustificationPMLNode(String URI)
+	public WPGlobalJustificationPMLNode createJustificationPMLNode(String URI)
 	{
 		//NodeSetDetails nsDetails = new NodeSetDetails(); 
 		//nsDetails.setupNodeSet(URI);
 		//IWNodeSetOccur ns = nsDetails.getIWNS();
 		
 		IWNodeSetOccur ns = IWPMLObjectManager.loadNodeSetOccurrence(URI, 2);
-		WPJustificationPMLNode justNode = new WPJustificationPMLNode(ns);
+		WPGlobalJustificationPMLNode justNode = new WPGlobalJustificationPMLNode(ns, URI);
 		return justNode;
 	}
 	
 	/** Builds the PML Tree and Returns the root of the Tree. */
-	public WPGlobalJustificationTreeNode buildTree(WPJustificationPMLNode justRoot)
+	public WPGlobalJustificationTreeNode buildTree(WPGlobalJustificationPMLNode justRoot)
 	{		
 		if(justRoot != null)
 		{
@@ -53,7 +52,7 @@ public class WPJustificationTree
 			{
 				for(int i=0; i < antecedentURIs.length; i++)
 				{
-					WPJustificationPMLNode antecedentPMLNode = createJustificationPMLNode( antecedentURIs[i] );
+					WPGlobalJustificationPMLNode antecedentPMLNode = createJustificationPMLNode( antecedentURIs[i] );
 					//WPGlobalJustificationTreeNode antecedentTreeNode = new WPGlobalJustificationTreeNode(antecedentPMLNode);
 					WPGlobalJustificationTreeNode antecedentTreeNode = buildTree(antecedentPMLNode);
 					parentNode.children.add(antecedentTreeNode);
