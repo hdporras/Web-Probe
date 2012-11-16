@@ -9,10 +9,11 @@
 		<script type="text/javascript" src="../js/globalView/globalView.js"> </script>
 		<script type='text/javascript' src='/Web-Probe/dwr/engine.js'></script>
   		<script type='text/javascript' src='/Web-Probe/dwr/interface/JustificationTreeBuilder.js'></script>
+		<script type="text/javascript" src="../js/json_sans_eval.js"> </script>
 		
 		<style type="text/css">
 			
-			.node circle {
+			.node rect {
 			  cursor: pointer;
 			  fill: #fff;
 			  stroke: steelblue;
@@ -30,14 +31,127 @@
 			}
 			
     	</style>
+    	
+    	
+    	<script type="text/javascript">
+		var testTreeData = {
+				 "name": "flare",
+				 "children": [
+				  {
+				   "name": "analytics",
+				   "children": [
+				    {
+				     "name": "cluster",
+				     "children": [
+				      {"name": "AgglomerativeCluster", "size": 3938},
+				      {"name": "CommunityStructure", "size": 3812},
+				      {"name": "MergeEdge", "size": 743}
+				     ]
+				    },
+				    {
+				     "name": "graph",
+				     "children": [
+				      {"name": "BetweennessCentrality", "size": 3534},
+				      {"name": "LinkDistance", "size": 5731}
+				     ]
+				    }
+				   ]
+				  }
+				 ]
+				}
+		</script>
+    	
+    	
+    	<script type="text/javascript">
+    	
+    var treeData = {
+    "PMLnode": {
+        "conclusion": {
+            "conclusionText": "Thumbnail Used Instead",
+            "thumbURL": "http://iw.cs.utep.edu:80/VisCacheAccess/cached/285_thumb.png",
+            "concURI": "http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer"
+        },
+        "inferenceSteps": [
+            {
+                "infEngine": "null",
+                "infEngURI": "null",
+                "declRule": "null",
+                "declRuleURI": "null",
+                "antecedents": [
+                    {
+                        "antecedentRawString": "Image Used Instead",
+                        "antecedentURI": "http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/esriGrid.txt_09509250903594285.owl#answer",
+                        "antecedentCachedThumbURL": "http://iw.cs.utep.edu:80/VisCacheAccess/cached/314_thumb.png",
+                        "antecedentConclusionURL": "Image Used Instead"
+                    }
+                ]
+            }
+        ]
+    },
+    "children": [
+        {
+            "PMLnode": {
+                "conclusion": {
+                    "conclusionText": "Thumbnail Used Instead",
+                    "thumbURL": "http://iw.cs.utep.edu:80/VisCacheAccess/cached/314_thumb.png",
+                    "concURI": "http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/esriGrid.txt_09509250903594285.owl#answer"
+                },
+                "inferenceSteps": [
+                    {
+                        "infEngine": "null",
+                        "infEngURI": "null",
+                        "declRule": "null",
+                        "declRuleURI": "null",
+                        "antecedents": [
+                            {
+                                "antecedentRawString": "Image Used Instead",
+                                "antecedentURI": "http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityDataset.txt_08475589929900726.owl#answer",
+                                "antecedentCachedThumbURL": "http://iw.cs.utep.edu:80/VisCacheAccess/cached/287_thumb.png",
+                                "antecedentConclusionURL": "Image Used Instead"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "PMLnode": {
+                        "conclusion": {
+                            "conclusionText": "Thumbnail Used Instead",
+                            "thumbURL": "http://iw.cs.utep.edu:80/VisCacheAccess/cached/287_thumb.png",
+                            "concURI": "http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityDataset.txt_08475589929900726.owl#answer"
+                        },
+                        "inferenceSteps": [
+                            {
+                                "infEngine": "null",
+                                "infEngURI": "null",
+                                "declRule": "Direct assertion",
+                                "declRuleURI": "http://inference-web.org/registry/DPR/Told.owl#Told",
+                                "antecedents": null
+                            }
+                        ]
+                    },
+                    "children": null
+                }
+            ]
+        }
+    ]
+}
+    	
+    	</script>
 		
 	</head>
 	
 	
 	<body>
 		
-		<input class='ibutton' type='button' onclick='getTree("http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer")' value='Execute' />
+		<input type="text" id="uriName" name="uri" class="textbox" value="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer"  />
 		
+		<input class='ibutton' type='button' onclick='var uri = $("#uriName").val(); getTree(uri)' value='GetJSONTree and Display' />
+		
+		<input class='ibutton' type='button' onclick='drawTree(treeData)' value='Display HardCoded Tree' />
+		
+		<input class='ibutton' type='button' onclick='drawTree(testTreeData)' value='Display nonPML Test Tree' />
 		
 		<div id="container">
 		

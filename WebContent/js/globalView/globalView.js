@@ -5,9 +5,9 @@ function getTree(URI)
 	
 	JustificationTreeBuilder.getJustificationTree(URI,
 			{
-				callback: function(jsonTree)
+				callback: function(jsonResult)
 				{
-					alert("JSON TREE: \n"+jsonTree);
+					alert("JSON TREE: \n"+jsonResult);
 					/*
 					var infSteps = jsonTree.PMLnode.inferenceSteps;
 					
@@ -17,13 +17,19 @@ function getTree(URI)
 					}
 					*/
 					
+					//This javascript replaces all 3 types of line breaks with an html break
+					jsonResult = jsonResult.replace(/(\r\n|\n|\r)/gm," <br/> ");
+					
+					var jsonTree = jsonParse(jsonResult);
+					
+					
 					drawTree(jsonTree);
 				},
 				
 				
 				errorHandler: function(errorString, exception)
 				{
-					alert("Error getting Tree content: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
+					alert("Error getting Tree content: " + errorString );//+ "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
 				    
 				}
 			});
@@ -34,7 +40,7 @@ function getTree(URI)
 
 function drawTree(jsonTree)
 {
-	var m = [ 20, 100, 20, 100 ], 
+	var m = [ 40, 100, 40, 100 ], 
 	w = 1280 - m[1] - m[3], 
 	h = 800 - m[0] - m[2], 
 	i = 0, 
@@ -102,19 +108,49 @@ function drawTree(jsonTree)
 			update(d);
 		});
 
-		nodeEnter.append("svg:circle").attr("r", 1e-1)
+		//Rect
+		nodeEnter.append("svg:rect")
+		.attr("width", 250)
+		.attr("height", 100)
 		.style("fill", function(d) {
 			return d._children ? "lightsteelblue" : "#fff";
-		});
+		})
+		.attr("x", -125)
+		.attr("y", -50);
 
+		  
+		//Add image to node, if available
+		nodeEnter.append("svg:image")
+		//.append("svg:image")
+		.attr("xlink:href", function(d) 
+		{
+			if(d.PMLnode.conclusion.thumbURL != null)
+				return d.PMLnode.conclusion.thumbURL;
+			else
+				return "../../images/No_sign.svg.png";
+		})
+		.attr("width", 225)
+		.attr("height", 75)
+		.attr("x", -113)
+		.attr("y", -38);
+		//.attr("cx", 40)
+		//.attr("cy", 40);
+
+		//Add text to node if available
 		nodeEnter.append("svg:text").attr("x", function(d) {
-			return d.children || d._children ? -10 : 10;
+			return d.children || d._children ? 125 : 125;//125 : -125;
 		})
 		.attr("dy", ".35em")
 		.attr("text-anchor", function(d) {
-			return d.children || d._children ? "end" : "start";
+			return d.children || d._children ? "start" : "start";//"start" : "end";
 		}).text(function(d) {
-			return d.PMLnode.conclusion.conclusionText;
+			
+			if(d.PMLnode.inferenceSteps != null)
+			{
+				return "Engine: "+d.PMLnode.inferenceSteps[0].infEngine+" <br> Rule: "+d.PMLnode.inferenceSteps[0].declRule;
+			}
+			
+			return "Inference Step Information not found";
 		}).style("fill-opacity", 1e-3);
 
 		// Transition nodes to their new position.
@@ -123,10 +159,13 @@ function drawTree(jsonTree)
 					return "translate(" + d.y + "," + d.x + ")";
 				});
 
-		nodeUpdate.select("circle").attr("r", 40).style("fill",
-				function(d) {
-			return d._children ? "lightsteelblue" : "#fff";
-		});
+		nodeUpdate.select("rect")
+			.attr("width", 250)
+			.attr("height", 100)
+			.style("fill", function(d) 
+			{
+				return d._children ? "lightsteelblue" : "#fff";
+			});
 
 		nodeUpdate.select("text").style("fill-opacity", 1);
 
@@ -139,7 +178,9 @@ function drawTree(jsonTree)
 					+ source.x + ")";
 				}).remove();
 
-		nodeExit.select("circle").attr("r", 1e-6);
+		nodeExit.select("rect").attr("width", 1e-6).attr("height", 1e-6);
+		
+		nodeExit.select("image").attr("width", 1e-6).attr("height", 1e-6);
 
 		nodeExit.select("text").style("fill-opacity", 1e-6);
 
