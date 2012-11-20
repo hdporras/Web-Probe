@@ -40,14 +40,14 @@ function getTree(URI)
 
 function drawTree(jsonTree)
 {
-	var m = [ 40, 100, 40, 100 ], 
-	w = 1280 - m[1] - m[3], 
-	h = 800 - m[0] - m[2], 
+	//var m = [ 40, 100, 40, 100 ], 
+	var w = 4000, // - m[1] - m[3], 
+	h = 4000, // - m[0] - m[2], 
 	i = 0, 
 	root;
 
 
-	var tree = d3.layout.tree().size([ h, w ]);
+	var tree = d3.layout.tree();//.size([ h, w ]);
 
 	var diagonal = d3.svg.diagonal().projection(function(d) {
 		return [ d.y, d.x ];
@@ -55,12 +55,39 @@ function drawTree(jsonTree)
 
 
 	var vis = d3.select("#container")
-	.append("svg:svg")
-	.attr("width", w + m[1] + m[3])
-	.attr("height", h + m[0] + m[2])
-	.append("svg:g")
-	.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+		.append("svg:svg")
+			.attr("width", w )//+ m[1] + m[3])
+			.attr("height", h )//+ m[0] + m[2])
+			.attr('fill', 'gray')
+			.attr('fill-opacity', 0.8)
+		//zoom and pan
+		.append("svg:g")
+			.call( d3.behavior.zoom().on("zoom", redraw) )
+			.on("dblclick.zoom", null)//;
+			.attr('fill', 'red')
+			.attr('fill-opacity', 0.8)
+		.append("svg:g")
+			.attr('fill', 'green')
+			.attr('fill-opacity', 0.8);
+	//.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
+	vis.append('svg:rect')
+    	.attr('width', w)
+    	.attr('height', h)
+    	.attr('fill', 'blue')
+    	.attr('fill-opacity', 0.8);
+    	
+	function redraw()
+	{
+		  trans=d3.event.translate;
+		  scale=d3.event.scale;
+
+		  vis.attr("transform",
+		      "translate(" + trans + ")"
+		      + " scale(" + scale + ")");
+	}
+	
+	
 	root = jsonTree;
 	root.x0 = h / 2;
 	root.y0 = 0;
@@ -112,6 +139,8 @@ function drawTree(jsonTree)
 		nodeEnter.append("svg:rect")
 		.attr("width", 250)
 		.attr("height", 100)
+		.attr("rx", 20)
+		.attr("ry", 20)
 		.style("fill", function(d) {
 			return d._children ? "lightsteelblue" : "#fff";
 		})
