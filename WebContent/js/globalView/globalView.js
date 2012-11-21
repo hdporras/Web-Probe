@@ -66,16 +66,16 @@ function drawTree(jsonTree)
 		.append("svg:svg")
 			.attr("width", w )//+ m[1] + m[3])
 			.attr("height", h )//+ m[0] + m[2])
-			.attr('fill', 'gray')
+			.attr('fill', '#B8B5DF')//purplish gray
 			.attr('fill-opacity', 0.5)
 		//zoom and pan
 		.append("svg:g")
 			.call( zoom )
 			.on("dblclick.zoom", null)//;
-			.attr('fill', 'red')
+			.attr('fill', '#4BAA4C')//greenish
 			.attr('fill-opacity', 0.5)
 		.append("svg:g")
-			.attr('fill', 'green')
+			.attr('fill', '#B5524C')//redish
 			.attr('fill-opacity', 0.5)
 	.attr("transform", "translate(" + transx + "," + transy + ")");
 			
@@ -83,7 +83,7 @@ function drawTree(jsonTree)
 	vis.append('svg:rect')
     	.attr('width', w)
     	.attr('height', h)
-    	.attr('fill', 'blue')
+    	.attr('fill', '#8DDABC')//bluish
     	.attr('fill-opacity', 0.5);
     
 	//redraw first time with offset.
@@ -145,8 +145,8 @@ function drawTree(jsonTree)
 		.on("click", function(d) {
 			toggle(d);
 			update(d);
-		});
-		//.on("dblclick", dblclickCenter);
+		})
+		.on("dblclick", centerOnNode);
 
 		//Rect
 		nodeEnter.append("svg:rect")
@@ -154,8 +154,14 @@ function drawTree(jsonTree)
 		.attr("height", 100)
 		.attr("rx", 20)
 		.attr("ry", 20)
-		.style("fill", function(d) {
-			return d._children ? "lightsteelblue" : "#fff";
+		.style("fill", function(d) 
+		{
+			if(d.children)
+				return "#D3E8F7";
+			else if(d._children)
+				return "#30E2FF";//"#2EC8FD";//33ABFF
+			else
+				return "#FFEBB3";//leaf
 		})
 		.attr("x", -125)
 		.attr("y", -50);
@@ -206,7 +212,12 @@ function drawTree(jsonTree)
 			.attr("height", 100)
 			.style("fill", function(d) 
 			{
-				return d._children ? "lightsteelblue" : "#fff";
+				if(d.children)
+					return "#D3E8F7";
+				else if(d._children)
+					return "#30E2FF";//"#2EC8FD";//33ABFF
+				else
+					return "#FFEBB3";//leaf
 			});
 
 		nodeUpdate.select("text").style("fill-opacity", 1);
@@ -278,6 +289,24 @@ function drawTree(jsonTree)
 			d._children = null;
 		}
 	}
+	
+	
+	function centerOnNode(d) {
+		  var centroid = path.centroid(d),
+		      translate = projection.translate();
+
+		  projection.translate([
+		    translate[0] - centroid[0] + width / 2,
+		    translate[1] - centroid[1] + height / 2
+		  ]);
+
+		  zoom.translate(projection.translate());
+
+		  states.selectAll("path").transition()
+		      .duration(1000)
+		      .attr("d", path);
+		}
+	
 /*	
 	function dblclickCenter(d) {
 		var x = 0,
