@@ -37,51 +37,63 @@ function getTree(URI)
 }
 
 
+var transx, transy;
 
 function drawTree(jsonTree)
 {
-	//var m = [ 40, 100, 40, 100 ], 
-	var w = 4000, // - m[1] - m[3], 
-	h = 4000, // - m[0] - m[2], 
+	//var m = [ , 100, 40, 100 ]; 
+	var w = 8000, // - m[1] - m[3], 
+	h = 8000, // - m[0] - m[2], 
 	i = 0, 
 	root;
+	
+	transx = 200;
+	transy = (-h / 2) + 200;
 
 
-	var tree = d3.layout.tree();//.size([ h, w ]);
+	var tree = d3.layout.tree().size([ h, w ]);
 
 	var diagonal = d3.svg.diagonal().projection(function(d) {
 		return [ d.y, d.x ];
 	});
 
 
+	var zoom = d3.behavior.zoom()
+					.translate([transx,transy])
+					.on("zoom", redraw);
+	
 	var vis = d3.select("#container")
 		.append("svg:svg")
 			.attr("width", w )//+ m[1] + m[3])
 			.attr("height", h )//+ m[0] + m[2])
 			.attr('fill', 'gray')
-			.attr('fill-opacity', 0.8)
+			.attr('fill-opacity', 0.5)
 		//zoom and pan
 		.append("svg:g")
-			.call( d3.behavior.zoom().on("zoom", redraw) )
+			.call( zoom )
 			.on("dblclick.zoom", null)//;
 			.attr('fill', 'red')
-			.attr('fill-opacity', 0.8)
+			.attr('fill-opacity', 0.5)
 		.append("svg:g")
 			.attr('fill', 'green')
-			.attr('fill-opacity', 0.8);
-	//.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+			.attr('fill-opacity', 0.5)
+	.attr("transform", "translate(" + transx + "," + transy + ")");
+			
 
 	vis.append('svg:rect')
     	.attr('width', w)
     	.attr('height', h)
     	.attr('fill', 'blue')
-    	.attr('fill-opacity', 0.8);
-    	
+    	.attr('fill-opacity', 0.5);
+    
+	//redraw first time with offset.
+	//redraw();
+	
 	function redraw()
 	{
 		  trans=d3.event.translate;
 		  scale=d3.event.scale;
-
+		  
 		  vis.attr("transform",
 		      "translate(" + trans + ")"
 		      + " scale(" + scale + ")");
@@ -134,6 +146,7 @@ function drawTree(jsonTree)
 			toggle(d);
 			update(d);
 		});
+		//.on("dblclick", dblclickCenter);
 
 		//Rect
 		nodeEnter.append("svg:rect")
@@ -265,4 +278,25 @@ function drawTree(jsonTree)
 			d._children = null;
 		}
 	}
+/*	
+	function dblclickCenter(d) {
+		var x = 0,
+	      y = 0;
+
+	  // If the click was on the centered state or the background, re-center.
+	  // Otherwise, center the clicked-on state.
+	  if (!d || centered === d) {
+	    centered = null;
+	  } else {
+	    var centroid = path.centroid(d);
+	    x = w / 2 - centroid[0];
+	    y = h / 2 - centroid[1];
+	    centered = d;
+	  }
+
+	  // Transition to the new transform.
+	  vis.transition()
+	      .duration(1000)
+	      .attr("transform", "translate(" + x + "," + y + ")");
+	}*/
 }
