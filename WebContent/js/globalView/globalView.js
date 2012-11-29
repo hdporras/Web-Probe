@@ -38,6 +38,7 @@ function getTree(URI)
 
 
 var transx, transy;
+var nodeWidth, nodeHeight;
 
 function drawTree(jsonTree)
 {
@@ -46,6 +47,9 @@ function drawTree(jsonTree)
 	h = 8000, // - m[0] - m[2], 
 	i = 0, 
 	root;
+	
+	nodeWidth = 250;
+	nodeHeight = 100;
 	
 	transx = 200;
 	transy = (-h / 2) + 200;
@@ -68,7 +72,7 @@ function drawTree(jsonTree)
 			.attr("height", h )//+ m[0] + m[2])
 			.attr('fill', '#B8B5DF')//purplish gray
 			.attr('fill-opacity', 0.5)
-		//zoom and pan
+		//Zoom and Pan
 		.append("svg:g")
 			.call( zoom )
 			.on("dblclick.zoom", null)//;
@@ -81,10 +85,11 @@ function drawTree(jsonTree)
 			
 
 	vis.append('svg:rect')
-    	.attr('width', w)
-    	.attr('height', h)
+    	.attr('width', w*2)
+    	.attr('height', h*2)
     	.attr('fill', '#8DDABC')//bluish
-    	.attr('fill-opacity', 0.5);
+    	.attr('fill-opacity', 0.5)
+		.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
     
 	//redraw first time with offset.
 	//redraw();
@@ -142,16 +147,17 @@ function drawTree(jsonTree)
 		.attr("transform", function(d) {
 			return "translate(" + source.y0 + "," + source.x0 + ")";
 		})
-		.on("click", function(d) {
+		/*.on("click", function(d) {
 			toggle(d);
 			update(d);
-		})
-		.on("dblclick", centerOnNode);
+		})*/
+		//.on("dblclick", centerOnNode);
+		.on("click", centerOnNode);
 
 		//Rect
 		nodeEnter.append("svg:rect")
-		.attr("width", 250)
-		.attr("height", 100)
+		.attr("width", nodeWidth)
+		.attr("height", nodeHeight)
 		.attr("rx", 20)
 		.attr("ry", 20)
 		.style("fill", function(d) 
@@ -208,8 +214,8 @@ function drawTree(jsonTree)
 				});
 
 		nodeUpdate.select("rect")
-			.attr("width", 250)
-			.attr("height", 100)
+			.attr("width", nodeWidth)
+			.attr("height", nodeHeight)
 			.style("fill", function(d) 
 			{
 				if(d.children)
@@ -292,19 +298,27 @@ function drawTree(jsonTree)
 	
 	
 	function centerOnNode(d) {
-		  var centroid = path.centroid(d),
-		      translate = projection.translate();
+		  var centroid = [d.x, d.y], // The selected nodes location
+		      scale = zoom.scale(); //current zoom scale
 
-		  projection.translate([
-		    translate[0] - centroid[0] + width / 2,
-		    translate[1] - centroid[1] + height / 2
-		  ]);
+		  var containerWidth = $("#container").width();
+		  var containerHeight = $("#container").height();
+		  
+		  var translation = [
+		     (containerWidth/2) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
+		     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y
+		  ];
 
-		  zoom.translate(projection.translate());
+		  zoom.translate(translation);
+		  //zoom.scale(1);
 
-		  states.selectAll("path").transition()
+		  vis.transition().duration(1000).attr("transform",
+			      "translate(" + zoom.translate() + ")"
+			      + " scale(" + scale + ")");
+		  
+		  /*states.selectAll("path").transition()
 		      .duration(1000)
-		      .attr("d", path);
+		      .attr("d", path);*/
 		}
 	
 /*	
