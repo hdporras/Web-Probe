@@ -63,7 +63,7 @@ function drawTree(jsonTree)
 
 
 	var zoom = d3.behavior.zoom()
-					.translate([transx,transy])
+					//.translate([transx,transy])
 					.on("zoom", redraw);
 	
 	var vis = d3.select("#container")
@@ -80,8 +80,8 @@ function drawTree(jsonTree)
 			.attr('fill-opacity', 0.5)
 		.append("svg:g")
 			.attr('fill', '#B5524C')//redish
-			.attr('fill-opacity', 0.5)
-	.attr("transform", "translate(" + transx + "," + transy + ")");
+			.attr('fill-opacity', 0.5);
+	//.attr("transform", "translate(" + transx + "," + transy + ")");
 			
 
 	vis.append('svg:rect')
@@ -121,7 +121,9 @@ function drawTree(jsonTree)
 	//root.children.forEach(toggleAll);
 	//toggle(root.children[0]);
 
+	
 	update(root);
+	centerOnNode(root);
 
 	function update(source)
 	{
