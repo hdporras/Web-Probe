@@ -149,12 +149,13 @@ function drawTree(jsonTree)
 		.attr("transform", function(d) {
 			return "translate(" + source.y0 + "," + source.x0 + ")";
 		})
-		/*.on("click", function(d) {
+		.on("dblclick", function(d) {
 			toggle(d);
 			update(d);
-		})*/
-		//.on("dblclick", centerOnNode);
+			centerOnNode(d);
+		})
 		.on("click", centerOnNode);
+		//.on("click", centerOnNode);
 
 		//Rect
 		nodeEnter.append("svg:rect")
