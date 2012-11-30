@@ -35,10 +35,11 @@ $(document).ready(function()
 		resetTabs();
 		
 		//getViskoVis();
-		setCurrentLocalURI(uri);
+		/*setCurrentLocalURI(uri);
 		initLocalView();
-		setupLocalView();
-		//lookupURI();
+		setupLocalView();*/
+		
+		lookupURI();
 		
 		
 		updateLookupButton();

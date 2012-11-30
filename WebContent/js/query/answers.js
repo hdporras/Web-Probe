@@ -11,15 +11,18 @@ function answerSelectActivate()
 		startLoadingScreen();
 		
 		var index = $(this).attr("value");//$(this).val();//this.attr("value");
-		currentLocalURI = queryResult[index].uri;
-		
+		currentGlobalURI = queryResult[index].uri;
+		currentLocalURI = currentGlobalURI;
 		
 		//enable product view as well
-		$("#tabs").tabs('enable', 1);
+	/*	$("#tabs").tabs('enable', 1);
 		clearProductTabs();
 		//then setup local view
 		setupLocalView();
-		//setupProductView(index);
+		//setupProductView(index);*/
+		
+		initGlobalView();
+		getTree(currentGlobalURI);
 	});
 }
 

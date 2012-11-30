@@ -7,6 +7,8 @@
 	<title>Web-Probe</title>
 	
 	<!-- JQuery, JSON, D3.js, jsddm Javascript Includes -->
+	<link rel="stylesheet" type="text/css" href="css/views/d3tests.css" />
+	<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
 	<script type="text/javascript" src="js/json_sans_eval.js"> </script>
 	<script type="text/javascript" src="js/jquery.js"> </script>
 	<script type="text/javascript" src="js/jquery-ui.js"> </script>
@@ -25,6 +27,7 @@
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLQueryResults.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/VisCacheAccess.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/LocalViewExtractor.js'></script>
+	<script type='text/javascript' src='/Web-Probe/dwr/interface/JustificationTreeBuilder.js'></script>
 	<script type='text/javascript' src='/Web-Probe/dwr/interface/PMLServices.js'></script>
 	
 	<!-- Probe-it Javascript Includes -->
@@ -32,6 +35,7 @@
 	<script type="text/javascript" src="js/product.js"> </script>
 	<script type="text/javascript" src="js/visko/visko.js"> </script>
 	<script type="text/javascript" src="js/localView/localView.js"> </script>
+	<script type="text/javascript" src="js/globalView/globalView.js"> </script>
 	<script type="text/javascript" src="js/localView/popup.js"> </script>
 	<script type="text/javascript" src="js/navigation/navigation.js"> </script>
 	<script type="text/javascript" src="js/navigation/menus.js"> </script>
@@ -442,8 +446,12 @@
 							</div>
 					</div>
 				</div>
-			
-			<div id="globalV" class="ui-widget-content tabsFill" style="background-color:white">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+			<!-- <div id="localV" class="tabsFill" style="background-color:white"> -->
+			<div id="globalV" class="ui-widget-content tabsFill" style="background-color:'gray'">
+				<div id="container"  style="width:100%; height:100%;">
+					
+				</div>
+			</div>
 			
 		</div>
 

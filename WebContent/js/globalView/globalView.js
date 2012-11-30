@@ -1,7 +1,24 @@
+var currentGlobalURI;
 
+
+function setCurrentGlobalURI(uri)
+{
+	currentGlobalURI = uri;
+}
+
+function initGlobalView()
+{
+	showMainTabs();
+	$("#tabs").tabs('enable', 3);
+	$("#tabs").tabs("select", 3);
+	resetTabs();	
+}
 
 function getTree(URI)
 {
+	
+	d3.select("svg").remove();
+	startLoadingScreen();
 	
 	JustificationTreeBuilder.getJustificationTree(URI,
 			{
@@ -24,20 +41,20 @@ function getTree(URI)
 					
 					
 					drawTree(jsonTree);
+					endLoadingScreen();
 				},
 				
 				
 				errorHandler: function(errorString, exception)
 				{
 					alert("Error getting Tree content: " + errorString );//+ "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
-				    
+					endLoadingScreen();
 				}
 			});
 	
 }
 
 
-var transx, transy;
 var nodeWidth, nodeHeight;
 
 function drawTree(jsonTree)
@@ -50,11 +67,8 @@ function drawTree(jsonTree)
 	
 	nodeWidth = 250;
 	nodeHeight = 100;
+
 	
-	transx = 200;
-	transy = (-h / 2) + 200;
-
-
 	var tree = d3.layout.tree().size([ h, w ]);
 
 	var diagonal = d3.svg.diagonal().projection(function(d) {
@@ -68,27 +82,27 @@ function drawTree(jsonTree)
 	
 	var vis = d3.select("#container")
 		.append("svg:svg")
-			.attr("width", w )//+ m[1] + m[3])
-			.attr("height", h )//+ m[0] + m[2])
+			.attr("width", "100%" )//+ m[1] + m[3])
+			.attr("height", "100%" )//+ m[0] + m[2])
 			.attr('fill', '#B8B5DF')//purplish gray
 			.attr('fill-opacity', 0.5)
 		//Zoom and Pan
 		.append("svg:g")
+			.style("cursor", "move")
 			.call( zoom )
 			.on("dblclick.zoom", null)//;
-			.attr('fill', '#4BAA4C')//greenish
-			.attr('fill-opacity', 0.5)
-		.append("svg:g")
-			.attr('fill', '#B5524C')//redish
-			.attr('fill-opacity', 0.5);
-	//.attr("transform", "translate(" + transx + "," + transy + ")");
+			.attr('fill', '#fff')//'#4BAA4C')//greenish
+			.attr('fill-opacity', 1.0)
+		.append("svg:g");
+			//.attr('fill', '#B5524C')//redish
+			//.attr('fill-opacity', 0.5);
 			
 
 	vis.append('svg:rect')
     	.attr('width', w*2)
     	.attr('height', h*2)
-    	.attr('fill', '#8DDABC')//bluish
-    	.attr('fill-opacity', 0.5)
+    	//.attr('fill', '#8DDABC')//bluish
+    	//.attr('fill-opacity', 0.5)
 		.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
     
 	//redraw first time with offset.
@@ -134,7 +148,7 @@ function drawTree(jsonTree)
 
 		// Normalize for fixed-depth.
 		nodes.forEach(function(d) {
-			d.y = d.depth * 300;
+			d.y = d.depth * 450;
 		});
 
 		// Update the nodes…
@@ -189,7 +203,8 @@ function drawTree(jsonTree)
 		.attr("width", 225)
 		.attr("height", 75)
 		.attr("x", -113)
-		.attr("y", -38);
+		.attr("y", -38)
+		.style("cursor", "pointer");
 		//.attr("cx", 40)
 		//.attr("cy", 40);
 
@@ -318,6 +333,16 @@ function drawTree(jsonTree)
 		  vis.transition().duration(1000).attr("transform",
 			      "translate(" + zoom.translate() + ")"
 			      + " scale(" + scale + ")");
+		  
+		  vis.append("svg:rect")
+			.attr("width", nodeWidth)
+			.attr("height", nodeHeight)
+			.attr("cx", d.x)
+			.attr("cy", d.y)
+			//.style("fill", none)
+			.style("stroke", "#FFFF00")
+			.style("stroke-opacity", .9)
+			.style("stroke-width", "5px");
 		  
 		  /*states.selectAll("path").transition()
 		      .duration(1000)

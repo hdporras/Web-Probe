@@ -57,9 +57,14 @@ function lookupURI()
 						//check if PML Node
 						if( isnode )
 						{
+							/*
 							setCurrentLocalURI(uri);
 							initLocalView();
-							setupLocalView();
+							setupLocalView();*/
+							
+							setCurrentGlobalURI(uri);
+							initGlobalView();
+							getTree(currentGlobalURI);
 						}
 						else
 						{//URI not correct.
