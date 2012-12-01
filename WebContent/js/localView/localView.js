@@ -13,6 +13,12 @@ function initLocalView()
 	resetTabs();	
 }
 
+function showLocalView()
+{
+	$("#tabs").tabs('enable', 2);
+	$("#tabs").tabs("select",2);
+}
+
 function setupLocalView()
 {
 	startLoadingScreen();

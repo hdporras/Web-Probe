@@ -1,5 +1,5 @@
 var currentGlobalURI;
-
+var currentNode;
 
 function setCurrentGlobalURI(uri)
 {
@@ -96,7 +96,7 @@ function drawTree(jsonTree)
 		.append("svg:g");
 			//.attr('fill', '#B5524C')//redish
 			//.attr('fill-opacity', 0.5);
-			
+	
 
 	vis.append('svg:rect')
     	.attr('width', w*2)
@@ -105,6 +105,27 @@ function drawTree(jsonTree)
     	//.attr('fill-opacity', 0.5)
 		.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
     
+	
+	d3.select("svg")
+	.append("foreignobject")
+	.attr("width", 225)
+	.attr("height", 75)
+	.attr("x", 5)
+	.attr("y", 5)
+	.append("body")
+	.append("div")
+	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
+	
+	
+	vis.append("foreignobject")
+	.attr("width", 225)
+	.attr("height", 75)
+	.attr("x", 5)
+	.attr("y", 5)
+	.append("body")
+	.append("div")
+	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
+	
 	//redraw first time with offset.
 	//redraw();
 	
@@ -163,13 +184,19 @@ function drawTree(jsonTree)
 		.attr("transform", function(d) {
 			return "translate(" + source.y0 + "," + source.x0 + ")";
 		})
-		.on("dblclick", function(d) {
+		/*.on("dblclick", function(d) {
 			toggle(d);
 			update(d);
 			centerOnNode(d);
+		})*/
+		.on("dblclick", function(d) {
+			setCurrentLocalURI(d.PMLnode.conclusion.concURI);
+			showLocalView();
+			setupLocalView();
+			
 		})
 		.on("click", centerOnNode);
-		//.on("click", centerOnNode);
+		
 
 		//Rect
 		nodeEnter.append("svg:rect")
@@ -197,8 +224,10 @@ function drawTree(jsonTree)
 		{
 			if(d.PMLnode.conclusion.thumbURL != null)
 				return d.PMLnode.conclusion.thumbURL;
-			else
+			if(d.PMLnode.conclusion.conclusionText == null)
 				return "../../images/No_sign.svg.png";
+			else
+				return null;//"../../images/No_sign.svg.png";
 		})
 		.attr("width", 225)
 		.attr("height", 75)
@@ -207,8 +236,31 @@ function drawTree(jsonTree)
 		.style("cursor", "pointer");
 		//.attr("cx", 40)
 		//.attr("cy", 40);
+		
+		
+		
+		
+		//Add Conclusion Text to node if no Image Available.
+		nodeEnter.append("svg:text")
+		.attr("x", -113)
+		.attr("y", -38)
+		.attr("dy", ".5em")
+		.attr("text-anchor", "start")//"start" : "end";
+		.text(function(d) {
+			
+			if(d.PMLnode.conclusion.thumbURL == null && d.PMLnode.conclusion.conclusionText != null)
+			{
+				return d.PMLnode.conclusion.conclusionText;
+			}
+			else
+				return null;
+		})
+		.style("stroke", "black")
+		.style("fill", "white")
+		.style("fill-opacity", 1);
+		
 
-		//Add text to node if available
+		//Add Rule and Engine text to node if available
 		nodeEnter.append("svg:text").attr("x", function(d) {
 			return d.children || d._children ? 125 : 125;//125 : -125;
 		})
@@ -316,7 +368,10 @@ function drawTree(jsonTree)
 	
 	
 	function centerOnNode(d) {
-		  var centroid = [d.x, d.y], // The selected nodes location
+		
+		currentNode = d; //make this the currently slected node.
+		
+		var centroid = [d.x, d.y], // The selected nodes location
 		      scale = zoom.scale(); //current zoom scale
 
 		  var containerWidth = $("#container").width();
@@ -343,6 +398,8 @@ function drawTree(jsonTree)
 			.style("stroke", "#FFFF00")
 			.style("stroke-opacity", .9)
 			.style("stroke-width", "5px");
+		  
+		  
 		  
 		  /*states.selectAll("path").transition()
 		      .duration(1000)
