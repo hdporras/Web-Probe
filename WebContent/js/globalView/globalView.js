@@ -257,7 +257,8 @@ function drawTree(jsonTree)
 		})
 		.style("stroke", "black")
 		.style("fill", "white")
-		.style("fill-opacity", 1);
+		.style("fill-opacity", 1)
+		.style("cursor", "pointer");
 		
 
 		//Add Rule and Engine text to node if available
@@ -389,11 +390,11 @@ function drawTree(jsonTree)
 			      "translate(" + zoom.translate() + ")"
 			      + " scale(" + scale + ")");
 		  
-		  vis.append("svg:rect")
+		  this.append("svg:rect")
 			.attr("width", nodeWidth)
 			.attr("height", nodeHeight)
-			.attr("cx", d.x)
-			.attr("cy", d.y)
+			.attr("cx", 0)//d.x)
+			.attr("cy", 0)//d.y)
 			//.style("fill", none)
 			.style("stroke", "#FFFF00")
 			.style("stroke-opacity", .9)

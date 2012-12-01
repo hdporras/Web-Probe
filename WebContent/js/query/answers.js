@@ -21,7 +21,10 @@ function answerSelectActivate()
 		setupLocalView();
 		//setupProductView(index);*/
 		
-		initGlobalView();
+		//initGlobalView();
+		$("#tabs").tabs('enable', 3);
+		$("#tabs").tabs("select", 3);
+		$("#tabs").tabs("option", "disabled", [1,2]);
 		getTree(currentGlobalURI);
 	});
 }
