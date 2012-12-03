@@ -24,7 +24,7 @@ function getTree(URI)
 			{
 				callback: function(jsonResult)
 				{
-					alert("JSON TREE: \n"+jsonResult);
+					//alert("JSON TREE: \n"+jsonResult);
 					/*
 					var infSteps = jsonTree.PMLnode.inferenceSteps;
 					
@@ -106,25 +106,8 @@ function drawTree(jsonTree)
 		.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
     
 	
-	d3.select("svg")
-	.append("foreignobject")
-	.attr("width", 225)
-	.attr("height", 75)
-	.attr("x", 5)
-	.attr("y", 5)
-	.append("body")
-	.append("div")
-	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
+
 	
-	
-	vis.append("foreignobject")
-	.attr("width", 225)
-	.attr("height", 75)
-	.attr("x", 5)
-	.attr("y", 5)
-	.append("body")
-	.append("div")
-	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
 	
 	//redraw first time with offset.
 	//redraw();
@@ -157,8 +140,43 @@ function drawTree(jsonTree)
 	//toggle(root.children[0]);
 
 	
+	
+	var test = vis.append("svg:g")
+	.attr("width", 225)
+	.attr("height", 75)
+	.attr("x", 0)
+	.attr("y", 0)
+	.attr("transform", "translate(1000, 1000)");
+	
+	test.append('svg:rect')
+    	.attr("width", 225)
+    	.attr("height", 75)
+    	.style("fill", "gray");
+	
+	test.append("foreignObject")
+	.attr("width", 225)
+	.attr("height", 75)
+	.attr("x", 0)
+	.attr("y", 0)
+	.style("background-color", "blue")
+	
+	.append("body")
+	.attr("width", 225)
+	.attr("height", 75)
+	.attr("x", 0)
+	.attr("y", 0)
+	
+	.append("div")
+	//.style("background-color", "green")
+	.attr("width", "200")
+	.attr("height", "70")
+	.append("p")
+	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
+	
 	update(root);
 	centerOnNode(root);
+	
+	
 
 	function update(source)
 	{
@@ -390,6 +408,9 @@ function drawTree(jsonTree)
 			      "translate(" + zoom.translate() + ")"
 			      + " scale(" + scale + ")");
 		  
+		  
+		  /*
+		  //yellow box
 		  this.append("svg:rect")
 			.attr("width", nodeWidth)
 			.attr("height", nodeHeight)
@@ -399,33 +420,11 @@ function drawTree(jsonTree)
 			.style("stroke", "#FFFF00")
 			.style("stroke-opacity", .9)
 			.style("stroke-width", "5px");
-		  
+		  */
 		  
 		  
 		  /*states.selectAll("path").transition()
 		      .duration(1000)
 		      .attr("d", path);*/
 		}
-	
-/*	
-	function dblclickCenter(d) {
-		var x = 0,
-	      y = 0;
-
-	  // If the click was on the centered state or the background, re-center.
-	  // Otherwise, center the clicked-on state.
-	  if (!d || centered === d) {
-	    centered = null;
-	  } else {
-	    var centroid = path.centroid(d);
-	    x = w / 2 - centroid[0];
-	    y = h / 2 - centroid[1];
-	    centered = d;
-	  }
-
-	  // Transition to the new transform.
-	  vis.transition()
-	      .duration(1000)
-	      .attr("transform", "translate(" + x + "," + y + ")");
-	}*/
 }
