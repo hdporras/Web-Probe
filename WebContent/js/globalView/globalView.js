@@ -428,3 +428,19 @@ function drawTree(jsonTree)
 		      .attr("d", path);*/
 		}
 }
+
+
+
+$(document).ready(function()
+{
+
+	//Give Node a Yellow border when slected
+	$(".node").click(function(event)
+	{
+		//event.preventDefault();
+		//startLoadingScreen();
+		
+		$(this).attr("stroke", "yellow");
+		$(this).attr("stroke-width", "4.0px");
+	});
+});
