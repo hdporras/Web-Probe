@@ -1,6 +1,8 @@
 var currentGlobalURI;
 var currentNode;
 
+var hidePopup=false;
+
 function setCurrentGlobalURI(uri)
 {
 	currentGlobalURI = uri;
@@ -80,6 +82,7 @@ function drawTree(jsonTree)
 					//.translate([transx,transy])
 					.on("zoom", redraw);
 	
+	
 	var vis = d3.select("#container")
 		.append("svg:svg")
 			.attr("width", "100%" )//+ m[1] + m[3])
@@ -107,6 +110,40 @@ function drawTree(jsonTree)
     
 	
 
+	//Zoom toolbar action listener
+	$("#zoomIn").click( function()
+	{
+		var zoomScale = zoom.scale() * 2;
+		zoom.scale(zoomScale);
+
+		vis.transition().duration(1000).attr("transform",
+			      "translate(" + zoom.translate() + ")"
+			      + " scale(" + zoomScale + ")");
+		centerOnNode(currentNode);
+	});
+	$("#zoomOut").click( function()
+	{
+		if(zoom.scale() > .03)
+		{
+			var zoomScale = zoom.scale() * .5;
+			zoom.scale(zoomScale);
+
+			vis.transition().duration(1000).attr("transform",
+				      "translate(" + zoom.translate() + ")"
+				      + " scale(" + zoomScale + ")");
+			centerOnNode(currentNode);
+		}
+		/*else if(zoom.scale() > .04)
+		{
+			var zoomScale = zoom.scale() - .03;
+			zoom.scale(zoomScale);
+
+			vis.transition().duration(1000).attr("transform",
+				      "translate(" + zoom.translate() + ")"
+				      + " scale(" + zoomScale + ")");	
+			centerOnNode(currentNode);
+		}*/
+	});
 	
 	
 	//redraw first time with offset.
@@ -386,27 +423,63 @@ function drawTree(jsonTree)
 	}
 	
 	
-	function centerOnNode(d) {
-		
-		currentNode = d; //make this the currently slected node.
-		
+	function centerOnNode(d)
+	{
 		var centroid = [d.x, d.y], // The selected nodes location
 		      scale = zoom.scale(); //current zoom scale
 
 		  var containerWidth = $("#container").width();
 		  var containerHeight = $("#container").height();
 		  
-		  var translation = [
-		     (containerWidth/2) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
-		     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y
-		  ];
+		  
+		//Popup
+		  if(!hidePopup)
+		  {
+			  //$("#container").css("width","65%");
+			  $("#popup").css('visibility', 'visible');
+			  //$("#popup").css("width","34%");
+			  
+			  startLoadingPopupViewerScreen();
+			  clearPopupViewerTabs();
+			  setupViewers("popupViewerTabs", d.PMLnode.conclusion.concURI, d.PMLnode.conclusion.conclusionText);
+			  
+			  
+			
+			  var translation = [
+			     (containerWidth * 0.5 * 0.65) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
+			     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y
+			  ];
 
-		  zoom.translate(translation);
-		  //zoom.scale(1);
+			  zoom.translate(translation);
 
-		  vis.transition().duration(1000).attr("transform",
-			      "translate(" + zoom.translate() + ")"
-			      + " scale(" + scale + ")");
+			  vis.transition().duration(1000).attr("transform",
+					  "translate(" + zoom.translate() + ")"
+					  + " scale(" + scale + ")");
+			  
+		  }
+		  else
+		  {
+			  startLoadingPopupViewerScreen();
+			  clearPopupViewerTabs();
+			  setupViewers("popupViewerTabs", d.PMLnode.conclusion.concURI, d.PMLnode.conclusion.conclusionText);
+			  
+			  var translation = [
+			     (containerWidth/2) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
+			     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y
+			  ];
+	
+			  zoom.translate(translation);
+			  //zoom.scale(1);
+	
+			  vis.transition().duration(1000).attr("transform",
+				      "translate(" + zoom.translate() + ")"
+				      + " scale(" + scale + ")");
+			  
+		  }
+		  
+		  currentNode = d; //make this the currently slected node.
+		  
+		  
 		  
 		  
 		  /*
@@ -426,6 +499,8 @@ function drawTree(jsonTree)
 		  /*states.selectAll("path").transition()
 		      .duration(1000)
 		      .attr("d", path);*/
+		  
+		  
 		}
 }
 
@@ -433,7 +508,24 @@ function drawTree(jsonTree)
 
 $(document).ready(function()
 {
-
+	$("#unhidePopup").hide();
+	
+	//Hide popup action.
+	$("#hidePopup").click(function(){
+		hidePopup = true;
+		
+		$("#popup").hide("slide", { direction: "right" }, 1000);
+		$("#unhidePopup").show("slide", { direction: "right" }, 1000);
+	});
+	
+	$("#unhidePopup").click(function(){
+		hidePopup = false;
+		
+		$("#popup").show("slide", { direction: "right" }, 1000);
+		$("#unhidePopup").hide();
+	});
+	
+	
 	//Give Node a Yellow border when slected
 	$(".node").click(function(event)
 	{

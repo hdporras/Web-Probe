@@ -8,6 +8,12 @@ function createProductViewers(uri, conclusionText)
 	$("#tabs").tabs('enable', 1);
 	clearProductTabs();
 	
+	setupViewers("tabsBottom", uri, conclusionText);
+}
+
+
+function setupViewers(target, uri, conclusionText)
+{
 	var visualizations;
 	
 	VisCacheAccess.getCachedVisualizations(uri, 
@@ -32,17 +38,17 @@ function createProductViewers(uri, conclusionText)
 								if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/imageJ-viewer.owl#imageJ-viewer" || viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/visko/imageJ-viewer1.owl#imageJ-viewer1")
 								{
 									visType = "Image";
-									$("#tabsBottom").tabs("add", "#tabs-"+i, "Image",1);
-									$("#tabs-"+i).attr("class", "tabsBottomFill");
-									$("#tabs-"+i).html("<img src="+visualizations[i]+" />");
+									$("#"+target).tabs("add", "#"+target+"-"+i, "Image",1);
+									$("#"+target+"-"+i).attr("class", target+"Fill");
+									$("#"+target+"-"+i).html("<img src="+visualizations[i]+" />");
 								}
 								//PDF
 								else if(viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/viskoOperator/pdf-viewer.owl#pdf-viewer" || viewers[i]=="http://rio.cs.utep.edu/ciserver/ciprojects/visko/pdf-viewer1.owl#pdf-viewer1")
 								{
 									visType = "PDF";
-									$("#tabsBottom").tabs("add", "#tabs-"+i, "PDF",0);
-									$("#tabs-"+i).attr("class", "tabsBottomFill");
-									$("#tabs-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:99%; height:98%;\" frameborder=\"2\">" +
+									$("#"+target).tabs("add", "#"+target+"-"+i, "PDF",0);
+									$("#"+target+"-"+i).attr("class", target+"Fill");
+									$("#"+target+"-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:99%; height:98%;\" frameborder=\"2\">" +
 											"<object data=\""+visualizations[i]+"\" type=\"application/pdf\" width=\"100%\" height=\"100%\"><p>It appears you don't have a PDF plugin for this browser. you can <a href=\""+visualizations[i]+"\">click here to download the PDF file.</a></p>" +
 											"</object></iframe>");
 								}
@@ -53,16 +59,16 @@ function createProductViewers(uri, conclusionText)
 									var text = getTextFromFile(visualizations[i]);
 									
 									visType = "Text";
-									$("#tabsBottom").tabs("add", "#tabs-"+i, "Text",3);
-									$("#tabs-"+i).attr("class", "tabsBottomFill");
-									$("#tabs-"+i).html("<div class=\"fill\"> <pre>"+text+"</pre> </div>"); //<pre> </pre>
+									$("#"+target).tabs("add", "#"+target+"-"+i, "Text",3);
+									$("#"+target+"-"+i).attr("class", target+"Fill");
+									$("#"+target+"-"+i).html("<div class=\"fill\"> <pre>"+text+"</pre> </div>"); //<pre> </pre>
 								}
 							}
 						}
 						
 						$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
 						.addClass("ui-corner-bottom");
-						$("#tabsBottom").tabs("select",0);
+						$("#"+target).tabs("select",0);
 					},
 					
 					errorHandler: function(errorString, exception)
@@ -76,21 +82,25 @@ function createProductViewers(uri, conclusionText)
 			{
 				if(conclusionText != null)
 				{
-					$("#tabsBottom").tabs("add", "#tabs-1", "Text",1);
-					$("#tabs-1").attr("class", "tabsBottomFill");
-					$("#tabs-1").html("<div class=\"fill\"> <pre>"+conclusionText+"</pre> </div>"); //<pre> </pre>
+					$("#"+target).tabs("add", "#"+target+"-1", "Text",1);
+					$("#"+target+"-1").attr("class", target+"Fill");
+					$("#"+target+"-1").html("<div class=\"fill\"> <pre>"+conclusionText+"</pre> </div>"); //<pre> </pre>
 				}
 				else
 				{
-					$("#tabsBottom").tabs("add", "#tabs-1", "No Vis",1);
-					$("#tabs-1").attr("class", "tabsBottomFill");
-					$("#tabs-1").html("<h2>No Visualization(s) of Product found.</h2>");
+					$("#"+target).tabs("add", "#"+target+"-1", "No Vis",1);
+					$("#"+target+"-1").attr("class", target+"Fill");
+					$("#"+target+"-1").html("<h2>No Visualization(s) of Product found.</h2>");
 				}
+				
+				$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
+				.addClass("ui-corner-bottom");
 				
 				//alert("No Visualization(s) of Product found.");
 			}
 			
 			endLoadingProductScreen();
+			endLoadingPopupViewerScreen();
 		},
 		
 		errorHandler: function(errorString, exception)
@@ -98,6 +108,7 @@ function createProductViewers(uri, conclusionText)
 			alert("Error Accessing Cached Visualizations: " + errorString + "\n Exception: " + dwr.util.toDescriptiveString(exception, 2));
 		    endLoadingScreen();
 		    endLoadingProductScreen();
+		    endLoadingPopupViewerScreen();
 		}
 	});
 }
@@ -169,4 +180,38 @@ function startLoadingProductScreen()
 function endLoadingProductScreen()
 {
 	$("#tabsBottom").unblock(); 
+}
+
+
+
+/* Loading for Popup Viewer Visualizations */
+function startLoadingPopupViewerScreen()
+{
+	$("#popupViewerTabs").block({ 
+		message: '<h1>Loading Visualizations...</h1>', 
+		border: 'none', 
+		padding: '15px', 
+		backgroundColor: '#000', 
+		'-webkit-border-radius': '10px', 
+		'-moz-border-radius': '10px', 
+		opacity: .5, 
+		color: '#fff'  
+	}); 
+}
+
+function endLoadingPopupViewerScreen()
+{
+	$("#popupViewerTabs").unblock(); 
+}
+
+
+function clearPopupViewerTabs()
+{
+	var tab_count = $('#popupViewerTabs').tabs('length');
+	
+	var i;
+	for (i=0; i < tab_count; i++)
+	{
+	    $('#popupViewerTabs').tabs( "remove" , 0 );
+	}
 }
