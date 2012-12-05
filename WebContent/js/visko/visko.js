@@ -48,7 +48,7 @@ function setupViewers(target, uri, conclusionText)
 									visType = "PDF";
 									$("#"+target).tabs("add", "#"+target+"-"+i, "PDF",0);
 									$("#"+target+"-"+i).attr("class", target+"Fill");
-									$("#"+target+"-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:99%; height:98%;\" frameborder=\"2\">" +
+									$("#"+target+"-"+i).html("<iframe src=\"http://docs.google.com/gview?url="+visualizations[i]+"&embedded=true\" style=\"width:98%; height:98%;\" frameborder=\"2\">" +
 											"<object data=\""+visualizations[i]+"\" type=\"application/pdf\" width=\"100%\" height=\"100%\"><p>It appears you don't have a PDF plugin for this browser. you can <a href=\""+visualizations[i]+"\">click here to download the PDF file.</a></p>" +
 											"</object></iframe>");
 								}

@@ -138,12 +138,12 @@
 				<button type="button" onclick="hideNav()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
 					<span class="ui-icon ui-icon-arrowthickstop-1-n"></span>
 				</button>
-				<button id="SettingsButton" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
+				<button id="SettingsButton" type="button" title="Settings" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;">
 					<span class="ui-icon ui-icon-gear"></span>
 				</button>
 		</div>
 		
-		<div id="bookmarks" class="dropDown" title="Bookmark" style="visibility: hidden;" >
+		<div id="bookmarks" class="dropDown" style="visibility: hidden;" >
 			<ul>
 				<li><a class="bookmark" href="http://inference-web.org/proofs/tonys/tonys.owl#tonys">
 						Tony's Specialty</a></li>
@@ -160,7 +160,7 @@
 			</ul>
 		</div>
 		
-		<div id="settings" class="dropDown" title="Settings" style="visibility: hidden;" >
+		<div id="settings" class="dropDown" style="visibility: hidden;" >
 			<ul>
 				<li><a href="http://trust.utep.edu/probeit/">
 						About</a></li>
@@ -466,11 +466,13 @@
 					</div>
 
 					<script>
+					/*
 						$(function() {
 							$("#popup")
 							.draggable()
 						    .resizable();
 						});
+					//*/
 					</script>
 
 					<!-- Popup Content -->
