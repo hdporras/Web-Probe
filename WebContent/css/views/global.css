@@ -4,7 +4,7 @@
 
 #popup {
 	position: absolute;
-	left: 65%; right: 0;
+	left: 65%; right: -5px;
 	top: 5px; bottom: 5px;
 	
 	visibility: hidden;
