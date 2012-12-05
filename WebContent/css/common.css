@@ -260,30 +260,3 @@ a.nav:hover {
 	box-shadow: inset 4px 2px 4px 3px #0083b3; 
 	border-bottom:1px solid #59b4d4;
 }
-
-
-#unhidePopup{
-	position: absolute;
-	top: 5px;
-	right: 0;
-	background-color:#ffaf0f;
-	
-	height: 70px;
-	width:10px;
-	padding:0px;
-	margin:0px;
-	
-	border-left:1px solid #000000;
-	border-top-left-radius: 1em;
-	border-bottom-left-radius: 1em;
-	box-shadow: inset 1px 1px 2px 1px #f58400;
-	//box-shadow: 1px 1px 3px #000000;
-	
-	cursor: pointer;
-}
-#unhidePopup:hover{
-	width:20px;
-	background-color:#59b4d4;
-	box-shadow: inset 4px 2px 4px 3px #0083b3; 
-	border-left:1px solid #59b4d4;
-}
