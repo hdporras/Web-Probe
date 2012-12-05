@@ -35,13 +35,3 @@
 	left: 2px; right: 1px;
 	top: 4px; bottom: 32px;
 }
-
-
-.pdfViewer{
-	overflow:auto;
-	overflow-y: auto;
-	
-	position: absolute;
-	left: 1px; right: 1px;
-	top: 1px; bottom: 1px;
-}

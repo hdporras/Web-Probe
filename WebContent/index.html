@@ -151,8 +151,8 @@
 						Agatha (PUZ)</a></li>
 				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer">
 						Gravity Map</a></li>
-				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
-						Hole's Code Full</a></li>
+				<!--  <li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeFullPML/DVelocityModelProduct_07166223683518539.owl#answer">
+						Hole's Code Full</a></li> -->
 				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/HolesCodeProvenance/DVelocityModelProduct_01044731520407759.owl#answer">
 						Hole's Code Prov.</a></li>
 				<li><a class="answerBookmark" href="http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/ipaw-v4.tex_0016939260199497874.owl#answer">
@@ -466,13 +466,28 @@
 					</div>
 
 					<script>
-					/*
+					
+						//*Have to figure out how to make popup resizable and also have it stay attached to the corner of the screen. 
+						//*(Resizable seems to make the div )  
 						$(function() {
-							$("#popup")
-							.draggable()
-						    .resizable();
-						});
-					//*/
+								$("#popup").resizable( 
+										{ handles: " w "/*, n, s, sw, nw"*/ }, 
+										{ containment: "parent" },
+										{ minHeight: 300 },
+										{ minWidth: 300 },
+										{ /*    start: function(event, ui) { },*/
+										    stop: function(event, ui) {
+										    	$("#popup").css({
+										    		left: "auto",
+										            right: "-3px",
+										            bottom: "5px",
+										            height: ""
+										        });
+										    }
+										}
+									);
+									//.draggable()
+							});
 					</script>
 
 					<!-- Popup Content -->
