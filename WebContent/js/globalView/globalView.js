@@ -61,15 +61,13 @@ var nodeWidth, nodeHeight;
 
 function drawTree(jsonTree)
 {
-	//var m = [ , 100, 40, 100 ]; 
-	var w = 8000, // - m[1] - m[3], 
-	h = 8000, // - m[0] - m[2], 
-	i = 0, 
-	root;
-	
-	nodeWidth = 250;
-	nodeHeight = 125;
-
+	nodeWidth = 250; //NodeSet Width
+	nodeHeight = 125;//NodeSet Height
+	 
+	var w = 12000, //Canvas Width
+		h = 12000, //Canvas Height
+		i = 0, 
+		root;
 	
 	var tree = d3.layout.tree().size([ h, w ]);
 
@@ -77,16 +75,14 @@ function drawTree(jsonTree)
 			return [ d.y, d.x ];
 		});
 
-
-	var zoom = d3.behavior.zoom()
-					//.translate([transx,transy])
-					.on("zoom", redraw);
+	//Zoom behavior instantiation.
+	var zoom = d3.behavior.zoom().on("zoom", redraw);
 	
 	//setting up canvas
 	var vis = d3.select("#container")
 		.append("svg:svg")
-			.attr("width", "100%" )//+ m[1] + m[3])
-			.attr("height", "100%" )//+ m[0] + m[2])
+			.attr("width", "100%" )
+			.attr("height", "100%" )
 			.attr('fill', '#B8B5DF')//purplish gray
 			.attr('fill-opacity', 0.5)
 		//Zoom and Pan
@@ -94,18 +90,13 @@ function drawTree(jsonTree)
 			.style("cursor", "move")
 			.call( zoom )
 			.on("dblclick.zoom", null)//;
-			.attr('fill', '#fff')//'#4BAA4C')//greenish
+			.attr('fill', '#fff')
 			.attr('fill-opacity', 1.0)
 		.append("svg:g");
-			//.attr('fill', '#B5524C')//redish
-			//.attr('fill-opacity', 0.5);
 	
-
 	vis.append('svg:rect')
     	.attr('width', w*2)
     	.attr('height', h*2)
-    	//.attr('fill', '#8DDABC')//bluish
-    	//.attr('fill-opacity', 0.5)
 		.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
     
 	
@@ -136,7 +127,7 @@ function drawTree(jsonTree)
 	});
 	
 
-	
+	//Zoom/Pan Redraw
 	function redraw()
 	{
 		  trans=d3.event.translate;
@@ -149,9 +140,12 @@ function drawTree(jsonTree)
 	
 	
 	root = jsonTree;
+	
+	//Root Node start Position
 	root.x0 = h / 2;
 	root.y0 = 0;
 
+	//Toggle all node children visible/invisible
 	function toggleAll(d) 
 	{
 		if (d.children) {
@@ -159,13 +153,9 @@ function drawTree(jsonTree)
 			toggle(d);
 		}
 	}
-
 	// Initialize the display to show a few nodes.
 	//root.children.forEach(toggleAll);
 	//toggle(root.children[0]);
-
-	
-	
 	
 	
 	//**testing text html in svg
@@ -213,6 +203,7 @@ function drawTree(jsonTree)
 
 	function update(source)
 	{
+		//How fast does transition animation last.
 		var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
 		// Compute the new tree layout.
@@ -259,15 +250,7 @@ function drawTree(jsonTree)
 			.attr("height", nodeHeight)
 			.attr("rx", 20)
 			.attr("ry", 20)
-			.style("fill", function(d) 
-			{
-				if(d.children)
-					return "#D3E8F7";
-				else if(d._children)
-					return "#30E2FF";//"#2EC8FD";//33ABFF
-				else
-					return "#FFEBB3";//leaf
-			})
+			.style("fill", colorNodes)
 			.attr("x", -125)
 			.attr("y", -80);
 
@@ -281,26 +264,26 @@ function drawTree(jsonTree)
 			.style("stroke", "black")
 			.style("cursor", "pointer");
 		
-		//Add Engine text
-		nodeEnter.append("svg:text")
-			.attr("y", -65)
-			.attr("text-anchor", "middle")
-			.text(function(d) {	
-				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].infEngine != "null")
-					return ""+d.PMLnode.inferenceSteps[0].infEngine;//Engine
-				else
-					return "No Engine";
-			})
-			.style("cursor", "pointer");
 		//Add Rule text
 		nodeEnter.append("svg:text")
-			.attr("y", -50)
+			.attr("y", -65)
 			.attr("text-anchor", "middle")
 			.text(function(d) {	
 				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].declRule != "null")
 					return ""+d.PMLnode.inferenceSteps[0].declRule;//Rule
 				else
 					return "No Rule";
+			})
+			.style("cursor", "pointer");
+		//Add Engine text
+		nodeEnter.append("svg:text")
+			.attr("y", -50)
+			.attr("text-anchor", "middle")
+			.text(function(d) {	
+				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].infEngine != "null")
+					return ""+d.PMLnode.inferenceSteps[0].infEngine;//Engine
+				else
+					return "No Engine";
 			})
 			.style("cursor", "pointer");
 				
@@ -358,15 +341,7 @@ function drawTree(jsonTree)
 		nodeUpdate.select("rect")
 			.attr("width", nodeWidth)
 			.attr("height", nodeHeight)
-			.style("fill", function(d) 
-			{
-				if(d.children)
-					return "#D3E8F7";
-				else if(d._children)
-					return "#30E2FF";//"#2EC8FD";//33ABFF
-				else
-					return "#FFEBB3";//leaf
-			});
+			.style("fill", colorNodes);
 
 		nodeUpdate.select("text").style("fill-opacity", 1);
 
@@ -382,9 +357,7 @@ function drawTree(jsonTree)
 					}).remove();
 
 		nodeExit.select("rect").attr("width", 1e-6).attr("height", 1e-6);
-		
 		nodeExit.select("image").attr("width", 1e-6).attr("height", 1e-6);
-
 		nodeExit.select("text").style("fill-opacity", 1e-6);
 
 		// Update the links…
@@ -440,9 +413,20 @@ function drawTree(jsonTree)
 		}
 	}
 	
+	function colorNodes(d)
+	{
+		if(d.children)
+			return "#D3E8F7";
+		else if(d._children)
+			return "#30E2FF";//"#2EC8FD";//33ABFF
+		else
+			return "#FFEBB3";//leaf
+	}
+	
 	
 	function nodeClick(d)
 	{
+		//$("#tabs").tabs("option", "disabled", [1,2]);//disable Product and Local Views
 		centerOnNode(d);
 		loadPopupViewer(d);
 	}
