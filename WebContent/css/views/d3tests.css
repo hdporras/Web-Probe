@@ -1,20 +1,23 @@
 .node rect {
 	cursor: pointer;
 	fill: #fff;
-	stroke: steelblue;
+	stroke: black;
 	stroke-width: 1.5px;
 	box-shadow: 1px 1px 4px #000000;
 	border-radius: 0.5em;
 }
 
 .node text {
-	font-size: 11px;
+	font-size: 13px;
+	color: black;
+	fill: black;
+	stroke: black;
 }
 
 path.link {
 	fill: none;
-	stroke: #ccc;
-	stroke-width: 3px;
+	stroke: #777;
+	stroke-width: 4px;
 }
 
 
@@ -33,33 +36,12 @@ rect {
 }
 
 pre {
-  font-size: 18px;
+  font-size: 15px;
 }
 
 line {
   stroke: #000;
-  stroke-width: 1.5px;
-}
-
-.string, .regexp {
-  color: #f39;
-}
-
-.keyword {
-  color: #00c;
-}
-
-.comment {
-  color: #777;
-  font-style: oblique;
-}
-
-.number {
-  color: #369;
-}
-
-.class, .special {
-  color: #1181B8;
+  stroke-width: 3px;
 }
 
 

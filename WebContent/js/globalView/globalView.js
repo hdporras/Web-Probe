@@ -68,7 +68,7 @@ function drawTree(jsonTree)
 	root;
 	
 	nodeWidth = 250;
-	nodeHeight = 100;
+	nodeHeight = 130;
 
 	
 	var tree = d3.layout.tree().size([ h, w ]);
@@ -82,7 +82,7 @@ function drawTree(jsonTree)
 					//.translate([transx,transy])
 					.on("zoom", redraw);
 	
-	
+	//setting up canvas
 	var vis = d3.select("#container")
 		.append("svg:svg")
 			.attr("width", "100%" )//+ m[1] + m[3])
@@ -133,21 +133,9 @@ function drawTree(jsonTree)
 				      + " scale(" + zoomScale + ")");
 			centerOnNode(currentNode);
 		}
-		/*else if(zoom.scale() > .04)
-		{
-			var zoomScale = zoom.scale() - .03;
-			zoom.scale(zoomScale);
-
-			vis.transition().duration(1000).attr("transform",
-				      "translate(" + zoom.translate() + ")"
-				      + " scale(" + zoomScale + ")");	
-			centerOnNode(currentNode);
-		}*/
 	});
 	
-	
-	//redraw first time with offset.
-	//redraw();
+
 	
 	function redraw()
 	{
@@ -178,6 +166,9 @@ function drawTree(jsonTree)
 
 	
 	
+	
+	
+	//**testing text html in svg
 	var test = vis.append("svg:g")
 	.attr("width", 225)
 	.attr("height", 75)
@@ -210,6 +201,11 @@ function drawTree(jsonTree)
 	.append("p")
 	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
 	
+	//End Test (Remove when done)
+	
+	
+	
+	
 	update(root);
 	centerOnNode(root);
 	
@@ -232,6 +228,8 @@ function drawTree(jsonTree)
 			return d.id || (d.id = ++i);
 		});
 
+		
+		
 		// Enter any new nodes at the parent's previous position.
 		var nodeEnter = node.enter()
 		.append("svg:g")
@@ -253,7 +251,7 @@ function drawTree(jsonTree)
 		.on("click", centerOnNode);
 		
 
-		//Rect
+		//Node Rectangle
 		nodeEnter.append("svg:rect")
 		.attr("width", nodeWidth)
 		.attr("height", nodeHeight)
@@ -269,9 +267,39 @@ function drawTree(jsonTree)
 				return "#FFEBB3";//leaf
 		})
 		.attr("x", -125)
-		.attr("y", -50);
+		.attr("y", -85);
 
-		  
+		//Rule and Engine Rectangle
+		nodeEnter.append("svg:rect")
+		.attr("width", 200)
+		.attr("height", 40)
+		.attr("x", -100)
+		.attr("y", -80)
+		.style("fill", "white")
+		.style("stroke", "black")
+		.style("cursor", "pointer");
+		
+		//Add Rule and Engine text
+		nodeEnter.append("svg:text")
+			.attr("y", -64)
+			.attr("text-anchor", "middle")
+			.text(function(d) {	
+				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].infEngine != "null")
+					return ""+d.PMLnode.inferenceSteps[0].infEngine;//Engine
+				else
+					return "No Engine";
+			});
+		nodeEnter.append("svg:text")
+			.attr("y", -46)
+			.attr("text-anchor", "middle")
+			.text(function(d) {	
+				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].declRule != "null")
+					return ""+d.PMLnode.inferenceSteps[0].declRule;//Rule
+				else
+					return "No Rule";
+			});
+				
+		
 		//Add image to node, if available
 		nodeEnter.append("svg:image")
 		//.append("svg:image")
@@ -293,12 +321,10 @@ function drawTree(jsonTree)
 		//.attr("cy", 40);
 		
 		
-		
-		
 		//Add Conclusion Text to node if no Image Available.
 		nodeEnter.append("svg:text")
 		.attr("x", -113)
-		.attr("y", -38)
+		.attr("y", -30)
 		.attr("dy", ".5em")
 		.attr("text-anchor", "start")//"start" : "end";
 		.text(function(d) {
@@ -315,24 +341,10 @@ function drawTree(jsonTree)
 		.style("fill-opacity", 1)
 		.style("cursor", "pointer");
 		
-
-		//Add Rule and Engine text to node if available
-		nodeEnter.append("svg:text").attr("x", function(d) {
-			return d.children || d._children ? 125 : 125;//125 : -125;
-		})
-		.attr("dy", ".35em")
-		.attr("text-anchor", function(d) {
-			return d.children || d._children ? "start" : "start";//"start" : "end";
-		}).text(function(d) {
-			
-			if(d.PMLnode.inferenceSteps != null)
-			{
-				return "Engine: "+d.PMLnode.inferenceSteps[0].infEngine+" <br> Rule: "+d.PMLnode.inferenceSteps[0].declRule;
-			}
-			
-			return "Inference Step Information not found";
-		}).style("fill-opacity", 1e-3);
-
+		
+		
+		
+		
 		// Transition nodes to their new position.
 		var nodeUpdate = node.transition().duration(duration).attr(
 				"transform", function(d) {
@@ -354,6 +366,8 @@ function drawTree(jsonTree)
 
 		nodeUpdate.select("text").style("fill-opacity", 1);
 
+		
+		
 		// Transition exiting nodes to the parent's new position.
 		var nodeExit = node.exit().transition().duration(duration)
 		.attr(
