@@ -158,7 +158,8 @@ function drawTree(jsonTree)
 	//toggle(root.children[0]);
 	
 	
-	//**testing text html in svg
+	/**testing text html in svg
+	
 	var test = vis.append("svg:g")
 		.attr("width", 225)
 		.attr("height", 75)
@@ -190,7 +191,7 @@ function drawTree(jsonTree)
 		.attr("height", "70")
 		.append("p")
 		.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
-	
+	//*/
 	//End Test (Remove when done)
 	
 	
@@ -310,23 +311,30 @@ function drawTree(jsonTree)
 		
 		//Add Conclusion Text to node if no Image Available.
 		nodeEnter.append("svg:text")
-			.attr("x", -113)
-			.attr("y", -30)
+			//.attr("x", -113)
+			//.attr("y", -30)
 			.attr("dy", ".5em")
-			.attr("text-anchor", "start")
+			.attr("text-anchor", "middle")
+			.html("test")
 			.text(function(d) {
+			//.html(function(d) {
 				
 				if(d.PMLnode.conclusion.thumbURL == null && d.PMLnode.conclusion.conclusionText != null)
 				{
-					return d.PMLnode.conclusion.conclusionText;
+					var text = d.PMLnode.conclusion.conclusionText
+					//text = svgWordWrap(50, text);
+					
+					return text;
 				}
 				else
-					return null;
+					{return null;}
 			})
 			.style("stroke", "black")
 			.style("fill", "white")
 			.style("fill-opacity", 1)
-			.style("cursor", "pointer");
+			.style("cursor", "pointer")
+			.attr("width", 225)
+			.attr("height", 75);
 		
 		
 		
@@ -499,6 +507,28 @@ function drawTree(jsonTree)
 		  
 		  
 		}
+}
+
+function svgWordWrap(maxWidth, text)
+{
+	var words = text.split(" ");
+	
+	var finalText = "<tspan>";
+	var tempText = "";
+	for (var i=0; i<words.length; i++) 
+	{
+		tempText = tempText + " " + words[i];
+
+		//linebreak
+		if (tempText.length > maxWidth || words[i] == "<br/>" || words[i] == "\n")
+		{
+			finalText += tempText + "</tspan><tspan>";
+		} 
+	}
+	
+	finalText += tempText + "</tspan>";
+	
+	return finalText;
 }
 
 
