@@ -68,14 +68,14 @@ function drawTree(jsonTree)
 	root;
 	
 	nodeWidth = 250;
-	nodeHeight = 130;
+	nodeHeight = 125;
 
 	
 	var tree = d3.layout.tree().size([ h, w ]);
 
 	var diagonal = d3.svg.diagonal().projection(function(d) {
-		return [ d.y, d.x ];
-	});
+			return [ d.y, d.x ];
+		});
 
 
 	var zoom = d3.behavior.zoom()
@@ -170,11 +170,11 @@ function drawTree(jsonTree)
 	
 	//**testing text html in svg
 	var test = vis.append("svg:g")
-	.attr("width", 225)
-	.attr("height", 75)
-	.attr("x", 0)
-	.attr("y", 0)
-	.attr("transform", "translate(1000, 1000)");
+		.attr("width", 225)
+		.attr("height", 75)
+		.attr("x", 0)
+		.attr("y", 0)
+		.attr("transform", "translate(1000, 1000)");
 	
 	test.append('svg:rect')
     	.attr("width", 225)
@@ -182,24 +182,24 @@ function drawTree(jsonTree)
     	.style("fill", "gray");
 	
 	test.append("foreignObject")
-	.attr("width", 225)
-	.attr("height", 75)
-	.attr("x", 0)
-	.attr("y", 0)
-	.style("background-color", "blue")
+		.attr("width", 225)
+		.attr("height", 75)
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("background-color", "blue")
 	
 	.append("body")
-	.attr("width", 225)
-	.attr("height", 75)
-	.attr("x", 0)
-	.attr("y", 0)
-	
-	.append("div")
-	//.style("background-color", "green")
-	.attr("width", "200")
-	.attr("height", "70")
-	.append("p")
-	.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
+		.attr("width", 225)
+		.attr("height", 75)
+		.attr("x", 0)
+		.attr("y", 0)
+		
+		.append("div")
+		//.style("background-color", "green")
+		.attr("width", "200")
+		.attr("height", "70")
+		.append("p")
+		.text("This is a paragraph test. This is a paragraph test. This is a paragraph test.");
 	
 	//End Test (Remove when done)
 	
@@ -207,7 +207,7 @@ function drawTree(jsonTree)
 	
 	
 	update(root);
-	centerOnNode(root);
+	nodeClick(root);//Center on root node to start.
 	
 	
 
@@ -220,131 +220,135 @@ function drawTree(jsonTree)
 
 		// Normalize for fixed-depth.
 		nodes.forEach(function(d) {
-			d.y = d.depth * 450;
-		});
-
+				d.y = d.depth * 450;
+			});
+		
+		
+		/** Setting up the Nodes */
+		
 		// Update the nodes…
 		var node = vis.selectAll("g.node").data(nodes, function(d) {
-			return d.id || (d.id = ++i);
-		});
-
+				return d.id || (d.id = ++i);
+			});
 		
 		
 		// Enter any new nodes at the parent's previous position.
 		var nodeEnter = node.enter()
-		.append("svg:g")
-		.attr("class", "node")
-		.attr("transform", function(d) {
-			return "translate(" + source.y0 + "," + source.x0 + ")";
-		})
-		/*.on("dblclick", function(d) {
-			toggle(d);
-			update(d);
-			centerOnNode(d);
-		})*/
-		.on("dblclick", function(d) {
-			setCurrentLocalURI(d.PMLnode.conclusion.concURI);
-			showLocalView();
-			setupLocalView();
-			
-		})
-		.on("click", centerOnNode);
+			.append("svg:g")
+			.attr("class", "node")
+			.attr("transform", function(d) {
+				return "translate(" + source.y0 + "," + source.x0 + ")";
+			})
+			/*.on("dblclick", function(d) {
+				toggle(d);
+				update(d);
+				centerOnNode(d);
+			})*/
+			.on("dblclick", function(d) {
+				setCurrentLocalURI(d.PMLnode.conclusion.concURI);
+				showLocalView();
+				setupLocalView();
+				
+			})
+			.on("click", nodeClick);
 		
 
 		//Node Rectangle
 		nodeEnter.append("svg:rect")
-		.attr("width", nodeWidth)
-		.attr("height", nodeHeight)
-		.attr("rx", 20)
-		.attr("ry", 20)
-		.style("fill", function(d) 
-		{
-			if(d.children)
-				return "#D3E8F7";
-			else if(d._children)
-				return "#30E2FF";//"#2EC8FD";//33ABFF
-			else
-				return "#FFEBB3";//leaf
-		})
-		.attr("x", -125)
-		.attr("y", -85);
+			.attr("width", nodeWidth)
+			.attr("height", nodeHeight)
+			.attr("rx", 20)
+			.attr("ry", 20)
+			.style("fill", function(d) 
+			{
+				if(d.children)
+					return "#D3E8F7";
+				else if(d._children)
+					return "#30E2FF";//"#2EC8FD";//33ABFF
+				else
+					return "#FFEBB3";//leaf
+			})
+			.attr("x", -125)
+			.attr("y", -80);
 
 		//Rule and Engine Rectangle
 		nodeEnter.append("svg:rect")
-		.attr("width", 200)
-		.attr("height", 40)
-		.attr("x", -100)
-		.attr("y", -80)
-		.style("fill", "white")
-		.style("stroke", "black")
-		.style("cursor", "pointer");
+			.attr("width", 200)
+			.attr("height", 30)
+			.attr("x", -100)
+			.attr("y", -75)
+			.style("fill", "white")
+			.style("stroke", "black")
+			.style("cursor", "pointer");
 		
-		//Add Rule and Engine text
+		//Add Engine text
 		nodeEnter.append("svg:text")
-			.attr("y", -64)
+			.attr("y", -65)
 			.attr("text-anchor", "middle")
 			.text(function(d) {	
 				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].infEngine != "null")
 					return ""+d.PMLnode.inferenceSteps[0].infEngine;//Engine
 				else
 					return "No Engine";
-			});
+			})
+			.style("cursor", "pointer");
+		//Add Rule text
 		nodeEnter.append("svg:text")
-			.attr("y", -46)
+			.attr("y", -50)
 			.attr("text-anchor", "middle")
 			.text(function(d) {	
 				if(d.PMLnode.inferenceSteps != null && d.PMLnode.inferenceSteps[0].declRule != "null")
 					return ""+d.PMLnode.inferenceSteps[0].declRule;//Rule
 				else
 					return "No Rule";
-			});
+			})
+			.style("cursor", "pointer");
 				
 		
 		//Add image to node, if available
 		nodeEnter.append("svg:image")
-		//.append("svg:image")
-		.attr("xlink:href", function(d) 
-		{
-			if(d.PMLnode.conclusion.thumbURL != null)
-				return d.PMLnode.conclusion.thumbURL;
-			if(d.PMLnode.conclusion.conclusionText == null)
-				return "../../images/No_sign.svg.png";
-			else
-				return null;//"../../images/No_sign.svg.png";
-		})
-		.attr("width", 225)
-		.attr("height", 75)
-		.attr("x", -113)
-		.attr("y", -38)
-		.style("cursor", "pointer");
-		//.attr("cx", 40)
-		//.attr("cy", 40);
+			.attr("xlink:href", function(d) 
+			{
+				if(d.PMLnode.conclusion.thumbURL != null)
+					return d.PMLnode.conclusion.thumbURL;
+				if(d.PMLnode.conclusion.conclusionText == null)
+					return "../../images/No_sign.svg.png";
+				else
+					return null;//"../../images/No_sign.svg.png";
+			})
+			.attr("width", 225)
+			.attr("height", 75)
+			.attr("x", -113)
+			.attr("y", -38)
+			.style("cursor", "pointer");
+			//.attr("cx", 40)
+			//.attr("cy", 40);
 		
 		
 		//Add Conclusion Text to node if no Image Available.
 		nodeEnter.append("svg:text")
-		.attr("x", -113)
-		.attr("y", -30)
-		.attr("dy", ".5em")
-		.attr("text-anchor", "start")//"start" : "end";
-		.text(function(d) {
-			
-			if(d.PMLnode.conclusion.thumbURL == null && d.PMLnode.conclusion.conclusionText != null)
-			{
-				return d.PMLnode.conclusion.conclusionText;
-			}
-			else
-				return null;
-		})
-		.style("stroke", "black")
-		.style("fill", "white")
-		.style("fill-opacity", 1)
-		.style("cursor", "pointer");
+			.attr("x", -113)
+			.attr("y", -30)
+			.attr("dy", ".5em")
+			.attr("text-anchor", "start")
+			.text(function(d) {
+				
+				if(d.PMLnode.conclusion.thumbURL == null && d.PMLnode.conclusion.conclusionText != null)
+				{
+					return d.PMLnode.conclusion.conclusionText;
+				}
+				else
+					return null;
+			})
+			.style("stroke", "black")
+			.style("fill", "white")
+			.style("fill-opacity", 1)
+			.style("cursor", "pointer");
 		
 		
 		
-		
-		
+		/** Transitions */
+				
 		// Transition nodes to their new position.
 		var nodeUpdate = node.transition().duration(duration).attr(
 				"transform", function(d) {
@@ -370,12 +374,12 @@ function drawTree(jsonTree)
 		
 		// Transition exiting nodes to the parent's new position.
 		var nodeExit = node.exit().transition().duration(duration)
-		.attr(
-				"transform",
-				function(d) {
-					return "translate(" + source.y + ","
-					+ source.x + ")";
-				}).remove();
+			.attr(
+					"transform",
+					function(d) {
+						return "translate(" + source.y + ","
+						+ source.x + ")";
+					}).remove();
 
 		nodeExit.select("rect").attr("width", 1e-6).attr("height", 1e-6);
 		
@@ -391,38 +395,38 @@ function drawTree(jsonTree)
 
 		// Enter any new links at the parent's previous position.
 		link.enter().insert("svg:path", "g").attr("class", "link")
-		.attr("d", function(d) {
-			var o = {
-					x : source.x0,
-					y : source.y0
-			};
-			return diagonal({
-				source : o,
-				target : o
-			});
-		}).transition().duration(duration).attr("d", diagonal);
+			.attr("d", function(d) {
+				var o = {
+						x : source.x0,
+						y : source.y0
+				};
+				return diagonal({
+					source : o,
+					target : o
+				});
+			}).transition().duration(duration).attr("d", diagonal);
 
 		// Transition links to their new position.
 		link.transition().duration(duration).attr("d", diagonal);
 
 		// Transition exiting nodes to the parent's new position.
 		link.exit().transition().duration(duration).attr("d",
-				function(d) {
-			var o = {
-					x : source.x,
-					y : source.y
-			};
-			return diagonal({
-				source : o,
-				target : o
+			function(d) {
+				var o = {
+						x : source.x,
+						y : source.y
+				};
+				return diagonal({
+					source : o,
+					target : o
+				});
+			}).remove();
+	
+			// Stash the old positions for transition.
+			nodes.forEach(function(d) {
+				d.x0 = d.x;
+				d.y0 = d.y;
 			});
-		}).remove();
-
-		// Stash the old positions for transition.
-		nodes.forEach(function(d) {
-			d.x0 = d.x;
-			d.y0 = d.y;
-		});
 	}
 
 	// Toggle children.
@@ -437,6 +441,19 @@ function drawTree(jsonTree)
 	}
 	
 	
+	function nodeClick(d)
+	{
+		centerOnNode(d);
+		loadPopupViewer(d);
+	}
+	
+	function loadPopupViewer(d)
+	{
+		startLoadingPopupViewerScreen();
+		clearPopupViewerTabs();
+		setupViewers("popupViewerTabs", d.PMLnode.conclusion.concURI, d.PMLnode.conclusion.conclusionText);
+	}
+		
 	function centerOnNode(d)
 	{
 		var centroid = [d.x, d.y], // The selected nodes location
@@ -445,51 +462,33 @@ function drawTree(jsonTree)
 		  var containerWidth = $("#container").width();
 		  var containerHeight = $("#container").height();
 		  
+		  var translation;
 		  
-		//Popup
+		  //loadPopupViewer(d);
+		  
+		  // if Popup is visible
 		  if(!hidePopup)
-		  {
-			  //$("#container").css("width","65%");
-			  $("#popup").css('visibility', 'visible');
-			  //$("#popup").css("width","34%");
-			  
-			  startLoadingPopupViewerScreen();
-			  clearPopupViewerTabs();
-			  setupViewers("popupViewerTabs", d.PMLnode.conclusion.concURI, d.PMLnode.conclusion.conclusionText);
-			  
-			  
-			
-			  var translation = [
+		  {  			
+			  translation = [
 			     (containerWidth * 0.5 * 0.65) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
 			     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y
-			  ];
-
-			  zoom.translate(translation);
-
-			  vis.transition().duration(1000).attr("transform",
-					  "translate(" + zoom.translate() + ")"
-					  + " scale(" + scale + ")");
-			  
+			  ];		  
 		  }
 		  else
-		  {
-			  startLoadingPopupViewerScreen();
-			  clearPopupViewerTabs();
-			  setupViewers("popupViewerTabs", d.PMLnode.conclusion.concURI, d.PMLnode.conclusion.conclusionText);
-			  
-			  var translation = [
+		  {			  
+			  translation = [
 			     (containerWidth/2) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
 			     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y
 			  ];
-	
-			  zoom.translate(translation);
-			  //zoom.scale(1);
-	
-			  vis.transition().duration(1000).attr("transform",
-				      "translate(" + zoom.translate() + ")"
-				      + " scale(" + scale + ")");
-			  
 		  }
+
+		  //zoom and translate
+		  zoom.translate(translation);
+
+		  vis.transition().duration(1000).attr("transform",
+				  "translate(" + zoom.translate() + ")"
+				  + " scale(" + scale + ")");
+
 		  
 		  currentNode = d; //make this the currently slected node.
 		  

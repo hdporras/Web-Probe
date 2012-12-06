@@ -7,7 +7,7 @@
 	left: 65%; right: -3px;
 	top: 5px; bottom: 5px;
 	
-	visibility: hidden;
+	visibility: visible;
 	opacity:0.9;
 	background-color: #4B4B4B;
 	padding: 6px;
@@ -63,7 +63,60 @@
 }
 
 
-/* D3 Stuff */
 
 
+
+
+/* D3 SVG Stuff */
+
+.node rect {
+	cursor: pointer;
+	fill: #fff;
+	stroke: black;
+	stroke-width: 1.5px;
+	box-shadow: 1px 1px 4px #000000;
+	border-radius: 0.5em;
+}
+
+.node text {
+	font-size: 10px;
+	color: black;
+	fill: black;
+	stroke: black;
+}
+
+path.link {
+	fill: none;
+	stroke: #777;
+	stroke-width: 4px;
+}
+
+
+rect {
+  pointer-events: all;
+}
+
+line {
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+
+/*
+a:link, a:visited {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #666;
+}*/
+
+.hint {
+  position: absolute;
+  right: 0;
+  width: 1280px;
+  font-size: 12px;
+  color: #999;
+}
 
