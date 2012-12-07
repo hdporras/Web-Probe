@@ -42,7 +42,7 @@ function getTree(URI)
 					var jsonTree = jsonParse(jsonResult);
 					
 					
-					drawTree(jsonTree);
+					drawTree(jsonTree.root, jsonTree.treeWidth, jsonTree.treeHeight);
 					endLoadingScreen();
 				},
 				
@@ -59,13 +59,15 @@ function getTree(URI)
 
 var nodeWidth, nodeHeight;
 
-function drawTree(jsonTree)
+function drawTree(jsonTree, treeWidth, treeHeight)
 {
 	nodeWidth = 250; //NodeSet Width
 	nodeHeight = 125;//NodeSet Height
 	 
-	var w = 12000, //Canvas Width
-		h = 12000, //Canvas Height
+	var nodeHorizontalSpacing = 450,
+		nodeVerticalSpacing = 200,
+		w = treeHeight * (/*nodeWidth + */nodeHorizontalSpacing),//12000, //Canvas Width
+		h = treeWidth * (nodeHeight + nodeVerticalSpacing),//12000, //Canvas Height
 		i = 0, 
 		root;
 	
@@ -95,9 +97,9 @@ function drawTree(jsonTree)
 		.append("svg:g");
 	
 	vis.append('svg:rect')
-    	.attr('width', w*2)
-    	.attr('height', h*2)
-		.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
+    	.attr('width', w)//*2)
+    	.attr('height', h);//*2)
+		//.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
     
 	
 
@@ -202,17 +204,18 @@ function drawTree(jsonTree)
 	
 	
 
+	/** Update Graph */
 	function update(source)
 	{
 		//How fast does transition animation last.
-		var duration = d3.event && d3.event.altKey ? 5000 : 500;
+		var duration = d3.event && d3.event.altKey ? 3000 : 500;
 
 		// Compute the new tree layout.
 		var nodes = tree.nodes(root);//.reverse();
 
 		// Normalize for fixed-depth.
 		nodes.forEach(function(d) {
-				d.y = d.depth * 450;
+				d.y = d.depth * nodeHorizontalSpacing;
 			});
 		
 		
@@ -231,10 +234,10 @@ function drawTree(jsonTree)
 			.attr("transform", function(d) {
 				return "translate(" + source.y0 + "," + source.x0 + ")";
 			})
-			/*.on("dblclick", function(d) {
+			/*.on("altclick", function(d) {
 				toggle(d);
 				update(d);
-				centerOnNode(d);
+				nodeClick(d);
 			})*/
 			.on("dblclick", function(d) {
 				setCurrentLocalURI(d.PMLnode.conclusion.concURI);
@@ -435,8 +438,20 @@ function drawTree(jsonTree)
 	function nodeClick(d)
 	{
 		//$("#tabs").tabs("option", "disabled", [1,2]);//disable Product and Local Views
-		centerOnNode(d);
-		loadPopupViewer(d);
+		
+		if(d3.event != null && d3.event.altKey)
+		{
+			centerOnNode(d);
+			loadPopupViewer(d);
+			toggle(d);
+			update(d);
+		}
+		else
+		{
+			centerOnNode(d);
+			loadPopupViewer(d);
+		}
+				
 	}
 	
 	function loadPopupViewer(d)
@@ -460,7 +475,7 @@ function drawTree(jsonTree)
 		  
 		  // if Popup is visible
 		  if(!hidePopup)
-		  {  			
+		  {
 			  translation = [
 			     (containerWidth * 0.5 * 0.65) + ( -centroid[1] /*- (nodeWidth/2)*/ ) * scale,   // X
 			     (containerHeight/2) + ( -centroid[0] /*- (nodeHeight/2)*/ ) * scale // Y

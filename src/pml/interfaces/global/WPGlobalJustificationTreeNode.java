@@ -14,14 +14,18 @@ public class WPGlobalJustificationTreeNode
 	WPJustificationPMLNode PMLnode;
 	
 	/** Contains children of the TreeNode */
-	ArrayList<WPGlobalJustificationTreeNode> children;
+	public ArrayList<WPGlobalJustificationTreeNode> children;
+	
+	/** Level of node in Tree */
+	public int level;
 	
 	
 	
-	public WPGlobalJustificationTreeNode(/*WPGlobalJustificationTreeNode parentNode,*/ WPJustificationPMLNode PMLcontentNode)
+	public WPGlobalJustificationTreeNode( WPJustificationPMLNode PMLcontentNode, int lvl /*, WPGlobalJustificationTreeNode parentNode*/)
 	{
 		//parent = parentNode;
 		PMLnode = PMLcontentNode;
+		level = lvl;
 		children = new ArrayList<WPGlobalJustificationTreeNode>();
 	}
 	
@@ -29,7 +33,8 @@ public class WPGlobalJustificationTreeNode
 	/** Converts the object into a JSON String representation of the object. */
 	public String convertToJSON()
 	{
-		String json = " \"PMLnode\" : " + PMLnode.convertToJSON(); 
+		String json = "\"level\" : " + level + ", " +
+				"\"PMLnode\" : " + PMLnode.convertToJSON(); 
 
 		if(children != null && children.size() > 0)
 		{
@@ -53,6 +58,8 @@ public class WPGlobalJustificationTreeNode
 			json += ", \"children\" : null";//+", ";
 
 
+		
+		
 		return "{ "+ json +" }";
 	}
 }

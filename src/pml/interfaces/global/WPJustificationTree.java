@@ -1,5 +1,9 @@
 package pml.interfaces.global;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.inference_web.iw.pml.pmlj.IWNodeSetOccur;
 import org.inference_web.iw.pml.util.IWPMLObjectManager;
 
@@ -10,6 +14,13 @@ public class WPJustificationTree
 {
 	/** Root Tree Node */
 	public WPGlobalJustificationTreeNode root;
+	
+	/** Tree Width */
+	public int treeWidth = 1;
+	
+	/** Tree Height */
+	public int treeHeight = 1;
+	
 	
 	//Use pml.interfaces.localView.justifiedBy classes to get children information
 	
@@ -24,7 +35,10 @@ public class WPJustificationTree
 		PMLNode node = factory.loadJustification(URI, null);*/
 		
 		WPGlobalJustificationPMLNode justRootNode = createJustificationPMLNode(URI);
-		root = buildTree(justRootNode);
+		
+		root = buildTree(justRootNode, 1);
+		
+		calculateMaxDimensions();
 	}
 	
 	/** Returns the created WPJustificationPMLNode from the given URI. It does this by building an IWNodeSetOccur from the URI and */
@@ -40,21 +54,24 @@ public class WPJustificationTree
 	}
 	
 	/** Builds the PML Tree and Returns the root of the Tree. */
-	public WPGlobalJustificationTreeNode buildTree(WPGlobalJustificationPMLNode justRoot)
-	{		
+	public WPGlobalJustificationTreeNode buildTree(WPGlobalJustificationPMLNode justRoot, int level)
+	{	
 		if(justRoot != null)
 		{
-			WPGlobalJustificationTreeNode parentNode = new WPGlobalJustificationTreeNode(justRoot);
+			WPGlobalJustificationTreeNode parentNode = new WPGlobalJustificationTreeNode(justRoot, level);
 			
 			String[] antecedentURIs = justRoot.inferenceSteps.get(0).antecedentURIs;
 			
 			if(antecedentURIs != null)
 			{
+				addToWidth(antecedentURIs.length, level+1);
+				
 				for(int i=0; i < antecedentURIs.length; i++)
 				{
+					
 					WPGlobalJustificationPMLNode antecedentPMLNode = createJustificationPMLNode( antecedentURIs[i] );
 					//WPGlobalJustificationTreeNode antecedentTreeNode = new WPGlobalJustificationTreeNode(antecedentPMLNode);
-					WPGlobalJustificationTreeNode antecedentTreeNode = buildTree(antecedentPMLNode);
+					WPGlobalJustificationTreeNode antecedentTreeNode = buildTree(antecedentPMLNode, level+1);
 					parentNode.children.add(antecedentTreeNode);
 				}
 			}
@@ -68,10 +85,65 @@ public class WPJustificationTree
 		
 	}
 	
+	
+	
+	private HashMap<Integer,Integer> widthMap = new HashMap<Integer,Integer>();
+	
+	/** Traverses the tree to compute the max width and height of the tree. */
+	public void calculateMaxDimensions()
+	{
+		int maxWidth = 1;
+		int maxHeight = 1;
+		
+		Iterator< Map.Entry<Integer,Integer> > it = widthMap.entrySet().iterator();
+	    while (it.hasNext())
+	    {
+	        Map.Entry<Integer,Integer> pairs = (Map.Entry<Integer,Integer>)it.next();
+	        //System.out.println(pairs.getKey() + " = " + pairs.getValue());
+	        it.remove(); // avoids a ConcurrentModificationException
+	        
+	        int value = pairs.getValue().intValue();
+	        int level = pairs.getKey().intValue();
+	        
+	        if( value > maxWidth )
+	        {
+	        	maxWidth = value;
+	        }
+	        
+	        if( level > maxHeight )
+	        {
+	        	maxHeight = level;
+	        }
+	    }
+	    
+	    treeWidth = maxWidth;
+	    treeHeight = maxHeight;
+	}
+	
+	/** updates the width of the tree at different levels, for later use, in the widthMap HashMap. */
+	public void addToWidth(int nodeWidth, int level)
+	{
+		if(widthMap.containsKey(level))// if already an entry for this level
+		{
+            int count = widthMap.get(level);// get latest count
+            widthMap.put(level, count + nodeWidth);// add the node width to the count 
+        }
+		else//else if not defined already
+        {
+        	widthMap.put(level, nodeWidth);// start the count with the node width.
+        }
+	}
+	
+	
+	
 	/** Converts the object into a JSON String representation of the object. */
 	public String convertToJSON()
 	{
-		return root.convertToJSON();
+		String json = "\"treeWidth\" : " + treeWidth + ", " +
+				"\"treeHeight\" : " + treeHeight + ", " +
+				"\"root\" : " +root.convertToJSON();
+		
+		return "{ "+ json +" }";
 	}
 	
 	
