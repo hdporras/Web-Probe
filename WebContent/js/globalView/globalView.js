@@ -97,9 +97,9 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		.append("svg:g");
 	
 	vis.append('svg:rect')
-    	.attr('width', w)//*2)
-    	.attr('height', h);//*2)
-		//.attr("transform", "translate(" + (-w/2) + "," + (-h/2) + ")");
+    	.attr('width', w*5)
+    	.attr('height', h*5)
+		.attr("transform", "translate(" + (-w*2) + "," + (-h*2) + ")");
     
 	
 
