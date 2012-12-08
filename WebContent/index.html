@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="js/jsddm.js"> </script>
 	<script type="text/javascript" src="js/util/jquery.blockUI.js"> </script>
 	<script type="text/javascript" src="js/util/jquery.qtip.js"> </script>
+	<script type="text/javascript" src="js/util/jquery.scrollabletab.js"></script>
 	
 	<!-- DWR JavaScript Includes -->
 	<script type='text/javascript' src='/Web-Probe/dwr/engine.js'></script>
@@ -55,6 +56,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="css/jquery.qtip.css" />
 	
+		
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 	
 
@@ -248,7 +250,7 @@
 			<div id="productV" class="tabsFill" style="background-color:white">
 				<script>
 					$(function() {
-						$("#tabsBottom").tabs();
+						$("#tabsBottom").tabs();//.scrollabletab({'resizeHandles':'e,s,se'});
 						$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *").removeClass("ui-corner-all ui-corner-top")
 								.addClass("ui-corner-bottom");
 						
@@ -499,86 +501,26 @@
 						
 						<script>
 							$(function() {
-								$("#popupViewerTabs").tabs();
+								$("#popupViewerTabs").tabs();//.scrollabletab({'resizeHandles':''});
 								$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *")
 										.removeClass("ui-corner-all ui-corner-top")
 										.addClass("ui-corner-bottom");
 							});
 							
-							URLGETparams();
+							URLGETparams();//Do this at end of all scripts
 						</script>
 
 						<div id="popupViewerTabs" class="tabs-bottom">
 							<ul>
-								<li><a href="#ImageJ">ImageJ</a>
-								</li>
-								<li><a href="#Text">Text</a>
-								</li>
-								<li><a href="#PDF">PDF</a>
+								<li><a href="#Image">Image</a>
 								</li>
 							</ul>
-							<div id="ImageJ" class="tabsBottomFill">
-								<!-- **Image over flowing correctly -->
-								<img
-									src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/331.png" />
+							<div id="Image" class="tabsBottomFill">
+								<!--<img
+									src="http://iw.cs.utep.edu:80/VisCacheAccess/cached/331.png" />-->
+								
 							</div>
 
-							<div id="Text" class="tabsBottomFill">
-
-								<script type="text/javascript">
-									var text = getTextFromFile("http://iw.cs.utep.edu:80/VisCacheAccess/cached/4.tex");
-
-									$("#textArea").html(
-											" <pre> " + text + " </pre>");
-								</script>
-
-
-								<div id="textArea">
-									Nam enim risus, molestie et, porta ac, aliquam ac, risus.
-									Quisque lobortis. Phasellus pellentesque purus in massa. Aenean
-									in pede. Phasellus ac libero ac tellus pellentesque semper. Sed
-									ac felis. Sed commodo, magna quis lacinia ornare, quam ante
-									aliquam nisi, eu iaculis leo purus venenatis dui.
-									<p>Nam enim risus, molestie et, porta ac, aliquam ac,
-										risus. Quisque lobortis. Phasellus pellentesque purus in
-										massa. Aenean in pede. Phasellus ac libero ac tellus
-										pellentesque semper. Sed ac felis. Sed commodo, magna quis
-										lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus
-										venenatis dui.</p>
-									<ul>
-										<li>List item one</li>
-										<li>List item two</li>
-										<li>List item three</li>
-										<li>List item three</li>
-										<li>List item three</li>
-										<li>List item three</li>
-										<li>List item three</li>
-										<li>List item three</li>
-										<li>List item three</li>
-									</ul>
-
-								</div>
-							</div>
-							<div id="PDF" class="tabsBottomFill">
-
-								<iframe
-									src="http://docs.google.com/gview?url=http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf&embedded=true"
-									style="width: 98%; height: 97%;" frameborder="2">
-									<object
-										data="http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf"
-										type="application/pdf" width="100%" height="100%">
-
-										<p>
-											It appears you don't have a PDF plugin for this browser. you
-											can <a
-												href="http://iw.cs.utep.edu:80/VisCacheAccess/cached/338.pdf">click
-												here to download the PDF file.</a>
-										</p>
-
-									</object>
-								</iframe>
-
-							</div>
 						</div>
 					</div>
 
