@@ -210,13 +210,13 @@ public class WebProbeInferenceStep
 	
 
 	/** returns the provenance rawstring (0) and the uri (1) in a String array. */
-	public String[] getProvenanceInfo(PMLObject po)
+	public String[] getProvenanceInfo(PMLObject pmlObj)
 	{
 		String[] result = new String[2];
 
-		if (po != null) 
+		if (pmlObj != null) 
 		{
-			IWIdentifiedThing pePo = (IWIdentifiedThing)po;
+			IWIdentifiedThing pePo = (IWIdentifiedThing)pmlObj;
 
 			if (pePo.getIdentifier() != null && pePo.getIdentifier().getURIString() != null)
 			{

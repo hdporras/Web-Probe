@@ -116,10 +116,32 @@ function getQueryQuestion(uri)
 {
 	PMLQueryResults.getQueryContent(uri, 
 	{
-		callback: function(data)
+		callback: function(jsonResult)
 		{
-			var question = dwr.util.toDescriptiveString(data, 1);
-			$("#question").html("<h2 class=\"ui-widget-header ui-corner-all\">Question:</h2> <div class=\"questionText\"><pre>"+ question+"</pre>");
+			jsonResult = jsonResult.replace(/(\r\n|\n|\r)/gm," <br/> ");
+			
+			var query = jsonParse(jsonResult);
+			
+			var rawString = dwr.util.toDescriptiveString(query.rawString, 1);
+			var prettyString = query.prettyString;
+			var questions = query.queryQuestions;
+			
+			if(questions != null && questions.length > 0)
+			{	
+				$("#question").html("<h2 class=\"ui-widget-header ui-corner-all\">Question:</h2> " +
+									"<div class=\"questionText\"><pre>"+ questions[0] +"</pre> </div>");
+				
+				$("#question").append("<h2 class=\"ui-widget-header ui-corner-all\">Query:</h2> " +
+						"<div class=\"questionText\"><pre>"+ rawString +"</pre> </div>");
+			}
+			else
+				$("#question").html("<h2 class=\"ui-widget-header ui-corner-all\">Query:</h2> " +
+									"<div class=\"questionText\"><pre>"+ rawString +"</pre> </div>");
+			
+			if(prettyString != "null")
+				$("#question").append("<h2 class=\"ui-widget-header ui-corner-all\">Pretty Query:</h2> " +
+										"<div class=\"questionText\"><pre>"+ prettyString +"</pre> </div>");
+			
 			//document.getElementById("question").innerHTML = ;
 		},
 		

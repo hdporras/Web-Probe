@@ -83,7 +83,8 @@ function setupLocalView()
 			{
 				var inferenceStep = justified.inferenceSteps[i];
 				
-				var justTitle = "<div class=\"justTitle\">Inferred by inference engine <a class=\"engineRule\" href=\""+inferenceStep.infEngURI+"\" target=\"new\" >"+inferenceStep.infEngine+" </a> with declarative rule  <a class=\"engineRule\" href=\" "+inferenceStep.declRuleURI+" \" target=\"new\" >"+inferenceStep.declRule+" </a>  from the parents: </div>";
+				
+				var justTitle = "<div class=\"justTitle\">Inferred by inference engine <a class=\"engineRule\" href=\"javascript: void openProvenance('"+inferenceStep.infEngURI+"'); \" target=\"newWin\" >"+inferenceStep.infEngine+" </a> with declarative rule  <a class=\"engineRule\" href=\"javascript: void openProvenance('"+inferenceStep.declRuleURI+"');\" target=\"newWin\" >"+inferenceStep.declRule+" </a>  from the parents: </div>";
 				var antecedentsHtml = "<div class=\"justifiedByAntecedents\"> <ol>";
 				
 				if(inferenceStep.antecedents != null)

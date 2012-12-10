@@ -5,7 +5,6 @@ import cache.visAccess.CacheXMLAccess;
 
 public class VisualizationCacheAccess 
 {
-
 	//protected static String cacheLocation = "/usr/local/tomcat/tomcat5.0.28/webapps/service-output/cached";
 
 	/** Caches the list of PML nodesets it receives. Returns a parallel array describing whether each nodeset was successfully cached.*/

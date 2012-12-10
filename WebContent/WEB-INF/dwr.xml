@@ -12,7 +12,7 @@
       	<param name="class" value="test.PMLTests"/>
     </create>
     <create creator="new" javascript="PMLQueryResults">
-      	<param name="class" value="test.PMLQueryResults"/>
+      	<param name="class" value="pml.interfaces.query.PMLQueryResults"/>
     </create>
     <create creator="new" javascript="VisCacheAccess">
       	<param name="class" value="cache.visAccess.VisualizationCacheAccess"/>
