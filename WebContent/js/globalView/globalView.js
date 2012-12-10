@@ -71,6 +71,10 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		i = 0, 
 		root;
 	
+	var fisheye = d3.fisheye()
+    				.radius(100)
+    				.power(3);
+	
 	var tree = d3.layout.tree().size([ h, w ]);
 
 	var diagonal = d3.svg.diagonal().projection(function(d) {
@@ -81,7 +85,7 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 	var zoom = d3.behavior.zoom().on("zoom", redraw);
 	
 	//setting up canvas
-	var vis = d3.select("#container")
+	var zoomLayer = d3.select("#container")
 		.append("svg:svg")
 			.attr("width", "100%" )
 			.attr("height", "100%" )
@@ -93,8 +97,8 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 			.call( zoom )
 			.on("dblclick.zoom", null)//;
 			.attr('fill', '#fff')
-			.attr('fill-opacity', 1.0)
-		.append("svg:g");
+			.attr('fill-opacity', 1.0);
+	var vis = zoomLayer.append("svg:g");
 	
 	vis.append('svg:rect')
     	.attr('width', w*5)
@@ -411,6 +415,25 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 				d.x0 = d.x;
 				d.y0 = d.y;
 			});
+			
+			
+			/** Fisheye movement */
+			zoomLayer.on("mousemove", function()
+			{
+		       fisheye.center(d3.mouse(this));
+
+		       node
+		           .each(function(d) { d.display = fisheye(d); })
+		           .attr("cx", function(d) { return d.display.x; })
+		           .attr("cy", function(d) { return d.display.y; })
+		           .attr("r", function(d) { return d.display.z * 4.5; });
+
+		       link
+		           .attr("x1", function(d) { return d.source.display.x; })
+		           .attr("y1", function(d) { return d.source.display.y; })
+		           .attr("x2", function(d) { return d.target.display.x; })
+		           .attr("y2", function(d) { return d.target.display.y; });
+		    });
 	}
 
 	// Toggle children.
