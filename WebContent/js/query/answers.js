@@ -8,6 +8,7 @@ function answerSelectActivate()
 {
 	$(".answerConclusion").click( function()
 	{
+		updateSelectionBox(this);
 		startLoadingScreen();
 		
 		var index = $(this).attr("value");//$(this).val();//this.attr("value");
@@ -27,6 +28,12 @@ function answerSelectActivate()
 		$("#tabs").tabs("option", "disabled", [1,2]);
 		getTree(currentGlobalURI);
 	});
+}
+
+function updateSelectionBox(selectedAnswerConc)
+{
+	$(".answerBox").removeClass("currentAnswerSelection");//remove selection from all answer Boxes.
+	$(selectedAnswerConc).parent().addClass("currentAnswerSelection");
 }
 
 
