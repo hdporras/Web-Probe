@@ -58,6 +58,7 @@ function getTree(URI)
 
 
 var nodeWidth, nodeHeight;
+var vis;
 
 function drawTree(jsonTree, treeWidth, treeHeight)
 {
@@ -98,7 +99,7 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 			.on("dblclick.zoom", null)//;
 			.attr('fill', '#fff')
 			.attr('fill-opacity', 1.0);
-	var vis = zoomLayer.append("svg:g");
+	vis = zoomLayer.append("svg:g");
 	
 	vis.append('svg:rect')
     	.attr('width', w*5)
@@ -235,6 +236,9 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		var nodeEnter = node.enter()
 			.append("svg:g")
 			.attr("class", "node")
+			.attr("id", function(d){
+				return d.PMLnode.conclusion.concURI;
+			})
 			.attr("transform", function(d) {
 				return "translate(" + source.y0 + "," + source.x0 + ")";
 			})
@@ -418,7 +422,7 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 			
 			
 			/** Fisheye movement */
-			zoomLayer.on("mousemove", function()
+/*			zoomLayer.on("mousemove", function()
 			{
 		       fisheye.center(d3.mouse(this));
 
@@ -433,7 +437,7 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		           .attr("y1", function(d) { return d.source.display.y; })
 		           .attr("x2", function(d) { return d.target.display.x; })
 		           .attr("y2", function(d) { return d.target.display.y; });
-		    });
+		    });*/
 	}
 
 	// Toggle children.
@@ -457,7 +461,6 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 			return "#FFEBB3";//leaf
 	}
 	
-	
 	function nodeClick(d)
 	{
 		//$("#tabs").tabs("option", "disabled", [1,2]);//disable Product and Local Views
@@ -476,7 +479,7 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		}
 				
 	}
-	
+
 	function loadPopupViewer(d)
 	{
 		startLoadingPopupViewerScreen();
@@ -542,10 +545,10 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		  /*states.selectAll("path").transition()
 		      .duration(1000)
 		      .attr("d", path);*/
-		  
-		  
-		}
+	}
+	
 }
+
 
 function svgWordWrap(maxWidth, text)
 {
@@ -573,6 +576,16 @@ function svgWordWrap(maxWidth, text)
 
 $(document).ready(function()
 {
+	//Local-Global Sync
+/*	$(".localViewTextLink").click(function()
+	{
+		var uri = $(this).attr('href');
+		
+		var selected = vis.select("#"+uri); 
+		nodeClick(selected);
+	});*/
+	
+	//PopUp
 	$("#unhidePopup").hide();
 	
 	//Hide popup action.
