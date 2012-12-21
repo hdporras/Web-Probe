@@ -38,8 +38,13 @@ $(document).ready(function()
 		/*setCurrentLocalURI(uri);
 		initLocalView();
 		setupLocalView();*/
+
+		setCurrentGlobalURI(uri);
+		initGlobalView();
+		getTree(currentGlobalURI);
+
 		
-		lookupURI();
+		//lookupURI();
 		
 		
 		updateLookupButton();

@@ -1,9 +1,11 @@
 package pml.interfaces.localView.conclusion;
 
+import org.inference_web.iw.pml.pmlj.IWNodeSetOccur;
+import org.inference_web.iw.pml.util.IWPMLObjectManager;
+
 import cache.visAccess.VisualizationCacheAccess;
 import pml.PMLNode;
 import pml.loading.Loader;
-import util.GetURLContents;
 import util.JSONUtils;
 
 public class LocalViewConclusion
@@ -38,6 +40,34 @@ public class LocalViewConclusion
 		}
 	}
 	
+	public LocalViewConclusion(String URI, IWNodeSetOccur node)
+	{	
+		try
+		{
+			String hasURL = node.getHasConclusion().getHasURL();
+			concURI = URI;//concURI = node.getIdentifier().getURIString();
+			thumbURL = VisualizationCacheAccess.getCachedThumbnail(URI);
+			if (thumbURL != null)//if cached thumbnail..
+			{
+				concText = "Thumbnail Used Instead";
+			}
+			else if(hasURL != null)//maybe just return URL and use a default image in display
+			{
+				concText = hasURL;
+				//concText = GetURLContents.downloadText(node.getConclusion().getHasURL());
+			}
+			else
+			{
+				concText = node.getHasConclusion().getHasPrettyString();
+				if(concText == null)	
+					concText = node.getConclusionRawString();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 
 	public String convertToJSON()
 	{
@@ -47,5 +77,17 @@ public class LocalViewConclusion
 			return "{ \"conclusionText\" : \""+ conclusionText +"\" , \"thumbURL\" : \""+ thumbURL +"\"  , \"concURI\" : \""+ concURI +"\" }";
 		else
 			return "{ \"conclusionText\" : \""+ conclusionText +"\" , \"thumbURL\" : null , \"concURI\" : \""+ concURI +"\" }";
+	}
+	
+	
+	public static void main(String[] args)
+	{
+		System.out.println("start");
+		String URI = "http://inference-web.org/proofs/tonys/tonys_5/ns15.owl#ns15";
+		IWNodeSetOccur ns = IWPMLObjectManager.loadNodeSetOccurrence(URI, 2);
+		
+		LocalViewConclusion c = new LocalViewConclusion(URI, ns);
+		
+		System.out.println(c.convertToJSON());
 	}
 }

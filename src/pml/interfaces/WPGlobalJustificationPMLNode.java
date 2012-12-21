@@ -16,7 +16,7 @@ public class WPGlobalJustificationPMLNode extends WPJustificationPMLNode
 	public WPGlobalJustificationPMLNode(IWNodeSetOccur ns, String URI)
 	{
 		super(ns);
-		conclusion = new LocalViewConclusion(URI);
+		conclusion = new LocalViewConclusion(URI, ns);
 	}
 	
 	
