@@ -21,6 +21,7 @@ function lookupPML3URI()
 	
 	//var uri = dwr.util.getValue("uriName");
 	
+	$("#question").html(" ");
 	$("#answerResults").html("<h3 class=\"ui-widget-header ui-corner-all\">Answers:</h3>Calling Server with: "+uri);
 
 	getPROVQuery(uri);
@@ -78,7 +79,7 @@ function getPROVQuery(uri)
 				if(queryResult[i].indexOf(".png") !== -1)
 				{
 					answers = answers+" <div class='answerBox'>" +
-							"<div class='answerConclusion' value='"+ i +"'><img src="+queryResult[i]+" width=\"230px\" /></div>" +
+							"<div class='answerConclusion' value='"+ i +"'><img src="+queryResult[i]+" width=\"240px\" height=\"150px\" /></div>" +
 							//"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
 							"</div>";
 				}
