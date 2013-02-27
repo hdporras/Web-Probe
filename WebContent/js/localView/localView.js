@@ -57,7 +57,7 @@ function setupLocalView()
 				isFinalConc = true;*/
 			
 	//**Build Product View
-			createProductViewers(currentLocalURI, conclusion.conclusionText)
+			createProductViewers(currentLocalURI, conclusion.conclusionText);
 			
 		//Conclusion Section
 			
@@ -176,7 +176,7 @@ function setupLocalView()
 			//if (!isRoot) 
 			if(!isFinalConc)
 			{
-				rootNSHtml = "<div class=\"rootNSTitle\"> Final Conclusion: </div>"
+				rootNSHtml = "<div class=\"rootNSTitle\"> Final Conclusion: </div>";
 				
 				if(finalConc.rootCachedThumbURL != null && finalConc.rootCachedThumbURL != "null")//Cached Thumbnail
 					rootNSHtml += "<div class=\"rootNS\">  <a class=\"localViewTextLink\" href=\""+finalConc.rootURI+"\"  onclick=\"currentLocalURI='"+finalConc.rootURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+finalConc.rootCachedThumbURL+"\" /> </a> </div>";

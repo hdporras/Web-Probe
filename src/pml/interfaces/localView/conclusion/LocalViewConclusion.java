@@ -83,7 +83,7 @@ public class LocalViewConclusion
 	public static void main(String[] args)
 	{
 		System.out.println("start");
-		String URI = "http://inference-web.org/proofs/tonys/tonys_5/ns15.owl#ns15";
+		String URI = "http://rio.cs.utep.edu/ciserver/ciprojects/ScientificPublication/holes-trace.jpg_007663978235903546.owl#answer";//"http://inference-web.org/proofs/tonys/tonys_5/ns15.owl#ns15";
 		IWNodeSetOccur ns = IWPMLObjectManager.loadNodeSetOccurrence(URI, 2);
 		
 		LocalViewConclusion c = new LocalViewConclusion(URI, ns);

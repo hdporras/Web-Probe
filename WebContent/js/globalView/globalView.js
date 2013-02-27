@@ -304,9 +304,13 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 		nodeEnter.append("svg:image")
 			.attr("xlink:href", function(d) 
 			{
+				var concText = d.PMLnode.conclusion.conclusionText;
+				
 				if(d.PMLnode.conclusion.thumbURL != null)
 					return d.PMLnode.conclusion.thumbURL;
-				if(d.PMLnode.conclusion.conclusionText == null)
+				if(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i))
+					return concText;
+				else if(concText == null)
 					return "../../images/No_sign.svg.png";
 				else
 					return null;//"../../images/No_sign.svg.png";
@@ -327,12 +331,14 @@ function drawTree(jsonTree, treeWidth, treeHeight)
 			.attr("dy", ".5em")
 			.attr("text-anchor", "middle")
 			.html("test")
-			.text(function(d) {
+			.text(function(d)
+			{
 			//.html(function(d) {
+				var concText = d.PMLnode.conclusion.conclusionText;
 				
-				if(d.PMLnode.conclusion.thumbURL == null && d.PMLnode.conclusion.conclusionText != null)
+				if(d.PMLnode.conclusion.thumbURL == null && concText != null && !(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i)) )
 				{
-					var text = d.PMLnode.conclusion.conclusionText
+					var text = concText;
 					//text = svgWordWrap(50, text);
 					
 					return text;
