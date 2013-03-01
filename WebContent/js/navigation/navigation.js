@@ -187,9 +187,15 @@ function updateLookupButton()
 	
 	//alert("change " + uriVal);
 	if( uriVal == 0)
+	{
 		$("#lookupButton").button("disable");
-	else	
+		$("#PML3lookupButton").button("disable");
+	}
+	else
+	{
 		$("#lookupButton").button("enable");
+		$("#PML3lookupButton").button("enable");
+	}
 }
 
 
