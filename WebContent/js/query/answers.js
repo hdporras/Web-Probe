@@ -53,10 +53,19 @@ function getTestAnswers(uri)
 			for(var i=0; i<queryResult.length; i++)
 			{
 				var cachedThumbURI = getViskoThumbnail(queryResult[i].uri);
+				//Cached Image
 				if(cachedThumbURI != null)
 				{
 					answers = answers+" <div class='answerBox'>" +
 							"<div class='answerConclusion' value='"+ i +"'><img src="+cachedThumbURI+" width=\"230px\" /></div>" +
+							"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
+							"</div>";
+				}
+				//Image ByReference
+				else if(queryResult[i].conclusion.match(/.jpg$/i) || queryResult[i].conclusion.match(/.jpeg$/i) || queryResult[i].conclusion.match(/.png$/i) || queryResult[i].conclusion.match(/.gif$/i))
+				{
+					answers = answers+" <div class='answerBox'>" +
+							"<div class='answerConclusion' value='"+ i +"'><img src="+queryResult[i].conclusion+" width=\"230px\" /></div>" +
 							"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
 							"</div>";
 				}

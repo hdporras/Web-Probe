@@ -1,5 +1,6 @@
 var currentProductURI;
 
+/*
 function setupProductView(index)
 {
 	resetTabs();
@@ -13,7 +14,7 @@ function setupProductView(index)
 	$("#raw").html("<p> "+ queryResult[index].conclusion +" </p>");
 	
 	createViskoViewers(currentProductURI);
-}
+}*/
 
 function clearProductTabs()
 {
@@ -33,7 +34,7 @@ function getViskoVis()
 	getViskoVis(uri);
 }
 
-
+/*
 function getViskoVis(uri)
 {
 	showMainTabs();
@@ -48,4 +49,4 @@ function getViskoVis(uri)
 	clearProductTabs();
 
 	createViskoViewers(uri);
-}
+}*/

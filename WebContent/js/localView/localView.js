@@ -57,16 +57,20 @@ function setupLocalView()
 				isFinalConc = true;*/
 			
 	//**Build Product View
+			var concText = conclusion.conclusionText;
 			createProductViewers(currentLocalURI, conclusion.conclusionText);
 			
 		//Conclusion Section
 			
 			//check for image in cache, otherwise print conclusion text
-			if(conclusion.thumbURL != null)
+			if(conclusion.thumbURL != null)//Cached Thumbnail
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> <img class=\"localViewImage\" src=\""+conclusion.thumbURL+"\" /> </div>");
-			else if(conclusion.conclusionText != null)
+			//ByReference Image
+			if(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i))
+				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> <img class=\"localViewImage\" src=\""+concText+"\" width=\"230px\" /> </div>");
+			else if(conclusion.conclusionText != null)//Embedded Raw String
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> "+conclusion.conclusionText+" </div>");
-			else
+			else//External URL
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> "+currentLocalURI+" </div>");
 			
 			//Add View Product Detail Button
@@ -92,8 +96,13 @@ function setupLocalView()
 					for(var i=0; i<inferenceStep.antecedents.length; i++)
 					{
 						var antecedent = inferenceStep.antecedents[i];
+						var antURL = antecedent.antecedentConclusionURL;
+						
 						if(antecedent.antecedentCachedThumbURL != null)//Cached Thumbnail
 							antecedentsHtml += "<li><div class=\"justAntecedent\">  <a class=\"localViewTextLink\" href=\" "+antecedent.antecedentURI+" \" onclick=\"currentLocalURI='"+antecedent.antecedentURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+antecedent.antecedentCachedThumbURL+"\" /> </a> </div></li>";
+						//ByReference Image
+						else if(antURL.match(/.jpg$/i) || antURL.match(/.jpeg$/i) || antURL.match(/.png$/i) || antURL.match(/.gif$/i))
+							antecedentsHtml += "<li><div class=\"justAntecedent\">  <a class=\"localViewTextLink\" href=\" "+antecedent.antecedentURI+" \" onclick=\"currentLocalURI='"+antecedent.antecedentURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+antURL+"\" width=\"230px\"  /> </a> </div></li>";
 						else if(antecedent.antecedentRawString != "hasURL?")//Embedded Raw String
 							antecedentsHtml += "<li><div class=\"justAntecedent\">  <a class=\"localViewTextLink\" href=\" "+antecedent.antecedentURI+" \" onclick=\"currentLocalURI='"+antecedent.antecedentURI+"'; setupLocalView(); return false;\" >"+antecedent.antecedentRawString+" </a> </div></li>";
 						else//External URL
@@ -129,6 +138,9 @@ function setupLocalView()
 					var inferredNodeSetTitle = "";
 					if(inferredNodeSet.inferredNSCachedThumbURL != null && inferredNodeSet.inferredNSCachedThumbURL != "null")//Cached Thumbnail
 						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+inferredNodeSet.inferredNSCachedThumbURL+"\" /> </a> </div> <br\> <b> with the help of:</b>";
+					//ByReference Image
+					else if(inferredNodeSet.inferredNSConclusionURL.match(/.jpg$/i) || inferredNodeSet.inferredNSConclusionURL.match(/.jpeg$/i) || inferredNodeSet.inferredNSConclusionURL.match(/.png$/i) || inferredNodeSet.inferredNSConclusionURL.match(/.gif$/i))
+						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+inferredNodeSet.inferredNSConclusionURL+"\" width=\"230px\" /> </a> </div> <br\> <b> with the help of:</b>";
 					else if(inferredNodeSet.inferredNSRawString != "hasURL?")//Embedded Raw String
 						inferredNodeSetTitle += "<div class=\"inferredTitle\"> <a class=\"localViewTextLink\" href=\""+inferredNodeSet.inferredNSURI+"\"  onclick=\"currentLocalURI='"+inferredNodeSet.inferredNSURI+"'; setupLocalView(); return false;\" > "+inferredNodeSet.inferredNSRawString+" </a> </div> <br\> <b> with the help of:</b>";
 					else//External URL
@@ -146,6 +158,9 @@ function setupLocalView()
 							{
 								if(sibling.siblingCachedThumbURL != null)//Cached Thumbnail
 									siblingsHtml += "<li><div class=\"inferredBySibling\">  <a class=\"localViewTextLink\" href=\" "+sibling.siblingURI+" \" onclick=\"currentLocalURI='"+sibling.siblingURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+sibling.siblingCachedThumbURL+"\" /> </a> </div></li>";
+								//ByReference Image
+								else if(sibling.siblingConclusionURL.match(/.jpg$/i) || sibling.siblingConclusionURL.match(/.jpeg$/i) ||sibling.siblingConclusionURL.match(/.png$/i) || sibling.siblingConclusionURL.match(/.gif$/i))
+									siblingsHtml += "<li><div class=\"inferredBySibling\">  <a class=\"localViewTextLink\" href=\" "+sibling.siblingURI+" \" onclick=\"currentLocalURI='"+sibling.siblingURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+sibling.siblingConclusionURL+"\" width=\"230px\" /> </a> </div></li>";
 								else if(sibling.siblingRawString != "hasURL?")//Embedded Raw String
 									siblingsHtml += "<li><div class=\"inferredBySibling\">  <a class=\"localViewTextLink\" href=\" "+sibling.siblingURI+" \" onclick=\"currentLocalURI='"+sibling.siblingURI+"'; setupLocalView(); return false;\" >"+sibling.siblingRawString+" </a> </div></li>";
 								else//External URL
@@ -180,6 +195,9 @@ function setupLocalView()
 				
 				if(finalConc.rootCachedThumbURL != null && finalConc.rootCachedThumbURL != "null")//Cached Thumbnail
 					rootNSHtml += "<div class=\"rootNS\">  <a class=\"localViewTextLink\" href=\""+finalConc.rootURI+"\"  onclick=\"currentLocalURI='"+finalConc.rootURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+finalConc.rootCachedThumbURL+"\" /> </a> </div>";
+				//ByReference Image
+				else if(finalConc.rootConclusionURL.match(/.jpg$/i) || finalConc.rootConclusionURL.match(/.jpeg$/i) ||finalConc.rootConclusionURL.match(/.png$/i) || finalConc.rootConclusionURL.match(/.gif$/i))
+					rootNSHtml += "<div class=\"rootNS\">  <a class=\"localViewTextLink\" href=\""+finalConc.rootURI+"\"  onclick=\"currentLocalURI='"+finalConc.rootURI+"'; setupLocalView(); return false;\" > <img class=\"localViewImage\" src=\""+finalConc.rootConclusionURL+"\" width=\"230px\" /> </a> </div>";
 				else if(finalConc.rootRawString != "hasURL?")//Embedded Raw String
 					rootNSHtml += "<div class=\"rootNS\">  <a class=\"localViewTextLink\" href=\""+finalConc.rootURI+"\"  onclick=\"currentLocalURI='"+finalConc.rootURI+"'; setupLocalView(); return false;\" > "+finalConc.rootRawString+" </a> </div>";
 				else//External URL

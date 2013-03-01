@@ -82,7 +82,11 @@ function setupViewers(target, uri, conclusionText)
 			{
 				if(conclusionText != null)
 				{
-					$("#"+target).tabs("add", "#"+target+"-1", "Text",1);
+					//Add byReference if available
+					addNonCachedImageByReference(target, uri, conclusionText);
+					
+					//Add Conclusion Text
+					$("#"+target).tabs("add", "#"+target+"-1", "Text",2);
 					$("#"+target+"-1").attr("class", target+"Fill");
 					$("#"+target+"-1").html("<div class=\"fill\"> <pre>"+conclusionText+"</pre> </div>"); //<pre> </pre>
 				}
@@ -111,6 +115,18 @@ function setupViewers(target, uri, conclusionText)
 		    endLoadingPopupViewerScreen();
 		}
 	});
+	
+	
+}
+
+function addNonCachedImageByReference(target, uri, concText)
+{
+	if(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i))
+	{
+		$("#"+target).tabs("add", "#"+target+"-0", "Image",1);
+		$("#"+target+"-0").attr("class", target+"Fill");
+		$("#"+target+"-0").html("<img src="+concText+" />");
+	}
 }
 
 
