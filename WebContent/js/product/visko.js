@@ -83,7 +83,7 @@ function setupViewers(target, uri, conclusionText)
 				if(conclusionText != null)
 				{
 					//Add Conclusion Text
-					$("#"+target).tabs("add", "#"+target+"-1", "Text",2);
+					$("#"+target).tabs("add", "#"+target+"-1", "Text",1);
 					$("#"+target+"-1").attr("class", target+"Fill");
 					$("#"+target+"-1").html("<div class=\"fill\"> <pre>"+conclusionText+"</pre> </div>"); //<pre> </pre>
 					
@@ -123,7 +123,7 @@ function addNonCachedImageByReference(target, uri, concText)
 {
 	if(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i))
 	{
-		$("#"+target).tabs("add", "#"+target+"-0", "Image",1);
+		$("#"+target).tabs("add", "#"+target+"-0", "Image",2);
 		$("#"+target+"-0").attr("class", target+"Fill");
 		$("#"+target+"-0").html("<img src="+concText+" />");
 	}

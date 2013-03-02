@@ -76,7 +76,7 @@ function getPROVQuery(uri)
 				}
 				else
 				{*/
-				if(queryResult[i].indexOf(".png") !== -1)
+				if(queryResult[i].match(/.jpg$/i) || queryResult[i].match(/.jpeg$/i) || queryResult[i].match(/.png$/i) || queryResult[i].match(/.gif$/i))
 				{
 					answers = answers+" <div class='answerBox'>" +
 							"<div class='answerConclusion' value='"+ i +"'><img src="+queryResult[i]+" width=\"240px\" height=\"150px\" /></div>" +
@@ -94,15 +94,9 @@ function getPROVQuery(uri)
 			answers= answers+" ";
 			
 			document.getElementById("answerResults").innerHTML = answers;
-			//$(".answerBox").hide();
-			//document.getElementById("testing").innerHTML = answers;
-			/*
-			$(".answerBox").show( "clip", {}, 3000, function(){
-				
-			});*/
 			
-			answerSelectActivate();
-			//productSelectActivate();
+			//**** Need to activate this: 
+			//answerSelectActivate();
 			
 			endLoadingScreen();
 			//createQAtips();
