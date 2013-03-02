@@ -27,8 +27,8 @@ public class PMLQueryResults//PMLQueryDWRInterface-- Acts as an interface betwee
 */
 	
 	private String[] queryQuestions;
-	private String rawString;
-	private String prettyString;
+	private String rawString = "";
+	private String prettyString = "";
 	
 	
 	
@@ -44,15 +44,18 @@ public class PMLQueryResults//PMLQueryDWRInterface-- Acts as an interface betwee
 	{
 		List<IWQuestion> questions = query.getIsQueryFor();
 		
-		queryQuestions = new String[questions.size()];
-		
-		for(int i=0; i < questions.size(); i++)
+		if(questions != null)
 		{
-			IWQuestion question = questions.get(i);
-			//String rawString = question.getContentRawString();
-			String prettyString = question.getContentString();//if there is no prettyString this will be same as rawString
+			queryQuestions = new String[questions.size()];
 			
-			queryQuestions[i] = prettyString;
+			for(int i=0; i < questions.size(); i++)
+			{
+				IWQuestion question = questions.get(i);
+				//String rawString = question.getContentRawString();
+				String prettyString = question.getContentString();//if there is no prettyString this will be same as rawString
+				
+				queryQuestions[i] = prettyString;
+			}
 		}
 		
 		rawString = query.getHasContent().getHasRawString();

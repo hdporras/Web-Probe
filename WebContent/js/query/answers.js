@@ -57,7 +57,7 @@ function getTestAnswers(uri)
 				if(cachedThumbURI != null)
 				{
 					answers = answers+" <div class='answerBox'>" +
-							"<div class='answerConclusion' value='"+ i +"'><img src="+cachedThumbURI+" width=\"230px\" /></div>" +
+							"<div class='answerConclusion' value='"+ i +"'><img src="+cachedThumbURI+" width=\"240px\" height=\"150px\" /></div>" +
 							"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
 							"</div>";
 				}
@@ -65,7 +65,7 @@ function getTestAnswers(uri)
 				else if(queryResult[i].conclusion.match(/.jpg$/i) || queryResult[i].conclusion.match(/.jpeg$/i) || queryResult[i].conclusion.match(/.png$/i) || queryResult[i].conclusion.match(/.gif$/i))
 				{
 					answers = answers+" <div class='answerBox'>" +
-							"<div class='answerConclusion' value='"+ i +"'><img src="+queryResult[i].conclusion+" width=\"230px\" /></div>" +
+							"<div class='answerConclusion' value='"+ i +"'><img src="+queryResult[i].conclusion+" width=\"240px\" height=\"150px\" /></div>" +
 							"<div class='answerAttributes'>"+queryResult[i].metadata+"</div>" +
 							"</div>";
 				}

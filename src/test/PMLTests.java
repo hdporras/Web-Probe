@@ -171,7 +171,7 @@ public class PMLTests
 		
 		String conclusion = conc.getStringConclusion();
 		
-		if(conclusion == null)
+		if(conclusion == null || conclusion.equalsIgnoreCase("NO CONCLUSION EMBEDDED IN PML"))
 		{
 			String concContentURL = conc.getHasURL();
 			return concContentURL;
