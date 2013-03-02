@@ -66,7 +66,7 @@ function setupLocalView()
 			if(conclusion.thumbURL != null)//Cached Thumbnail
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> <img class=\"localViewImage\" src=\""+conclusion.thumbURL+"\" /> </div>");
 			//ByReference Image
-			if(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i))
+			else if(concText.match(/.jpg$/i) || concText.match(/.jpeg$/i) || concText.match(/.png$/i) || concText.match(/.gif$/i))
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> <img class=\"localViewImage\" src=\""+concText+"\" width=\"230px\" /> </div>");
 			else if(conclusion.conclusionText != null)//Embedded Raw String
 				$("#LocalViewConclusion").html("<div class=\"conclusionSection\"> "+conclusion.conclusionText+" </div>");
