@@ -29,5 +29,8 @@
     <create creator="new" javascript="BuildPROVQuery">
       	<param name="class" value="prov.interfaces.query.BuildPROVQuery"/>
     </create>
+    <create creator="new" javascript="PROVTest">
+      	<param name="class" value="prov.interfaces.PROVTest"/>
+    </create>
   </allow>
 </dwr>

@@ -50,4 +50,27 @@ $(document).ready(function()
 		updateLookupButton();
    });
 	
+	
+	//PROV Bookmarks
+	$("a.PROVBookmark").click(function(event)
+	{
+		event.preventDefault();
+		startLoadingScreen();
+		
+		var uri = $(this).attr("href");
+		$("#uriName").val(uri);//Set the URI Bar to contain the Link URI 
+
+		resetTabs();
+
+		setCurrentPROVGlobalURI(uri);
+		initPROVGraphView();
+		getPROVGraph(currentPROVGlobalURI);
+
+		
+		//lookupURI();
+		
+		
+		updateLookupButton();
+   });
+	
  });
