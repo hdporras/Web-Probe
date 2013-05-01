@@ -1,7 +1,5 @@
 package prov.interfaces;
 
-import pml.interfaces.global.WPJustificationTree;
-
 public class PROVTest
 {
 	
