@@ -82,15 +82,15 @@ function drawGraph(graph)
 		.selectAll(".link")
 		.data(graph.links)
 		.enter().append("line")
-		.attr("class", "link")
+		.attr("class", "provLink")
 		.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
 	var node = svg
 		.selectAll(".node")
 		.data(graph.nodes)
 		.enter().append("circle")
-		.attr("class", "node")
-		.attr("r", 5)
+		.attr("class", "provNode")
+		.attr("r", 10)
 		.style("fill", function(d) { return color(d.group); })
 		.call(force.drag);
 
@@ -114,34 +114,7 @@ function drawGraph(graph)
 
 $(document).ready(function()
 {
-	//Local-Global Sync
-/*	$(".localViewTextLink").click(function()
-	{
-		var uri = $(this).attr('href');
-		
-		var selected = vis.select("#"+uri); 
-		nodeClick(selected);
-	});*/
-	
-	//PopUp
-	$("#unhidePopup").hide();
-	
-	//Hide popup action.
-	$("#hidePopup").click(function(){
-		hidePopup = true;
-		
-		$("#popup").hide("slide", { direction: "right" }, 1000);
-		$("#unhidePopup").show("slide", { direction: "right" }, 1000);
-	});
-	
-	$("#unhidePopup").click(function(){
-		hidePopup = false;
-		
-		$("#popup").show("slide", { direction: "right" }, 1000);
-		$("#unhidePopup").hide();
-	});
-	
-	
+/*	
 	//Give Node a Yellow border when slected
 	$(".node").click(function(event)
 	{
@@ -150,5 +123,5 @@ $(document).ready(function()
 		
 		$(this).attr("stroke", "yellow");
 		$(this).attr("stroke-width", "4.0px");
-	});
+	});*/
 });
