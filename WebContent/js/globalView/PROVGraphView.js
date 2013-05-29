@@ -63,7 +63,7 @@ function drawGraph(graph)
 
 	var force = d3.layout.force()
 		.charge(-120)
-		.linkDistance(30)
+		.linkDistance(50)
 		.size([width, height]);
 
 	var svg = d3.select("#container")
@@ -90,7 +90,7 @@ function drawGraph(graph)
 		.data(graph.nodes)
 		.enter().append("circle")
 		.attr("class", "provNode")
-		.attr("r", 10)
+		.attr("r", 7)
 		.style("fill", function(d) { return color(d.group); })
 		.call(force.drag);
 
