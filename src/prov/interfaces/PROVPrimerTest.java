@@ -1,6 +1,9 @@
 package prov.interfaces;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
@@ -11,7 +14,7 @@ public class PROVPrimerTest
 
 	public String getGraph(String URI)
 	{
-		String uri = "http://www.w3.org/TR/prov-primer/primer-turtle-examples.ttl";
+		String uri = "http://trust.utep.edu/web-probe/primer-turtle-examples.ttl"; //"http://www.w3.org/TR/prov-primer/primer-turtle-examples.ttl";
 
 
 		//build graph from URI
@@ -24,9 +27,33 @@ public class PROVPrimerTest
 			OWLOntology primerExampleOntology = manager.loadOntologyFromOntologyDocument(iri);
 			System.out.println("Loaded ontology: " + primerExampleOntology);
 			
+			OWLDataFactory factory = manager.getOWLDataFactory();
 			
-			// Remove the ontology so that we can load a local copy.
-			//manager.removeOntology(primerExampleOntology);	      
+			//get individuals of type prov:Activity.
+			OWLClass provActivity = factory.getOWLClass( IRI.create("http://www.w3.org/ns/prov#Activity") );
+			Set<OWLIndividual> activityIndividuals = provActivity.getIndividuals(primerExampleOntology);
+			
+			Iterator<OWLIndividual> activityIterator = activityIndividuals.iterator();
+			
+			//Hash map for all the nodes (URI -> number in graph)
+			HashMap<String, PROVIndividual> nodesHM = new HashMap<String, PROVIndividual>();
+			
+			int activityCntr = 1;
+			while(activityIterator.hasNext())
+			{
+				OWLIndividual ind = activityIterator.next();
+				
+				PROVIndividual provInd = new PROVIndividual(ind.toStringID(), "Activity");
+				
+				//*add connections
+				
+				nodesHM.put(ind.toStringID(), provInd);
+				
+				System.out.println(activityCntr+" : "+ provInd.id +", "+ provInd.type +", "+ provInd.uri );
+				activityCntr++;
+			}
+			
+			
 		} 
 		catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -87,7 +114,7 @@ public class PROVPrimerTest
 	{
 		//WPJustificationTree tree = new WPJustificationTree(\"http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer\");
 		PROVPrimerTest test = new PROVPrimerTest();
-		System.out.println( test.getGraph("http://www.w3.org/TR/prov-primer/primer-turtle-examples.ttl") );
+		System.out.println( test.getGraph("http://trust.utep.edu/web-probe/primer-turtle-examples.ttl") );
 		
 	}
 	
