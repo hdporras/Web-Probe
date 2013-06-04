@@ -69,7 +69,7 @@ public class PROVPrimerTest
 			Map<OWLDataPropertyExpression,Set<OWLLiteral>> DPvaluesMap = ind.getDataPropertyValues(ontology);
 			
 			provInd.addOPConnections(OPvaluesMap);
-			//provInd.addDPConnections(DPvaluesMap);
+			provInd.addDPConnections(DPvaluesMap);
 			
 			individualsHM.put(ind.toStringID(), provInd);
 			

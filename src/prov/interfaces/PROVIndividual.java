@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
 public class PROVIndividual
@@ -48,6 +50,9 @@ public class PROVIndividual
 		OPconnectionObjectIDs = new String[map.size()];
 
 		Iterator<Entry<OWLObjectPropertyExpression, Set<OWLIndividual>>> connectionsIterator = map.entrySet().iterator();
+		System.out.println(connectionsIterator.toString());
+		
+		System.out.println(connectionsIterator.hasNext());
 		
 		while(connectionsIterator.hasNext())
 		{
@@ -60,6 +65,33 @@ public class PROVIndividual
 			for(OWLIndividual objectIndividual : connectionObjects)
 			{
 				String objectIndividualName = objectIndividual.toStringID();
+				
+				System.out.println(uri+"("+id+") : "+connectionPredicateName+" -> "+objectIndividualName);
+			}
+		}
+	}
+	
+	public void addDPConnections(Map<OWLDataPropertyExpression, Set<OWLLiteral>> map)
+	{
+		OPconnections = new String[map.size()];
+		OPconnectionObjectIDs = new String[map.size()];
+
+		Iterator<Entry<OWLDataPropertyExpression, Set<OWLLiteral>>> connectionsIterator = map.entrySet().iterator();
+		System.out.println(connectionsIterator.toString());
+		
+		System.out.println(connectionsIterator.hasNext());
+		
+		while(connectionsIterator.hasNext())
+		{
+			Entry<OWLDataPropertyExpression, Set<OWLLiteral>> entry = connectionsIterator.next();
+			
+			String connectionPredicateName = entry.getKey().toString();//.getNamedProperty().toStringID();
+			
+			Set<OWLLiteral> connectionObjects = entry.getValue();
+			//foreach connection object
+			for(OWLLiteral objectIndividual : connectionObjects)
+			{
+				String objectIndividualName = objectIndividual.getLiteral();
 				
 				System.out.println(uri+"("+id+") : "+connectionPredicateName+" -> "+objectIndividualName);
 			}
