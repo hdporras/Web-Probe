@@ -39,7 +39,7 @@ public class PROVPrimerTest
 			Set<OWLIndividual> activityIndividuals = provActivityClass.getIndividuals(primerExampleOntology);
 			
 			//Get HashMap of activities
-			getActivities(activityIndividuals, primerExampleOntology);
+			getActivitiesTest(activityIndividuals, primerExampleOntology);
 			
 			
 		} 
@@ -50,6 +50,34 @@ public class PROVPrimerTest
 		//convert Java object of Graph to JSON
 		return "Done"; //convertToJSON();
 	}
+	
+	/** Get HashMap of activities (Key=URI, value = PROVIndividual) */
+	public void getActivitiesTest(Set<OWLIndividual> activityIndividuals, OWLOntology ontology)
+	{
+		
+		Iterator<OWLIndividual> activityIterator = activityIndividuals.iterator();
+		
+		int activityCntr = 1;
+		while(activityIterator.hasNext())
+		{
+			OWLIndividual ind = activityIterator.next();
+			
+			PROVIndividual provInd = new PROVIndividual(ind.toStringID(), "Activity");
+			
+			//*add connections
+			java.util.Set<OWLObjectPropertyAssertionAxiom> OPaxioms = ontology.getObjectPropertyAssertionAxioms(ind);
+			
+			System.out.println("Number of OPs: "+OPaxioms.size());
+			
+			
+			individualsHM.put(ind.toStringID(), provInd);
+			
+			System.out.println(activityCntr+" : "+ provInd.id +", "+ provInd.type +", "+ provInd.uri );
+			activityCntr++;
+		}
+	}
+	
+	
 	
 	/** Get HashMap of activities (Key=URI, value = PROVIndividual) */
 	public void getActivities(Set<OWLIndividual> activityIndividuals, OWLOntology ontology)
@@ -68,6 +96,9 @@ public class PROVPrimerTest
 			Map<OWLObjectPropertyExpression,Set<OWLIndividual>> OPvaluesMap = ind.getObjectPropertyValues(ontology);
 			Map<OWLDataPropertyExpression,Set<OWLLiteral>> DPvaluesMap = ind.getDataPropertyValues(ontology);
 			
+			System.out.println("Object Property Map size: "+OPvaluesMap.size());
+			System.out.println("Data Property Map size: "+DPvaluesMap.size());
+			
 			provInd.addOPConnections(OPvaluesMap);
 			provInd.addDPConnections(DPvaluesMap);
 			
@@ -77,32 +108,6 @@ public class PROVPrimerTest
 			activityCntr++;
 		}
 	}
-
-	
-	/** Converts the object into a JSON String representation of the object. */
-	public String convertToJSON()
-	{
-		//*
-		String json = "\"nodes\":[" +
-						   " {\"name\":\"Myriel\",\"group\":1}," +
-				           " {\"name\":\"Napoleon\",\"group\":1}," +
-				           " {\"name\":\"Mlle.Baptistine\",\"group\":1}," +
-				           " {\"name\":\"Mme.Magloire\",\"group\":1}," +
-				           " {\"name\":\"Toussaint\",\"group\":5}," +
-				           " {\"name\":\"Child1\",\"group\":10}," +
-				           " {\"name\":\"Child2\",\"group\":10}," +
-				           " {\"name\":\"Brujon\",\"group\":4}," +
-				           " {\"name\":\"Mme.Hucheloup\",\"group\":8} ]," +
-				         " \"links\":[ "+
-				           " {\"source\":1,\"target\":0,\"value\":1}," +
-				           " {\"source\":2,\"target\":0,\"value\":8}," +
-				           " {\"source\":3,\"target\":0,\"value\":10}," +
-				           " {\"source\":11,\"target\":0,\"value\":5}," +
-				           " {\"source\":76,\"target\":58,\"value\":1} ]";
-		
-		return " { "+ json +" } ";
-	}
-	
 	
 	public static void main(String args[])
 	{

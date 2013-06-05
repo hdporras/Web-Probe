@@ -52,7 +52,7 @@ public class PROVIndividual
 		Iterator<Entry<OWLObjectPropertyExpression, Set<OWLIndividual>>> connectionsIterator = map.entrySet().iterator();
 		System.out.println(connectionsIterator.toString());
 		
-		System.out.println(connectionsIterator.hasNext());
+		System.out.println(map.size()+":"+connectionsIterator.hasNext());
 		
 		while(connectionsIterator.hasNext())
 		{
@@ -73,8 +73,8 @@ public class PROVIndividual
 	
 	public void addDPConnections(Map<OWLDataPropertyExpression, Set<OWLLiteral>> map)
 	{
-		OPconnections = new String[map.size()];
-		OPconnectionObjectIDs = new String[map.size()];
+		DPconnections = new String[map.size()];
+		DPconnectionObjectIDs = new String[map.size()];
 
 		Iterator<Entry<OWLDataPropertyExpression, Set<OWLLiteral>>> connectionsIterator = map.entrySet().iterator();
 		System.out.println(connectionsIterator.toString());
