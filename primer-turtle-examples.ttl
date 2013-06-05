@@ -1,0 +1,117 @@
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix exn: <http://www.example.org#> .
+@prefix exg: <http://www.example.org#> .
+@prefix exc: <http://www.example.org#> .
+@prefix exb: <http://www.example.org#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# The examples below are taken from, and follow the same order
+# as in the W3C PROV Primer, http://www.w3.org/TR/prov-primer/
+
+# Entities
+
+exn:article      a prov:Entity ;
+                 dcterms:title "Crime rises in cities" .
+exg:dataset1     a prov:Entity .
+exc:regionList   a prov:Entity .
+exc:composition1 a prov:Entity .
+exc:chart1       a prov:Entity .
+
+# Activities
+
+exc:compile1    a prov:Activity .
+exc:compose1    a prov:Activity .
+exc:illustrate1 a prov:Activity .
+
+# Usage and Generation
+
+exc:compose1     prov:used           exg:dataset1 ;
+                 prov:used           exc:regionList .
+exc:composition1 prov:wasGeneratedBy exc:compose1 .
+exc:illustrate1  prov:used           exc:composition1 .
+exc:chart1       prov:wasGeneratedBy exc:illustrate1 .
+
+# Agents and Responsibility
+
+exc:compose1    prov:wasAssociatedWith exc:derek .
+exc:illustrate1 prov:wasAssociatedWith exc:derek .
+exc:derek a prov:Agent ;
+          a prov:Person ;
+          foaf:givenName "Derek"^^xsd:string ;
+          foaf:mbox      <mailto:derek@example.org> .
+exc:derek prov:actedOnBehalfOf exc:chartgen .
+exc:chartgen a prov:Agent ;
+             a prov:Organization ;
+             foaf:name "Chart Generators Inc" .
+exc:chart1 prov:wasAttributedTo exc:derek .
+
+# Roles
+    
+exc:dataToCompose        a prov:Role .
+exc:regionsToAggregateBy a prov:Role .
+exc:composedData         a prov:Role .
+exc:analyst              a prov:Role .
+exc:compose1 prov:qualifiedUsage [
+               a prov:Usage ;
+               prov:entity  exg:dataset1 ;
+               prov:hadRole exc:dataToCompose 
+] .    
+exc:compose1 prov:qualifiedUsage [
+               a prov:Usage ;
+               prov:entity  exc:regionList ;
+               prov:hadRole exc:regionsToAggregateBy
+] .
+exc:compose1 prov:qualifiedAssociation [
+               a prov:Association ;
+               prov:agent    exc:derek ;
+               prov:hadRole  exc:analyst
+] .
+exc:composition1 prov:qualifiedGeneration [
+                   a prov:Generation ;
+                   prov:activity  exc:compose1 ;
+                   prov:hadRole   exc:composedData
+] .
+
+# Revision and Derivation
+
+exg:dataSet2 a prov:Entity ;
+             prov:wasRevisionOf exg:dataset1 .
+exc:chart2   a prov:Entity ;
+             prov:wasDerivedFrom exg:dataSet2 .
+exc:chart2   a prov:Entity ;
+             prov:wasRevisionOf exc:chart1 .
+    
+# Plans
+
+exg:correct1    a prov:Activity .
+exg:edith       a prov:Agent, prov:Person .
+exg:instructions a prov:Plan .
+    
+exg:correct1 prov:qualifiedAssociation [
+               a prov:Association ;
+               prov:agent   exg:edith ;
+               prov:hadPlan exg:instructions
+] .
+exg:dataSet2 prov:wasGeneratedBy exg:correct1 .
+    
+# Time
+
+exc:chart1 prov:generatedAtTime "2012-03-02T10:30:00"^^xsd:dateTime .
+exc:chart2 prov:generatedAtTime "2012-04-01T15:21:00"^^xsd:dateTime .
+    
+exg:correct1 prov:startedAtTime "2012-03-31T09:21:00"^^xsd:dateTime ;
+             prov:endedAtTime   "2012-04-01T15:21:00"^^xsd:dateTime .
+    
+# Alternate Entities and Specialization
+
+exg:quoteInBlogEntry-20130326 a prov:Entity ;
+                             prov:wasQuotedFrom exn:article .
+
+exn:articleV1 a prov:Entity ;
+              prov:specializationOf exn:article .
+    
+exn:articleV2 prov:specializationOf exn:article .
+exn:articleV2 prov:alternateOf      exn:articleV1 .
