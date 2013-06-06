@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 public class PROVPrimerTest
@@ -31,15 +32,83 @@ public class PROVPrimerTest
 			OWLOntology primerExampleOntology = manager.loadOntologyFromOntologyDocument(iri);
 			System.out.println("Loaded ontology: " + primerExampleOntology);
 			
+			OWLOntology prov = manager.loadOntologyFromOntologyDocument(IRI.create("http://www.w3.org/ns/prov-o"));
+			
+			
+			//merged
+			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
+			IRI mergedOntologyIRI = IRI.create("http://www.semanticweb.com/mymergedont");
+	        OWLOntology merged = merger.createMergedOntology(manager, mergedOntologyIRI);
+	        // Print out the axioms in the merged ontology.
+	        for (OWLAxiom ax : merged.getAxioms()) {
+	            System.out.println(ax);
+	        }
+	        
+	        System.out.println("Merged size: "+merged.getAxiomCount()+", PROV Size"+prov.getAxiomCount());
+			
+			//imports
+			System.out.println("----- Imports -----");
+			java.util.Set<OWLOntology> imports =  manager.getDirectImports(primerExampleOntology);
+			System.out.println(imports.size());
+			for(OWLOntology importedOnt : imports)
+			{
+				System.out.println(importedOnt.toString());
+			}
+			
+			
 			OWLDataFactory factory = manager.getOWLDataFactory();
 			
+			
+			//Axioms
+			System.out.println("----- Axioms -----");
+			java.util.Set<OWLAxiom> axioms = primerExampleOntology.getAxioms();
+			System.out.println(axioms.size());
+			for(OWLAxiom axiom : axioms)
+			{
+				System.out.println(axiom.toString());
+			}
+			
+			
+			//Annotations
+			System.out.println("----- Annotations -----");
+			java.util.Set<OWLAnnotation> annotations = merged.getAnnotations();//primerExampleOntology.getAnnotations();
+			System.out.println(annotations.size());
+			for(OWLAnnotation annot : annotations)
+			{
+				System.out.println(annot.getValue().toString());
+			}
+			
+			
+			System.out.println("----- Activities -----");
 			//Activities
 			//Get individuals of type prov:Activity.
 			OWLClass provActivityClass = factory.getOWLClass( IRI.create("http://www.w3.org/ns/prov#Activity") );
-			Set<OWLIndividual> activityIndividuals = provActivityClass.getIndividuals(primerExampleOntology);
+			Set<OWLIndividual> activityIndividuals = provActivityClass.getIndividuals(merged);//primerExampleOntology);
 			
 			//Get HashMap of activities
-			getActivitiesTest(activityIndividuals, primerExampleOntology);
+			getActivities(activityIndividuals, merged);//primerExampleOntology);
+			
+			
+			System.out.println("----- Agents -----");
+			//Agents
+			//Get individuals of type prov:Agent.
+			OWLClass provAgentClass = factory.getOWLClass( IRI.create("http://www.w3.org/ns/prov#Agent") );
+			Set<OWLIndividual> agentIndividuals = provAgentClass.getIndividuals(primerExampleOntology);
+			
+			//Get HashMap of activities
+			getAgents(agentIndividuals, primerExampleOntology);
+			
+			
+			
+			System.out.println("----- Enitities -----");
+			//Entities
+			//Get individuals of type prov:Entity.
+			OWLClass provEntityClass = factory.getOWLClass( IRI.create("http://www.w3.org/ns/prov#Entity") );
+			Set<OWLIndividual> entityIndividuals = provEntityClass.getIndividuals(primerExampleOntology);
+			
+			//Get HashMap of activities
+			getEntities(entityIndividuals, primerExampleOntology);
+			
 			
 			
 		} 
@@ -109,11 +178,74 @@ public class PROVPrimerTest
 		}
 	}
 	
+	
+	/** Get HashMap of activities (Key=URI, value = PROVIndividual) */
+	public void getAgents(Set<OWLIndividual> agentIndividuals, OWLOntology ontology)
+	{
+		
+		Iterator<OWLIndividual> agentIterator = agentIndividuals.iterator();
+		
+		int agentCntr = 1;
+		while(agentIterator.hasNext())
+		{
+			OWLIndividual ind = agentIterator.next();
+			
+			PROVIndividual provInd = new PROVIndividual(ind.toStringID(), "Agent");
+			
+			//*add connections
+			Map<OWLObjectPropertyExpression,Set<OWLIndividual>> OPvaluesMap = ind.getObjectPropertyValues(ontology);
+			Map<OWLDataPropertyExpression,Set<OWLLiteral>> DPvaluesMap = ind.getDataPropertyValues(ontology);
+			
+			System.out.println("Object Property Map size: "+OPvaluesMap.size());
+			System.out.println("Data Property Map size: "+DPvaluesMap.size());
+			
+			provInd.addOPConnections(OPvaluesMap);
+			provInd.addDPConnections(DPvaluesMap);
+			
+			individualsHM.put(ind.toStringID(), provInd);
+			
+			System.out.println(agentCntr+" : "+ provInd.id +", "+ provInd.type +", "+ provInd.uri );
+			agentCntr++;
+		}
+	}
+	
+	
+	/** Get HashMap of activities (Key=URI, value = PROVIndividual) */
+	public void getEntities(Set<OWLIndividual> entityIndividuals, OWLOntology ontology)
+	{
+		
+		Iterator<OWLIndividual> entityIterator = entityIndividuals.iterator();
+		
+		int entityCntr = 1;
+		while(entityIterator.hasNext())
+		{
+			OWLIndividual ind = entityIterator.next();
+			
+			PROVIndividual provInd = new PROVIndividual(ind.toStringID(), "Entity");
+			
+			//*add connections
+			Map<OWLObjectPropertyExpression,Set<OWLIndividual>> OPvaluesMap = ind.getObjectPropertyValues(ontology);
+			Map<OWLDataPropertyExpression,Set<OWLLiteral>> DPvaluesMap = ind.getDataPropertyValues(ontology);
+			
+			System.out.println("Object Property Map size: "+OPvaluesMap.size());
+			System.out.println("Data Property Map size: "+DPvaluesMap.size());
+			
+			provInd.addOPConnections(OPvaluesMap);
+			provInd.addDPConnections(DPvaluesMap);
+			
+			individualsHM.put(ind.toStringID(), provInd);
+			
+			System.out.println(entityCntr+": "+ provInd.id +"(ID), "+ provInd.type +", "+ provInd.uri );
+			entityCntr++;
+		}
+	}
+	
+	
 	public static void main(String args[])
 	{
 		//WPJustificationTree tree = new WPJustificationTree(\"http://rio.cs.utep.edu/ciserver/ciprojects/GravityMapProvenance/gravityContourMap.ps_038568341971146025.owl#answer\");
 		PROVPrimerTest test = new PROVPrimerTest();
-		System.out.println( test.getGraph("http://trust.utep.edu/web-probe/primer-turtle-examples.ttl") );
+		System.out.println( test.getGraph("https://raw.github.com/hdporras/Web-Probe/master/primer-turtle-examples.ttl") );
 		
 	}
 	

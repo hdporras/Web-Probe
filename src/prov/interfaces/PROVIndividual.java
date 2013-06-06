@@ -52,7 +52,7 @@ public class PROVIndividual
 		Iterator<Entry<OWLObjectPropertyExpression, Set<OWLIndividual>>> connectionsIterator = map.entrySet().iterator();
 		System.out.println(connectionsIterator.toString());
 		
-		System.out.println(map.size()+":"+connectionsIterator.hasNext());
+		System.out.println("Set Size: "+map.size()+", HasNext():"+connectionsIterator.hasNext());
 		
 		while(connectionsIterator.hasNext())
 		{
