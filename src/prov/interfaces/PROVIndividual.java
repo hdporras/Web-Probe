@@ -14,7 +14,7 @@ public class PROVIndividual
 {
 	private static int lastID = 0;
 	
-	/** Number ID (for graph)*/
+	/** Number ID (for D3 JSON graph)*/
 	int id;
 
 	/** Individual URI */

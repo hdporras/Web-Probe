@@ -8,8 +8,13 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 public class PROVPrimerTest
 {
@@ -32,11 +37,32 @@ public class PROVPrimerTest
 			OWLOntology primerExampleOntology = manager.loadOntologyFromOntologyDocument(iri);
 			System.out.println("Loaded ontology: " + primerExampleOntology);
 			
-			OWLOntology prov = manager.loadOntologyFromOntologyDocument(IRI.create("http://www.w3.org/ns/prov-o"));
+			//OWLOntology prov = manager.loadOntologyFromOntologyDocument(IRI.create("http://www.w3.org/ns/prov-o"));
+			
+			
+			//Pellet Reasoner
+			System.out.println("----- Reasoner -----");
+			
+			PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( primerExampleOntology );
+			reasoner.getKB().realize();
+			reasoner.getKB().printClassTree();
+			
+			OWLClass provActivityClass = manager.getOWLDataFactory().getOWLClass( IRI.create("http://www.w3.org/ns/prov#Activity") );
+			
+			NodeSet<OWLNamedIndividual> individuals = reasoner.getInstances( provActivityClass , false);
+			
+			for(Node<OWLNamedIndividual> sameInd : individuals) 
+			{
+				OWLNamedIndividual ind = sameInd.getRepresentativeElement();
+				
+				System.out.println( ind.toStringID() );
+			}
+			
+			System.out.println("----- End of Reasoner Example -----");
 			
 			
 			//merged
-			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
+			/*OWLOntologyMerger merger = new OWLOntologyMerger(manager);
 			IRI mergedOntologyIRI = IRI.create("http://www.semanticweb.com/mymergedont");
 	        OWLOntology merged = merger.createMergedOntology(manager, mergedOntologyIRI);
 	        // Print out the axioms in the merged ontology.
@@ -45,6 +71,7 @@ public class PROVPrimerTest
 	        }
 	        
 	        System.out.println("Merged size: "+merged.getAxiomCount()+", PROV Size"+prov.getAxiomCount());
+			*/
 			
 			//imports
 			System.out.println("----- Imports -----");
@@ -68,7 +95,7 @@ public class PROVPrimerTest
 				System.out.println(axiom.toString());
 			}
 			
-			
+/*			
 			//Annotations
 			System.out.println("----- Annotations -----");
 			java.util.Set<OWLAnnotation> annotations = merged.getAnnotations();//primerExampleOntology.getAnnotations();
@@ -87,7 +114,7 @@ public class PROVPrimerTest
 			
 			//Get HashMap of activities
 			getActivities(activityIndividuals, merged);//primerExampleOntology);
-			
+	*/		
 			
 			System.out.println("----- Agents -----");
 			//Agents
