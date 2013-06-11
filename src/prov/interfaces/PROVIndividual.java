@@ -21,7 +21,7 @@ public class PROVIndividual
 	String uri;
 	
 	/** Individual Type */
-	String type;
+	String[] type;
 	
 	/** Individual's Object and Data Property Connections.*/
 	String[] OPconnections;
@@ -40,7 +40,9 @@ public class PROVIndividual
 	{
 		id = lastID++;
 		this.uri = uri;
-		this.type = type;
+		
+		this.type = new String[1];
+		this.type[0] = type;
 	}
 	
 	//*not checking for duplicates yet

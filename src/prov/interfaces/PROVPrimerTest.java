@@ -49,63 +49,22 @@ public class PROVPrimerTest
 			
 			OWLClass provActivityClass = manager.getOWLDataFactory().getOWLClass( IRI.create("http://www.w3.org/ns/prov#Activity") );
 			
+			//get Individuals of Activity class.
 			NodeSet<OWLNamedIndividual> individuals = reasoner.getInstances( provActivityClass , false);
 			
 			for(Node<OWLNamedIndividual> sameInd : individuals) 
 			{
 				OWLNamedIndividual ind = sameInd.getRepresentativeElement();
+				Set<OWLLiteral> names = reasoner.getDataPropertyValues( ind, foafName );	    		    		    	
+			    NodeSet<OWLClass> types = reasoner.getTypes( ind, true );		    
+			    NodeSet<OWLNamedIndividual> homepages = reasoner.getObjectPropertyValues( ind, workHomepage );
 				
 				System.out.println( ind.toStringID() );
 			}
 			
 			System.out.println("----- End of Reasoner Example -----");
 			
-			
-			//merged
-			/*OWLOntologyMerger merger = new OWLOntologyMerger(manager);
-			IRI mergedOntologyIRI = IRI.create("http://www.semanticweb.com/mymergedont");
-	        OWLOntology merged = merger.createMergedOntology(manager, mergedOntologyIRI);
-	        // Print out the axioms in the merged ontology.
-	        for (OWLAxiom ax : merged.getAxioms()) {
-	            System.out.println(ax);
-	        }
-	        
-	        System.out.println("Merged size: "+merged.getAxiomCount()+", PROV Size"+prov.getAxiomCount());
-			*/
-			
-			//imports
-			System.out.println("----- Imports -----");
-			java.util.Set<OWLOntology> imports =  manager.getDirectImports(primerExampleOntology);
-			System.out.println(imports.size());
-			for(OWLOntology importedOnt : imports)
-			{
-				System.out.println(importedOnt.toString());
-			}
-			
-			
-			OWLDataFactory factory = manager.getOWLDataFactory();
-			
-			
-			//Axioms
-			System.out.println("----- Axioms -----");
-			java.util.Set<OWLAxiom> axioms = primerExampleOntology.getAxioms();
-			System.out.println(axioms.size());
-			for(OWLAxiom axiom : axioms)
-			{
-				System.out.println(axiom.toString());
-			}
-			
-/*			
-			//Annotations
-			System.out.println("----- Annotations -----");
-			java.util.Set<OWLAnnotation> annotations = merged.getAnnotations();//primerExampleOntology.getAnnotations();
-			System.out.println(annotations.size());
-			for(OWLAnnotation annot : annotations)
-			{
-				System.out.println(annot.getValue().toString());
-			}
-			
-			
+			/*
 			System.out.println("----- Activities -----");
 			//Activities
 			//Get individuals of type prov:Activity.
@@ -113,8 +72,8 @@ public class PROVPrimerTest
 			Set<OWLIndividual> activityIndividuals = provActivityClass.getIndividuals(merged);//primerExampleOntology);
 			
 			//Get HashMap of activities
-			getActivities(activityIndividuals, merged);//primerExampleOntology);
-	*/		
+			getActivities(activityIndividuals, primerExampleOntology);
+			
 			
 			System.out.println("----- Agents -----");
 			//Agents
@@ -136,7 +95,7 @@ public class PROVPrimerTest
 			//Get HashMap of activities
 			getEntities(entityIndividuals, primerExampleOntology);
 			
-			
+			*/
 			
 		} 
 		catch (OWLOntologyCreationException e) {
