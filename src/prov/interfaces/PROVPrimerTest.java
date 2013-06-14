@@ -13,6 +13,7 @@ import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+import org.semanticweb.owlapi.model.AddImport;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
@@ -27,25 +28,25 @@ public class PROVPrimerTest
 	
 	static String provPrefix = "http://www.w3.org/ns/prov#";
 	
-	static int individualCntr = 1;
-	
-	
 	public String getGraph(String URI)
 	{
-		//String uri = "http://trust.utep.edu/web-probe/primer-turtle-examples.ttl"; //"http://www.w3.org/TR/prov-primer/primer-turtle-examples.ttl";
-
-
 		//build graph from URI
 		try
 		{
-			manager = OWLManager.createOWLOntologyManager();
+			OWLOntologyManager tempManager = OWLManager.createOWLOntologyManager();
 			
 			// Load PROV
 			IRI iri = IRI.create(URI);//"http://www.co-ode.org/ontologies/pizza/pizza.owl");
-			OWLOntology ontology = manager.loadOntologyFromOntologyDocument(iri);
+			OWLOntology ontology = tempManager.loadOntologyFromOntologyDocument(iri);
 			System.out.println("Loaded ontology: " + ontology);
 			
+			//**import PROV ontology
 			//OWLOntology prov = manager.loadOntologyFromOntologyDocument(IRI.create("http://www.w3.org/ns/prov-o"));
+			OWLImportsDeclaration importDeclaraton = tempManager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create("http://www.w3.org/ns/prov-o")); 
+			tempManager.applyChange(new AddImport(ontology, importDeclaraton));
+			
+			manager = OWLManager.createOWLOntologyManager();
+			//***
 			
 			
 			//Pellet Reasoner
@@ -87,11 +88,12 @@ public class PROVPrimerTest
 			
 			PROVPrimerTest.individualsHM.put(ind.toStringID(), provInd);
 			
+			//Add Activity connections and details to PROVIndividual
 			provInd.addActivity(ind);
 			
 			
-			System.out.println(individualCntr+" : "+ provInd.id +", "+ provInd.types.toString() +", "+ provInd.uri );
-			individualCntr++;
+			System.out.println("---"+ provInd.id +": "+ provInd.types.toString() +", "+ provInd.uri +"---");
+			provInd.printObjectProperties();
 		}
 		
 	}
