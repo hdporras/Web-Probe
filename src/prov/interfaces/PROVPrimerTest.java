@@ -37,6 +37,9 @@ public class PROVPrimerTest
 			
 			// Load PROV
 			IRI iri = IRI.create(URI);//"http://www.co-ode.org/ontologies/pizza/pizza.owl");
+			
+			/*
+			
 			OWLOntology ontology = tempManager.loadOntologyFromOntologyDocument(iri);
 			System.out.println("Loaded ontology: " + ontology);
 			
@@ -45,7 +48,13 @@ public class PROVPrimerTest
 			OWLImportsDeclaration importDeclaraton = tempManager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create("http://www.w3.org/ns/prov-o")); 
 			tempManager.applyChange(new AddImport(ontology, importDeclaraton));
 			
+			*/
+			OWLImportsDeclaration importDeclaraton = tempManager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create("http://www.w3.org/ns/prov-o"));
+			
 			manager = OWLManager.createOWLOntologyManager();
+			OWLOntology ontology = manager.loadOntologyFromOntologyDocument(iri);
+			//manager.makeLoadImportRequest(importDeclaraton, new OWLOntologyLoaderConfiguration() );
+			System.out.println("Loaded ontology: " + ontology);
 			//***
 			
 			

@@ -131,20 +131,37 @@ public class PROVIndividual
 		
 		for(Node<OWLNamedIndividual> owlSameInd : owlObjectIndividuals)
 		{
-			//if the target individual has been previously created, point to that PROVIndividual object
-			if(PROVPrimerTest.individualsHM.containsKey( owlSameInd.getRepresentativeElement().toStringID() ))
+			OWLNamedIndividual currInd = owlSameInd.getRepresentativeElement();
+
+			if(currInd != null)
 			{
-				PROVIndividual targetProvInd = PROVPrimerTest.individualsHM.get( owlSameInd.getRepresentativeElement().toStringID() );
-				
-				OPconnectionObjectInds.add(targetProvInd);
-				OPconnections.add(predicateURI);
+				String owlIndURI = currInd.toStringID();
+				System.out.println("owlIndURI: "+owlIndURI);
+
+				//if the target individual has been previously created, point to that PROVIndividual object
+				if(PROVPrimerTest.individualsHM.containsKey( owlIndURI ))
+				{
+					PROVIndividual targetProvInd = PROVPrimerTest.individualsHM.get( owlSameInd.getRepresentativeElement().toStringID() );
+
+					OPconnectionObjectInds.add(targetProvInd);
+					OPconnections.add(predicateURI);
+				}
+				else //otherwise create a new object with the URI, and add it to the pool of collected PROVIndividuals
+				{
+					PROVIndividual targetProvInd = new PROVIndividual( owlSameInd.getRepresentativeElement().toStringID() );
+					PROVPrimerTest.individualsHM.put(targetProvInd.uri, targetProvInd);
+
+					OPconnectionObjectInds.add(targetProvInd);
+					OPconnections.add(predicateURI);
+				}
 			}
-			else //otherwise create a new object with the URI, and add it to the pool of collected PROVIndividuals
+			else
 			{
-				PROVIndividual targetProvInd = new PROVIndividual( owlSameInd.getRepresentativeElement().toStringID() );
-				PROVPrimerTest.individualsHM.put(targetProvInd.uri, targetProvInd);
-				
-				OPconnectionObjectInds.add(targetProvInd);
+				PROVIndividual anonProvInd = new PROVIndividual( "Anonymous Individual" );
+				//**anonProvInd.uri not unique
+				PROVPrimerTest.individualsHM.put(anonProvInd.uri, anonProvInd);
+
+				OPconnectionObjectInds.add(anonProvInd);
 				OPconnections.add(predicateURI);
 			}
 		}
@@ -152,7 +169,7 @@ public class PROVIndividual
 	
 	
 	public void addDataPropertiesByPredicateType(String predicateURI, OWLNamedIndividual ind)
-	{		
+	{
 		OWLDataProperty dataProp = PROVPrimerTest.manager.getOWLDataFactory().getOWLDataProperty(IRI.create(predicateURI));
 		Set<OWLLiteral> literals = PROVPrimerTest.reasoner.getDataPropertyValues( ind, dataProp );
 		
