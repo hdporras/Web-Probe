@@ -1,4 +1,4 @@
-
+@prefix : <http://www.example.org> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix exn: <http://www.example.org#> .
@@ -7,6 +7,8 @@
 @prefix exb: <http://www.example.org#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://www.example.org> owl:imports <http://www.w3.org/ns/prov-o#>
 
 # The examples below are taken from, and follow the same order
 # as in the W3C PROV Primer, http://www.w3.org/TR/prov-primer/
