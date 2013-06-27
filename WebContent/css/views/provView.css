@@ -7,7 +7,7 @@
 
 .provNode circle {
 	cursor: pointer;
-	stroke: #fff;
+	stroke: #333;
 	stroke-width: 1.5px;
 }
 
@@ -21,10 +21,10 @@
 }
 
 .provNode text {
-	font-size: 10px;
-	color: black;
-	fill: black;
-	stroke: black;
+	font-size: 10px sans-serif;
+	color: #000;
+	fill: #000;
+	stroke: #000;
 }
 
 .provLink {
@@ -32,7 +32,20 @@
   	stroke-width: .6;
 }
 
+
+path.link {
+		fill: none;
+		stroke: #666;
+		stroke-width: 2px;
+}
+	
 /*
+	.node circle {
+	  stroke: #333;
+	  stroke-width: 1.5px;
+	 }
+
+
 rect {
   pointer-events: all;
 }
