@@ -279,8 +279,8 @@ public class PROVGraph
 					int source = orderedInds[i].id;
 					String predicate = DPconns.get(connCntr);
 
-					linkJSON = 	" \"source\" : \""+ source +"\", " +
-							" \"target\" : \""+ targetid +"\", " +
+					linkJSON = 	" \"source\" : "+ source +", " +
+							" \"target\" : "+ targetid +", " +
 							//" \"types\" : \""+ types.toJSON() +"\", " +
 							" \"predicate\" : \""+ predicate +"\" ";
 
@@ -302,8 +302,8 @@ public class PROVGraph
 					int targetid = OPvalues.get(connCntr).id;
 					String predicate = OPconns.get(connCntr);
 
-					linkJSON = 	" \"source\" : \""+ source +"\", " +
-							" \"target\" : \""+ targetid +"\", " +
+					linkJSON = 	" \"source\" : "+ source +", " +
+							" \"target\" : "+ targetid +", " +
 							//" \"types\" : \""+ types.toJSON() +"\", " +
 							" \"predicate\" : \""+ predicate +"\" ";
 

@@ -34,7 +34,7 @@ function getPROVGraph(URI)
 					
 					var jsonGraph = jsonParse(jsonResult);
 					
-					alert(jsonGraph);
+					alert(jsonResult);
 					drawGraph(jsonGraph);
 					endLoadingScreen();
 				},
@@ -73,10 +73,9 @@ function drawGraph(graph)
 
 
 	//Set Graph
-	force
-		.nodes(graph.nodes)
-		.links(graph.links)
-		.start();
+	var forcenodes = force.nodes(graph.nodes);
+	var forcelinks = forcenodes.links(graph.links);
+		forcelinks.start();
 
 	var link = svg
 		.selectAll(".link")
