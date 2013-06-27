@@ -22,6 +22,7 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 public class PROVIndividual
 {
 	private static int lastID = 0;
+	private static int anonIndsCntr = 0;
 	
 	/** Number ID (for D3 JSON graph)*/
 	int id;
@@ -32,10 +33,15 @@ public class PROVIndividual
 	/** Individual Type */
 	OWLClass[] types;
 	
-	/** Individual's Object and Data Property Connections.*/
+	/** Graph Group */
+	String group;
+	
+	//Individual's Object and Data Property Connections.
+	/** Individual's Object Property Connections.*/
 	ArrayList<String> OPconnections;
 	ArrayList<PROVIndividual> OPconnectionObjectInds;
 	
+	/** Individual's Data Property Connections.*/
 	ArrayList<String> DPconnections;
 	ArrayList<String> DPconnectionValues;
 	
@@ -57,7 +63,17 @@ public class PROVIndividual
 		this.types = types;
 	}
 	
+	public void setGroup(String group)
+	{
+		this.group = group;
+	}
 	
+	public static int getLastID()
+	{
+		return lastID;
+	}
+	
+//Activities
 	/** Gather information about all Activities. Indivisduals are placed in a HashMap (individualsHM: Key=URI, value = PROVIndividual) */
 	public void addActivity(OWLNamedIndividual ind)
 	{
@@ -68,7 +84,7 @@ public class PROVIndividual
 		addAllActivityDPs(ind);
 		
 		//get Types
-		NodeSet<OWLClass> types = PROVPrimerTest.reasoner.getTypes( ind, true );		    
+		NodeSet<OWLClass> types = PROVGraph.reasoner.getTypes( ind, true );		    
 		OWLClass[] typesArray = types.getFlattened().toArray(new OWLClass[0]);
 		setTypes(typesArray);
 		
@@ -79,11 +95,11 @@ public class PROVIndividual
 	public void addAllActivityDPs(OWLNamedIndividual ind)
 	{
 		//endedAtTime
-		String dataPropertyURI = PROVPrimerTest.provPrefix+"endedAtTime";
+		String dataPropertyURI = PROVGraph.provPrefix+"endedAtTime";
 		addDataPropertiesByPredicateType(dataPropertyURI, ind);
 			    
 		//endedAtTime
-		dataPropertyURI = PROVPrimerTest.provPrefix+"startedAtTime";
+		dataPropertyURI = PROVGraph.provPrefix+"startedAtTime";
 		addDataPropertiesByPredicateType(dataPropertyURI, ind);
 		
 	}
@@ -92,41 +108,236 @@ public class PROVIndividual
 	public void addAllActivityOPs(OWLNamedIndividual ind)
 	{
 		//*Better way of getting all object/data properties associated with the individual.
-			
+
 		//generated
-		String predicateURI = PROVPrimerTest.provPrefix+"generated";
+		String predicateURI = PROVGraph.provPrefix+"generated";
 		addObjectPropertiesByPredicateType(predicateURI, ind);
-		
-		//used
-		predicateURI = PROVPrimerTest.provPrefix+"used";
-		addObjectPropertiesByPredicateType(predicateURI, ind);
-		
-		//wasAssociatedWith
-		predicateURI = PROVPrimerTest.provPrefix+"wasAssociatedWith";
-		addObjectPropertiesByPredicateType(predicateURI, ind);
-		
-		//qualifiedUsage
-		predicateURI = PROVPrimerTest.provPrefix+"qualifiedUsage";
-		addObjectPropertiesByPredicateType(predicateURI, ind);
-		
+
 		//qualifiedAssociation
-		predicateURI = PROVPrimerTest.provPrefix+"qualifiedAssociation";
+		predicateURI = PROVGraph.provPrefix+"qualifiedAssociation";
 		addObjectPropertiesByPredicateType(predicateURI, ind);
-		
+
+		//wasAssociatedWith
+		predicateURI = PROVGraph.provPrefix+"wasAssociatedWith";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedEnd
+		predicateURI = PROVGraph.provPrefix+"qualifiedEnd";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasEndedBy
+		predicateURI = PROVGraph.provPrefix+"wasEndedBy";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedUsage
+		predicateURI = PROVGraph.provPrefix+"qualifiedUsage";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//used
+		predicateURI = PROVGraph.provPrefix+"used";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedStart
+		predicateURI = PROVGraph.provPrefix+"qualifiedStart";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
 		//wasInformedBy
-		predicateURI = PROVPrimerTest.provPrefix+"wasInformedBy";
+		predicateURI = PROVGraph.provPrefix+"wasInformedBy";
 		addObjectPropertiesByPredicateType(predicateURI, ind);
-		
+
+		//wasStartedBy
+		predicateURI = PROVGraph.provPrefix+"wasStartedBy";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedCommunication
+		predicateURI = PROVGraph.provPrefix+"qualifiedCommunication";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
 		//wasInfluencedBy
-		predicateURI = PROVPrimerTest.provPrefix+"wasInfluencedBy";
+		predicateURI = PROVGraph.provPrefix+"wasInfluencedBy";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedInfluence
+		predicateURI = PROVGraph.provPrefix+"qualifiedInfluence";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//atLocation
+		predicateURI = PROVGraph.provPrefix+"atLocation";
 		addObjectPropertiesByPredicateType(predicateURI, ind);
 	}
+
+	
+//Entities
+	/** Gather information about all Entities. Indivisduals are placed in a HashMap (individualsHM: Key=URI, value = PROVIndividual) */
+	public void addEntity(OWLNamedIndividual ind)
+	{
+		//Add list of Object Property values associated with ind.
+		addAllEntityOPs(ind);
+
+		//Add list of Data Property values associated with ind.
+		addAllEntityDPs(ind);
+
+		//get Types
+		NodeSet<OWLClass> types = PROVGraph.reasoner.getTypes( ind, true );		    
+		OWLClass[] typesArray = types.getFlattened().toArray(new OWLClass[0]);
+		setTypes(typesArray);
+
+	}
+
+	//Entity Properties
+	/** Get the Data properties associated with this prov:Entity */
+	public void addAllEntityDPs(OWLNamedIndividual ind)
+	{
+		//wasInvalidatedBy
+		String dataPropertyURI = PROVGraph.provPrefix+"wasInvalidatedBy";
+		addDataPropertiesByPredicateType(dataPropertyURI, ind);
+
+		//generatedAtTime
+		dataPropertyURI = PROVGraph.provPrefix+"generatedAtTime";
+		addDataPropertiesByPredicateType(dataPropertyURI, ind);
+
+		//value
+		dataPropertyURI = PROVGraph.provPrefix+"value";
+		addDataPropertiesByPredicateType(dataPropertyURI, ind);
+	}
+
+	/** Get the Object properties associated with this prov:Entity */
+	public void addAllEntityOPs(OWLNamedIndividual ind)
+	{
+		//*Better way of getting all object/data properties associated with the individual.
+
+		//wasAttributedTo
+		String predicateURI = PROVGraph.provPrefix+"wasAttributedTo";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedGeneration
+		predicateURI = PROVGraph.provPrefix+"qualifiedGeneration";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasGeneratedBy
+		predicateURI = PROVGraph.provPrefix+"wasGeneratedBy";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasDerivedFrom
+		predicateURI = PROVGraph.provPrefix+"wasDerivedFrom";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//specializationOf
+		predicateURI = PROVGraph.provPrefix+"specializationOf";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedDerivation
+		predicateURI = PROVGraph.provPrefix+"qualifiedDerivation";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedInvalidation
+		predicateURI = PROVGraph.provPrefix+"qualifiedInvalidation";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedQuotation
+		predicateURI = PROVGraph.provPrefix+"qualifiedQuotation";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//hadPrimarySource
+		predicateURI = PROVGraph.provPrefix+"hadPrimarySource";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedPrimarySource
+		predicateURI = PROVGraph.provPrefix+"qualifiedPrimarySource";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//alternateOf
+		predicateURI = PROVGraph.provPrefix+"alternateOf";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasInvalidatedBy
+		predicateURI = PROVGraph.provPrefix+"wasInvalidatedBy";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedAttribution
+		predicateURI = PROVGraph.provPrefix+"qualifiedAttribution";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasQuotedFrom
+		predicateURI = PROVGraph.provPrefix+"wasQuotedFrom";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedRevision
+		predicateURI = PROVGraph.provPrefix+"qualifiedRevision";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasRevisionOf
+		predicateURI = PROVGraph.provPrefix+"wasRevisionOf";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+	}
+
+	
+//Agents
+	/** Gather information about all Agents. Indivisduals are placed in a HashMap (individualsHM: Key=URI, value = PROVIndividual) */
+	public void addAgent(OWLNamedIndividual ind)
+	{
+		//Add list of Object Property values associated with ind.
+		addAllAgentOPs(ind);
+
+		//Add list of Data Property values associated with ind.
+		//addAllAgentDPs(ind);
+
+		//get Types
+		NodeSet<OWLClass> types = PROVGraph.reasoner.getTypes( ind, true );		    
+		OWLClass[] typesArray = types.getFlattened().toArray(new OWLClass[0]);
+		setTypes(typesArray);
+
+	}
+
+	//Agent Properties
+	/** Get the Data properties associated with this prov:Agent */
+	/*
+	public void addAllAgentDPs(OWLNamedIndividual ind)
+	{
+		
+		//text
+		String dataPropertyURI = PROVPrimerTest.provPrefix+"text";
+		addDataPropertiesByPredicateType(dataPropertyURI, ind);
+
+		//text
+		dataPropertyURI = PROVPrimerTest.provPrefix+"text";
+		addDataPropertiesByPredicateType(dataPropertyURI, ind);
+	}
+	*/
+
+	/** Get the Object properties associated with this prov:Agent */
+	public void addAllAgentOPs(OWLNamedIndividual ind)
+	{
+		//*Better way of getting all object/data properties associated with the individual.
+
+		//actedOnBehalfOf
+		String predicateURI = PROVGraph.provPrefix+"actedOnBehalfOf";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedDelegation
+		predicateURI = PROVGraph.provPrefix+"qualifiedDelegation";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//wasInfluencedBy
+		predicateURI = PROVGraph.provPrefix+"wasInfluencedBy";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//qualifiedInfluence
+		predicateURI = PROVGraph.provPrefix+"qualifiedInfluence";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+
+		//atLocation
+		predicateURI = PROVGraph.provPrefix+"atLocation";
+		addObjectPropertiesByPredicateType(predicateURI, ind);
+	}
+
+
 	
 	/**Adds Object Properties to the current Individual, and adds corresponding predicate to the list (parallel arraylists) */
 	public void addObjectPropertiesByPredicateType(String predicateURI, OWLNamedIndividual ind)
 	{		
-		OWLObjectProperty objectProp = PROVPrimerTest.manager.getOWLDataFactory().getOWLObjectProperty(IRI.create(predicateURI));
-		NodeSet<OWLNamedIndividual> owlObjectIndividuals = PROVPrimerTest.reasoner.getObjectPropertyValues( ind, objectProp );
+		OWLObjectProperty objectProp = PROVGraph.manager.getOWLDataFactory().getOWLObjectProperty(IRI.create(predicateURI));
+		NodeSet<OWLNamedIndividual> owlObjectIndividuals = PROVGraph.reasoner.getObjectPropertyValues( ind, objectProp );
 		System.out.println(predicateURI+" Nodes: "+owlObjectIndividuals.getNodes().size());
 		
 		for(Node<OWLNamedIndividual> owlSameInd : owlObjectIndividuals)
@@ -139,9 +350,9 @@ public class PROVIndividual
 				System.out.println("owlIndURI: "+owlIndURI);
 
 				//if the target individual has been previously created, point to that PROVIndividual object
-				if(PROVPrimerTest.individualsHM.containsKey( owlIndURI ))
+				if(PROVGraph.individualsHM.containsKey( owlIndURI ))
 				{
-					PROVIndividual targetProvInd = PROVPrimerTest.individualsHM.get( owlSameInd.getRepresentativeElement().toStringID() );
+					PROVIndividual targetProvInd = PROVGraph.individualsHM.get( owlSameInd.getRepresentativeElement().toStringID() );
 
 					OPconnectionObjectInds.add(targetProvInd);
 					OPconnections.add(predicateURI);
@@ -149,7 +360,7 @@ public class PROVIndividual
 				else //otherwise create a new object with the URI, and add it to the pool of collected PROVIndividuals
 				{
 					PROVIndividual targetProvInd = new PROVIndividual( owlSameInd.getRepresentativeElement().toStringID() );
-					PROVPrimerTest.individualsHM.put(targetProvInd.uri, targetProvInd);
+					PROVGraph.individualsHM.put(targetProvInd.uri, targetProvInd);
 
 					OPconnectionObjectInds.add(targetProvInd);
 					OPconnections.add(predicateURI);
@@ -157,9 +368,9 @@ public class PROVIndividual
 			}
 			else
 			{
-				PROVIndividual anonProvInd = new PROVIndividual( "Anonymous Individual" );
+				PROVIndividual anonProvInd = new PROVIndividual( "Anonymous Individual " + (++anonIndsCntr));
 				//**anonProvInd.uri not unique
-				PROVPrimerTest.individualsHM.put(anonProvInd.uri, anonProvInd);
+				PROVGraph.individualsHM.put(anonProvInd.uri, anonProvInd);
 
 				OPconnectionObjectInds.add(anonProvInd);
 				OPconnections.add(predicateURI);
@@ -167,11 +378,11 @@ public class PROVIndividual
 		}
 	}
 	
-	
+	/** Adds Data Properties to the list. */
 	public void addDataPropertiesByPredicateType(String predicateURI, OWLNamedIndividual ind)
 	{
-		OWLDataProperty dataProp = PROVPrimerTest.manager.getOWLDataFactory().getOWLDataProperty(IRI.create(predicateURI));
-		Set<OWLLiteral> literals = PROVPrimerTest.reasoner.getDataPropertyValues( ind, dataProp );
+		OWLDataProperty dataProp = PROVGraph.manager.getOWLDataFactory().getOWLDataProperty(IRI.create(predicateURI));
+		Set<OWLLiteral> literals = PROVGraph.reasoner.getDataPropertyValues( ind, dataProp );
 		
 		for(OWLLiteral literal : literals)
 		{
@@ -180,8 +391,11 @@ public class PROVIndividual
 		}
 	}
 	
+	/** Print out the Individual's OPs */
 	public void printObjectProperties()
 	{	
+		System.out.println();
+		System.out.println("---"+ id +": "+ types.toString() +", "+ uri +"---");
 		System.out.println("#OPs: "+OPconnections.size());
 		int indCntr = 0;
 		for(String predicateURI : OPconnections)
@@ -191,4 +405,19 @@ public class PROVIndividual
 			indCntr++;
 		}
 	}
+	
+	
+	/** Create and return JSON representation of this Individual */
+	public String toJSON()
+	{
+		String json = "";
+		
+		json = 	" \"name\" : \""+ uri +"\", " +
+				" \"indID\" : \""+ id +"\", " +
+				//" \"types\" : \""+ types.toJSON() +"\", " +
+				" \"group\" : \""+ group +"\" ";
+		
+		return "{ "+ json +" }";
+	}
+	
 }

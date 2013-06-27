@@ -23,7 +23,7 @@ function getPROVGraph(URI)
 	d3.select("svg").remove();
 	startLoadingScreen();
 	
-	PROVTest.getGraph(URI,
+	PROVGraph.getGraph(URI,
 			{
 				callback: function(jsonResult)
 				{
@@ -34,7 +34,7 @@ function getPROVGraph(URI)
 					
 					var jsonGraph = jsonParse(jsonResult);
 					
-					
+					alert(jsonGraph);
 					drawGraph(jsonGraph);
 					endLoadingScreen();
 				},
@@ -82,8 +82,8 @@ function drawGraph(graph)
 		.selectAll(".link")
 		.data(graph.links)
 		.enter().append("line")
-		.attr("class", "provLink")
-		.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+		.attr("class", "provLink");
+		//.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
 	var node = svg
 		.selectAll(".node")
@@ -91,7 +91,7 @@ function drawGraph(graph)
 		.enter().append("circle")
 		.attr("class", "provNode")
 		.attr("r", 7)
-		.style("fill", function(d) { return color(d.group); })
+		//.style("fill", function(d) { return color(d.group); })
 		.call(force.drag);
 
 	node.append("title")
