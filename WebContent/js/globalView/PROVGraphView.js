@@ -34,7 +34,7 @@ function getPROVGraph(URI)
 					
 					var jsonGraph = jsonParse(jsonResult);
 					
-					alert(jsonResult);
+					//alert(jsonResult);
 					drawGraph(jsonGraph);
 					endLoadingScreen();
 				},
@@ -62,8 +62,8 @@ function drawGraph(graph)
 	var color = d3.scale.category20();
 
 	var force = d3.layout.force()
-		.charge(-120)
-		.linkDistance(50)
+		//.charge(-120)
+		//.linkDistance(50)
 		.size([width, height]);
 
 	var svg = d3.select("#container")
@@ -92,10 +92,10 @@ function drawGraph(graph)
 	  .enter().append("svg:marker")
 	    .attr("id", String)
 	    .attr("viewBox", "0 -5 10 10")
-	    .attr("refX", 15)
-	    .attr("refY", -1.5)
-	    .attr("markerWidth", 6)
-	    .attr("markerHeight", 6)
+	    .attr("refX", 24)
+	    .attr("refY", -2.8)
+	    .attr("markerWidth", 10)
+	    .attr("markerHeight", 10)
 	    .attr("orient", "auto")
 	  .append("svg:path")
 	    .attr("d", "M0,-5L10,0L0,5");
@@ -107,7 +107,11 @@ function drawGraph(graph)
 	    .attr("class", "link")
 	    .attr("marker-end", "url(#end)");
 	
-	
+	path.append("g").append("text")
+    	.attr("x", 10)
+    	.attr("dy", ".2em")
+    	//.attr("dx", 1)
+    	.text(function(d) { return d.predicate; });
 
 	var node = svg.selectAll(".node")
 		.data(graph.nodes)
@@ -119,7 +123,7 @@ function drawGraph(graph)
 	
 	node.append("circle")
 		.attr("class", "provNode")
-		.attr("r", 15)
+		.attr("r", 20)
 		.style("fill", function(d) 
 				{
 					if(d.group == "Activity")
@@ -184,7 +188,7 @@ function drawGraph(graph)
 	{
 		 d3.select(this).select("circle").transition()
 		      .duration(750)
-		      .attr("r", 15);
+		      .attr("r", 20);
 	}
 }
 

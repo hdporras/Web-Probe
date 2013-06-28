@@ -21,7 +21,7 @@
 }
 
 .provNode text {
-	font-size: 10px sans-serif;
+	font-size: 15px;//sans-serif;
 	color: #000;
 	fill: #000;
 	stroke: #000;
@@ -37,6 +37,13 @@ path.link {
 		fill: none;
 		stroke: #666;
 		stroke-width: 2px;
+}
+
+path text{
+	font-size: 12px;//sans-serif;
+	color: #000;
+	fill: #000;
+	stroke: #000;
 }
 	
 /*
